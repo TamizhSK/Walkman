@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="style1.css"/>
+        <script src="https://kit.fontawesome.com/92aa46a256.js" crossorigin="anonymous"></script>
+    </head>
+    <script type="text/javascript">  
+      function validate(){  
+      var username=document.getElementById("username");
+      var password=document.getElementById("password");  
+
+        if (username.value=="tamizhsk" && password.value=="walkman12@#"){
+        alert("login successful");
+        return true;
+      }
+      else{
+        alert("Invalid username or password");
+        return false;
+      }
+    }
+
+      
+      </script>
+    <body>
+            <div class="image4">
+            <div style="display:flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0 auto;">
+            <label class="logo1">Walkman</label>
+            <span class="dot1"></span>
+            </div>
+            <span class="breaker"></span>
+            <div class="box">
+            <div class="loginpage">
+              <div style="font-family: medium;
+                          color:white;
+                          font-size: 15pt;
+                          letter-spacing: 0.5px;
+                          word-spacing: 2px;
+                          text-align: center;
+                          padding:8px 8px;">
+                          To continue, login to Walkman
+                        </div>
+                        
+              <div class="logincontent">         
+              <div style="font-family: bold;
+                          color:white;
+                          font-size: 28pt;
+                          text-align: center;
+                          padding-left: 80px;
+                          padding-right: 80px;
+                          margin-top: 15px;">Log in</div>
+
+                          
+              <div class="loginapps">
+                <a href="https://www.facebook.com/Spotify">
+                  <button class="fb-button">
+                      <i class="fab fa-facebook-f fa-lg"></i>CONTINUE WITH FACEBOOK</button>
+              </a>
+              <a href="https://www.apple.com">
+                <button class="apple-button">
+                    <i class="fab fa-apple fa-lg"></i>
+                    CONTINUE WITH APPLE</button>
+            </a>
+
+            <a href="https://open.spotify.com/">
+                <button class="google-button">
+                    <i class="fab fa-google fa-lg"></i>
+                    CONTINUE WITH GOOGLE
+                </button>
+            </a>
+
+            <a href="#">
+                <button class="ph-button">
+                    CONTINUE WITH PHONE NUMBER
+                </button>
+            </a>
+              </div>
+    
+
+
+
+
+
+            <form style="display:grid;
+                         justify-content:center;
+                         align-items: center;" onsubmit="return validate()" action="index.html">  
+       <label style="font-family: medium;
+                     font-size: 12pt;
+                     color:white;
+                     display: block;
+                     text-align:left;
+                     margin-bottom: 5px;">Username or Email</label>
+       <input id="username"  placeholder="Username" type="text" style="border:none;
+                                                                       height: 30px;
+                                                                       width: 320px;
+                                                                       border-radius: 2px;
+                                                                       background-color:#ffffff;
+                                                                       margin-bottom: 10px;"/>
+       <label style="font-family: medium;
+                     font-size: 12pt;
+                     color:white;
+                     display: block;
+                     text-align: left;
+                     margin-bottom: 5px;">Password</label>
+       <input id="password" placeholder="Password" type="password" style="border:none;
+                                                                          height: 30px;
+                                                                          width:320px;
+                                                                          border-radius: 2px;
+                                                                          text-align: justify;
+                                                                          background-color:#ffffff;
+                                                                          margin-bottom: 10px;"/>
+       
+       <button id="loginbutton" type="submit"
+               style="border:none;
+                      background-color:#ffbe0b;
+                      width:80px;
+                      height:40px;
+                      border-radius: 50px;
+                      font-family:bold;
+                      margin-left: 240px;
+                      margin-top: 5px;
+                      margin-bottom: 5px;
+                      font-size: 14px;
+                      letter-spacing: 1px;">LOGIN</button>
+      </form></div> </div></div>
+    
+    </body>
+    </html>
+
+
+         
+    
