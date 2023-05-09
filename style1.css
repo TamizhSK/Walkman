@@ -4,28 +4,28 @@
  
  @font-face{
     font-family:"black";
-    src:url(fonts/black.ttf) format("opentype");
+    src:url(black.ttf) format("opentype");
 }
 
 
 @font-face{
     font-family:"bold";
-    src:url(fonts/bold.ttf) format("opentype");
+    src:url(bold.ttf) format("opentype");
 }
 
 @font-face{
     font-family:"regular";
-    src:url(fonts/regular.ttf) format("opentype");
+    src:url(regular.ttf) format("opentype");
 }
 
 @font-face{
     font-family:"italic";
-    src:url(fonts/italic.ttf) format("opentype");
+    src:url(italic.ttf) format("opentype");
 }
 
 @font-face{
     font-family:"medium";
-    src:url(fonts/medium.ttf) format("opentype");
+    src:url(medium.ttf) format("opentype");
 }
 
 * {
