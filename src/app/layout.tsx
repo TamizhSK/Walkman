@@ -1,13 +1,8 @@
 // app/layout.tsx
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-
-// Font Awesome
 import Script from 'next/script'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Walkman',
@@ -27,9 +22,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col`}>
+      <body
+        className="bg-black text-white min-h-screen flex flex-col w-full"
+        style={{ fontFamily: 'SF Pro Display, sans-serif' }}
+      >
         <Nav />
-        <main className="flex-grow">
+        <main className="flex-grow w-full">
           {children}
         </main>
         <Footer />

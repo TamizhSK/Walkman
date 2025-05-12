@@ -4,6 +4,70 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/fonts/SFPro/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/fonts/SFPro/SF-Pro-Display-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/fonts/SFPro/SF-Pro-Display-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/fonts/SFPro/SF-Pro-Display-Heavy.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+body {
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+@keyframes marquee-down {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes marquee-up {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-marquee-down {
+  animation: marquee-down 20s linear infinite;
+}
+
+.animate-marquee-up {
+  animation: marquee-up 20s linear infinite;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
