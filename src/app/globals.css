@@ -35,37 +35,30 @@
 body {
   font-family: 'SF Pro Display', sans-serif;
 }
-
 @keyframes marquee-down {
   0% {
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(-50%);
-  }
   100% {
-    transform: translateY(-100%);
+    transform: translateY(-50%);
   }
 }
 
 @keyframes marquee-up {
   0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(50%);
+    transform: translateY(-50%);
   }
   100% {
-    transform: translateY(100%);
+    transform: translateY(0);
   }
 }
 
 .animate-marquee-down {
-  animation: marquee-down 20s linear infinite;
+  animation: marquee-down 40s linear infinite;
 }
 
 .animate-marquee-up {
-  animation: marquee-up 20s linear infinite;
+  animation: marquee-up 40s linear infinite;
 }
 
 @theme inline {

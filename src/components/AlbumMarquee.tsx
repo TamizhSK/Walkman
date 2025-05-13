@@ -33,63 +33,87 @@ export default function AlbumMarquee() {
 
  return (
     <div className="overflow-hidden bg-black py-8 min-h-screen flex items-center justify-center">
-      <div className="grid grid-cols-3 gap-4 max-w-screen-xl w-full">
+      <div className="grid grid-cols-3 gap-8 max-w-screen-xl w-full px-6">
         
         {/* Column 1 - Scrolling down */}
-        <div className="overflow-hidden h-full">
-          <div className="animate-marquee-down">
-            <div className="flex flex-col gap-4">
-              {[...albums, ...albums].map((album, index) => (
-                <div key={`${album.id}-${index}`} className="h-48 w-full rounded-lg overflow-hidden">
-                  <Image 
-                    src={album.src} 
-                    alt={album.alt} 
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>  
+        <div className="relative overflow-hidden h-screen">
+          {/* Top gradient overlay */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10"></div>
+          
+          <div className="flex justify-center w-full h-full">
+            <div className="animate-marquee-down w-full">
+              <div className="flex flex-col gap-6 items-center">
+                {[...albums, ...albums].map((album, index) => (
+                  <div key={`${album.id}-${index}`} className="aspect-square w-4/5 rounded-lg overflow-hidden">
+                    <Image 
+                      src={album.src} 
+                      alt={album.alt} 
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>  
+            </div>
           </div>
+          
+          {/* Bottom gradient overlay */}
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10"></div>
         </div>
 
         {/* Column 2 - Scrolling up */}
-        <div className="overflow-hidden h-full">
-          <div className="animate-marquee-up">
-            <div className="flex flex-col gap-4">
-              {[...albums2, ...albums2].map((album, index) => (
-                <div key={`${album.id}-${index}`} className="h-48 w-full rounded-lg overflow-hidden">
-                  <Image 
-                    src={album.src} 
-                    alt={album.alt} 
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
+        <div className="relative overflow-hidden h-screen">
+          {/* Top gradient overlay */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10"></div>
+          
+          <div className="flex justify-center w-full h-full">
+            <div className="animate-marquee-up w-full">
+              <div className="flex flex-col gap-6 items-center">
+                {[...albums2, ...albums2].map((album, index) => (
+                  <div key={`${album.id}-${index}`} className="aspect-square w-4/5 rounded-lg overflow-hidden">
+                    <Image 
+                      src={album.src} 
+                      alt={album.alt} 
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+          
+          {/* Bottom gradient overlay */}
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10"></div>
         </div>
 
         {/* Column 3 - Scrolling down */}
-        <div className="overflow-hidden h-full">
-          <div className="animate-marquee-down">
-            <div className="flex flex-col gap-4">
-              {[...albums3, ...albums3].map((album, index) => (
-                <div key={`${album.id}-${index}`} className="h-48 w-full rounded-lg overflow-hidden">
-                  <Image 
-                    src={album.src} 
-                    alt={album.alt} 
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
+        <div className="relative overflow-hidden h-screen">
+          {/* Top gradient overlay */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-10"></div>
+          
+          <div className="flex justify-center w-full h-full">
+            <div className="animate-marquee-down w-full">
+              <div className="flex flex-col gap-6 items-center">
+                {[...albums3, ...albums3].map((album, index) => (
+                  <div key={`${album.id}-${index}`} className="aspect-square w-4/5 rounded-lg overflow-hidden">
+                    <Image 
+                      src={album.src} 
+                      alt={album.alt} 
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+          
+          {/* Bottom gradient overlay */}
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10"></div>
         </div>
       </div>
     </div>

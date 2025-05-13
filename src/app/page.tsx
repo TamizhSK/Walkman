@@ -13,7 +13,7 @@ export default function Home() {
       <EraSection />
       <AlbumMarquee />
       <div className="container mx-auto px-4 text-center py-8">
-        <p className="text-2xl">And there's lot more.</p>
+        <p className="text-2xl font-bold">And there's lot more.</p>
       </div>
       <FeaturesBanner />
     </>

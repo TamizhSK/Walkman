@@ -1,6 +1,6 @@
 export default function EraSection() {
   return (
-    <section className="py-12 bg-black text-white">
+    <section className="py-6 bg-black text-white">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-[6vw] sm:text-4xl md:text-5xl font-bold leading-tight mb-2">
           From 80's and 90's
