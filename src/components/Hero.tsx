@@ -1,7 +1,8 @@
 export default function Hero() {
   return (
     <header
-      className="relative text-white py-16 md:py-54 bg-cover bg-center bg-no-repeat"
+      id="hero"
+      className="relative text-white py-34 md:py-54 bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025585/img1_dximlk.jpg')`,
       }}

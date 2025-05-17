@@ -1,4 +1,4 @@
-// app/page.tsx
+
 import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import EraSection from '@/components/EraSection'

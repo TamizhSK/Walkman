@@ -44,7 +44,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   About
@@ -52,7 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   My Profile
@@ -60,7 +60,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Languages
@@ -68,7 +68,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Devices
@@ -83,7 +83,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Podcasts
@@ -91,7 +91,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Playlists
@@ -99,7 +99,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Audiobooks
@@ -107,7 +107,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Liked Songs
@@ -122,7 +122,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Account
@@ -130,7 +130,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Plans & Pricing
@@ -138,7 +138,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Privacy & Social
@@ -146,7 +146,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#" 
+                  href="#hero" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Explicit Content
@@ -162,13 +162,13 @@ export default function Footer() {
             <p className="text-gray-400 mb-4 md:mb-0">&copy; 2023 Walkman. All rights reserved.</p>
             <div className="flex space-x-6">
               <Link 
-                href="#" 
+                href="#hero" 
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
                 Privacy Policy
               </Link>
               <Link 
-                href="#" 
+                href="#hero" 
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
                 Terms & Conditions
