@@ -19,19 +19,16 @@ export default function RootLayout({
       <head>
         <link 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
-          rel="stylesheet"
-        />
+          rel="stylesheet"/>
       </head>
       <body
-        className="bg-black text-white min-h-screen flex flex-col w-full"
-        style={{ fontFamily: 'SF Pro Display, sans-serif' }}
-      >
-        <Nav />
+        className="bg-black text-white min-h-screen flex flex-col w-full" style={{ fontFamily: 'SF Pro Display, sans-serif' }}>
+        <Nav/>
         <main className="flex-grow w-full">
           {children}
         </main>
-        <Footer />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" />
+        <Footer/>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"/>
       </body>
     </html>
   )

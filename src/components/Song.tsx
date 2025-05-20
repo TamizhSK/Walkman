@@ -190,8 +190,7 @@ return (
     </div>
 
     <div className="text-center mt-12">
-      <p className="text-gray-400">Loading...</p>
-    </div>
+     <p className="font-semibold text-2xl text-transparent bg-clip-text bg-gradient-to-b from-stone-300 via-stone-500 to-stone-700">Loading...</p></div>
   </div>
 );
 }

@@ -19,8 +19,8 @@ export default function Library() {
         <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black/90 via-black/60 to-transparent z-0" />
 
         {/* Centered content */}
-        <div className="relative z-10 flex items-center justify-center h-full px-4">
-          <div className="max-w-6xl w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 md:p-10 flex flex-col md:flex-row items-center gap-6">
+        <div className="relative z-10 flex items-center justify-center h-full px-6">
+          <div className="max-w-6xl w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-2 sm:p-4 md:p-10 flex flex-col md:flex-row items-center gap-6">
             {/* Text Column */}
             <div className="md:w-1/2">
               <h1 className="text-4xl font-bold mb-4">Genres</h1>
