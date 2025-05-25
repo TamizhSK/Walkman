@@ -1,200 +1,3 @@
-// "use client";
-
-// import { useRef } from "react";
-// import Image from "next/image";
-// import { Card, CardContent } from "@/components/ui/card";
-
-// export default function SongGrid() {
-//   const genreCards = [
-//     {
-//       id: 1,
-//       title: "Pop",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025638/1_ugmawr.png",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-//     },
-//     {
-//       id: 2,
-//       title: "Electronic",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025638/2_jwf6qa.jpg",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-//     },
-//     {
-//       id: 3,
-//       title: "Jazz",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025639/3_ap0tfa.jpg",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504738/audio3_ic5drk.mp3",
-//     },
-//     {
-//       id: 4,
-//       title: "Hip-Hop",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025639/4_qp4f5s.jpg",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504633/audio4_ni7kzv.mp3",
-//     },
-//     {
-//       id: 5,
-//       title: "Hard Rock",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025640/5_fo6vg1.jpg",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504758/audio5_fwf5rp.mp3",
-//     },
-//     {
-//       id: 6,
-//       title: "Lo-Fi",
-//       image:
-//         "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_600/v1747025641/6_gjaigz.jpg",
-//       audio:
-//         "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504633/audio6_l3zfhr.mp3",
-//     },
-//   ];
-
-//   // Store currently playing audio instances in a ref to avoid re-renders
-//   const audioRefs = useRef<{ [key: number]: HTMLAudioElement | null }>({});
-
-//   const isTouchDevice = () =>
-//     typeof window !== "undefined" &&
-//     ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-//   const handleMouseEnter = (id: number, audioSrc: string) => {
-//     if (!isTouchDevice()) {
-//       // Pause any other playing audios first (optional)
-//       Object.entries(audioRefs.current).forEach(([key, audio]) => {
-//         if (audio && +key !== id) {
-//           audio.pause();
-//           audio.currentTime = 0;
-//         }
-//       });
-
-//       if (!audioRefs.current[id]) {
-//         audioRefs.current[id] = new Audio(audioSrc);
-//       }
-//       audioRefs.current[id]!
-//         .play()
-//         .catch((e) => console.warn("Audio playback prevented:", e));
-//     }
-//   };
-
-//   const handleMouseLeave = (id: number) => {
-//     const audio = audioRefs.current[id];
-//     if (audio) {
-//       audio.pause();
-//       audio.currentTime = 0;
-//     }
-//   };
-
-// return (
-//   <div className="container mx-auto px-4 py-16">
-//     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-//       {genreCards.map((genre) => (
-//         <Card
-//           key={genre.id}
-//           className="
-//             bg-gray-900 
-//             border-none 
-//             overflow-hidden 
-//             cursor-pointer 
-//             aspect-square
-//             relative
-//             transition-transform 
-//             duration-300 
-//             hover:shadow-lg 
-//             hover:scale-[1.02]"
-//           onMouseEnter={() => handleMouseEnter(genre.id, genre.audio)}
-//           onMouseLeave={() => handleMouseLeave(genre.id)}
-//         >
-//           {/* Image fills the card */}
-//           <Image
-//             src={genre.image}
-//             alt={`${genre.title} Music`}
-//             fill
-//             className="object-cover"
-//             sizes="(max-width: 768px) 100vw, 33vw"
-//             unoptimized
-//             loading="lazy"
-//             priority={false}
-//           />
-
-//           {/* Mobile gradient (bottom to top) */}
-//           <div
-//             className="
-//               sm:hidden
-//               pointer-events-none 
-//               absolute 
-//               bottom-0 left-0 w-full h-24
-//               z-10
-//             "
-//             style={{
-//               background: `
-//                 linear-gradient(
-//                   to top,
-//                   rgba(0, 0, 0, 0.85),
-//                   rgba(0, 0, 0, 0.6) 40%,
-//                   rgba(0, 0, 0, 0)
-//                 )
-//               `,
-//             }}
-//           />
-
-//           {/* Desktop gradient (bottom-left to top-right) */}
-//           <div
-//             className="
-//               hidden sm:block
-//               pointer-events-none 
-//               absolute 
-//               bottom-0 left-0 w-2/5 h-2/5
-//               z-10
-//             "
-//             style={{
-//               background: `
-//                 linear-gradient(
-//                   45deg,
-//                   rgba(0, 0, 0, 0.9) 0%,
-//                   rgba(0, 0, 0, 0.7) 10%,
-//                   rgba(0, 0, 0, 0.4) 30%,
-//                   rgba(0, 0, 0, 0) 50%
-//                 )
-//               `,
-//             }}
-//           />
-
-//           {/* Genre label positioned over image */}
-//           <h3
-//             className="
-//               absolute 
-//               bottom-4 
-//               left-4
-//               sm:left-4 
-//               sm:bottom-4
-//               sm:text-left 
-//               text-white 
-//               text-2xl 
-//               font-bold
-//               pointer-events-none
-//               select-none
-//               z-20
-//             "
-//             style={{ textShadow: "0 2px 8px rgba(0,0,0,0.9)" }}
-//           >
-//             {genre.title}
-//           </h3>
-//         </Card>
-//       ))}
-//     </div>
-
-//     <div className="text-center mt-12">
-//      <p className="font-semibold text-2xl text-transparent bg-clip-text bg-gradient-to-b from-stone-300 via-stone-500 to-stone-700">Loading...</p></div>
-//   </div>
-// );
-// }
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -207,7 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { 
   Play, 
   Pause, 
-  X, 
   Volume2, 
   VolumeX, 
   SkipBack, 
@@ -252,10 +54,12 @@ export default function MusicGenreHub() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const shuffleQueueRef = useRef<number[]>([]);
+  const currentShuffleIndexRef = useRef<number>(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize window width and listen for resize events
+
   useEffect(() => {
     function handleResize() {
       setWindowWidth(window.innerWidth);
@@ -266,7 +70,6 @@ export default function MusicGenreHub() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Clean up audio on unmount
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -277,7 +80,7 @@ export default function MusicGenreHub() {
   }, []);
 
   
-  // Enhanced genre data with more genres and banner images
+
   const genreData: Genre[] = [
   {
     id: 1,
@@ -566,191 +369,298 @@ export default function MusicGenreHub() {
 ];
 
 
-  const handleGenreClick = (genre: Genre) => {
-    setSelectedGenre(genre);
-    setIsDialogOpen(true);
+ const handleGenreClick = (genre: Genre) => {
+  setSelectedGenre(genre);
+  setIsDialogOpen(true);
 
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-    setCurrentSong(null);
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
-  };
+  if (audioRef.current) {
+    audioRef.current.pause();
+    audioRef.current = null;
+  }
+  setCurrentSong(null);
+  setIsPlaying(false);
+  setCurrentTime(0);
+  setDuration(0);
+  
+  // Reset shuffle and repeat states when switching genres
+  setIsShuffle(false);
+  setIsRepeat(false);
+  shuffleQueueRef.current = [];
+  currentShuffleIndexRef.current = 0;
+};
 
-  const updateTime = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
-
-  const setAudioDuration = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  };
-
-const handleSongEnd = () => {
-  if (isRepeat && currentSong && audioRef.current) {
-    // Repeat current song
-    audioRef.current.currentTime = 0;
-    audioRef.current.play().catch((error) => {
-      console.error("Error replaying audio:", error);
-      setIsPlaying(false);
-    });
-  } else {
-    // Move to next song or stop
-    setIsPlaying(false);
-    playNextSong();
+const updateTime = () => {
+  if (audioRef.current) {
+    setCurrentTime(audioRef.current.currentTime);
   }
 };
 
-  const handleSongSelect = (song: Song) => {
+const setAudioDuration = () => {
+  if (audioRef.current) {
+    setDuration(audioRef.current.duration);
+  }
+};
+
+const handleSongEnd = () => {
+  if (!currentSong || !selectedGenre) return;
+  
+  const songs = selectedGenre.songs;
+  
+  // If repeat is enabled, replay the current song (works for single or multiple songs)
+  if (isRepeat) {
     if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.removeEventListener("timeupdate", updateTime);
-      audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
-      audioRef.current.removeEventListener("ended", handleSongEnd);
-      audioRef.current = null;
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((error) => {
+        console.error("Error replaying audio:", error);
+        setIsPlaying(false);
+      });
     }
+    return;
+  }
+  
+  // If shuffle is enabled and there are multiple songs (2+), play next shuffled song
+  if (isShuffle && songs.length > 1) {
+    playNextSong();
+    return;
+  }
+  
+  // If neither repeat nor shuffle is enabled
+  if (!isRepeat && !isShuffle) {
+    // For single song, just stop
+    if (songs.length === 1) {
+      setIsPlaying(false);
+      return;
+    }
+    // For multiple songs, play next in sequence
+    playNextSong();
+    return;
+  }
+  
+  // Fallback: stop playing
+  setIsPlaying(false);
+};
 
-    const audio = new Audio(song.audio);
-    audio.volume = isMuted ? 0 : volume;
-    audio.addEventListener("timeupdate", updateTime);
-    audio.addEventListener("loadedmetadata", setAudioDuration);
-    audio.addEventListener("ended", handleSongEnd);
 
-    audioRef.current = audio;
-    setCurrentSong(song);
-    setIsPlaying(true);
-    audio
+const handleSongSelect = (song: Song) => {
+  if (audioRef.current) {
+    audioRef.current.pause();
+    audioRef.current.removeEventListener("timeupdate", updateTime);
+    audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
+    audioRef.current.removeEventListener("ended", handleSongEnd);
+    audioRef.current = null;
+  }
+
+  const audio = new Audio(song.audio);
+  audio.volume = isMuted ? 0 : volume;
+  audio.addEventListener("timeupdate", updateTime);
+  audio.addEventListener("loadedmetadata", setAudioDuration);
+  audio.addEventListener("ended", handleSongEnd);
+
+  audioRef.current = audio;
+  setCurrentSong(song);
+  setIsPlaying(true);
+  
+  // Reset shuffle queue when manually selecting a song (only if shuffle is enabled and 2+ songs)
+  if (isShuffle && selectedGenre && selectedGenre.songs.length > 1) {
+    const songs = selectedGenre.songs;
+    const currentIndex = songs.findIndex(s => s.id === song.id);
+    if (currentIndex !== -1) {
+      const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+      shuffleQueueRef.current = shuffleArray(availableIndices);
+      currentShuffleIndexRef.current = 0;
+    }
+  }
+  
+  audio
+    .play()
+    .catch((error) => {
+      console.error("Error playing audio:", error);
+      setIsPlaying(false);
+    });
+};
+
+
+
+const playNextSong = () => {
+  if (!selectedGenre || !currentSong) return;
+
+  const songs = selectedGenre.songs;
+  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+  
+  if (currentIndex === -1) return;
+  
+  // If only one song, can't play next (should only happen in sequential mode)
+  if (songs.length <= 1) return;
+
+  let nextIndex: number;
+
+  if (isShuffle) {
+    // Initialize shuffle queue if empty or exhausted
+    if (shuffleQueueRef.current.length === 0 || currentShuffleIndexRef.current >= shuffleQueueRef.current.length) {
+      // Create a new shuffle queue with all indices except current song
+      const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+      shuffleQueueRef.current = shuffleArray(availableIndices);
+      currentShuffleIndexRef.current = 0;
+    }
+    
+    nextIndex = shuffleQueueRef.current[currentShuffleIndexRef.current];
+    currentShuffleIndexRef.current++;
+  } else {
+    // Sequential play
+    nextIndex = (currentIndex + 1) % songs.length;
+  }
+
+  const nextSong = songs[nextIndex];
+  handleSongSelect(nextSong);
+};
+
+
+const playPreviousSong = () => {
+  if (!selectedGenre || !currentSong) return;
+
+  const songs = selectedGenre.songs;
+  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+  
+  if (currentIndex === -1) return;
+  
+  // If only one song, restart current song
+  if (songs.length <= 1) {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      if (!isPlaying) {
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
+        setIsPlaying(true);
+      }
+    }
+    return;
+  }
+
+  let prevIndex: number;
+
+  if (isShuffle) {
+    // For shuffle, pick a random previous song (not current)
+    const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+    const randomIndex = Math.floor(Math.random() * availableIndices.length);
+    prevIndex = availableIndices[randomIndex];
+    
+    // Reset shuffle queue to exclude the new current song
+    const newAvailableIndices = songs.map((_, i) => i).filter(i => i !== prevIndex);
+    shuffleQueueRef.current = shuffleArray(newAvailableIndices);
+    currentShuffleIndexRef.current = 0;
+  } else {
+    // Sequential play backwards
+    prevIndex = (currentIndex - 1 + songs.length) % songs.length;
+  }
+
+  const prevSong = songs[prevIndex];
+  handleSongSelect(prevSong);
+};
+
+const shuffleArray = (array: number[]): number[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+const togglePlayPause = () => {
+  if (!audioRef.current) return;
+
+  if (isPlaying) {
+    audioRef.current.pause();
+    setIsPlaying(false);
+  } else {
+    audioRef.current
       .play()
+      .then(() => setIsPlaying(true))
       .catch((error) => {
         console.error("Error playing audio:", error);
         setIsPlaying(false);
       });
-  };
-
-// 1. Enhanced playNextSong function with proper shuffle logic
-const playNextSong = () => {
-  if (!selectedGenre || !currentSong) return;
-
-  const currentIndex = selectedGenre.songs.findIndex(
-    (song) => song.id === currentSong.id
-  );
-  if (currentIndex === -1) return;
-
-  let nextIndex: number;
-  if (isShuffle) {
-    // Create array of all indices except current
-    const availableIndices = selectedGenre.songs
-      .map((_, i) => i)
-      .filter((i) => i !== currentIndex);
-    
-    if (availableIndices.length === 0) {
-      // If only one song, replay it
-      nextIndex = currentIndex;
-    } else {
-      // Pick random from available indices
-      const randomIndex = Math.floor(Math.random() * availableIndices.length);
-      nextIndex = availableIndices[randomIndex];
-    }
-  } else {
-    // Normal sequential play
-    nextIndex = (currentIndex + 1) % selectedGenre.songs.length;
   }
-
-  const nextSong = selectedGenre.songs[nextIndex];
-  handleSongSelect(nextSong);
 };
 
-// 2. Enhanced playPreviousSong function with proper shuffle logic
-const playPreviousSong = () => {
-  if (!selectedGenre || !currentSong) return;
-
-  const currentIndex = selectedGenre.songs.findIndex(
-    (song) => song.id === currentSong.id
-  );
-  if (currentIndex === -1) return;
-
-  let prevIndex: number;
-  if (isShuffle) {
-    // Create array of all indices except current
-    const availableIndices = selectedGenre.songs
-      .map((_, i) => i)
-      .filter((i) => i !== currentIndex);
-    
-    if (availableIndices.length === 0) {
-      // If only one song, replay it
-      prevIndex = currentIndex;
-    } else {
-      // Pick random from available indices
-      const randomIndex = Math.floor(Math.random() * availableIndices.length);
-      prevIndex = availableIndices[randomIndex];
-    }
-  } else {
-    // Normal sequential play (go to previous)
-    prevIndex = (currentIndex - 1 + selectedGenre.songs.length) % selectedGenre.songs.length;
+const handleTimeChange = (value: number | number[]) => {
+  const newTime = Array.isArray(value) ? value[0] : value;
+  if (audioRef.current) {
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
   }
-
-  const prevSong = selectedGenre.songs[prevIndex];
-  handleSongSelect(prevSong);
 };
 
-  const togglePlayPause = () => {
-    if (!audioRef.current) return;
+const handleVolumeChange = (value: number | number[]) => {
+  const newVolume = Array.isArray(value) ? value[0] : value;
+  setVolume(newVolume);
+  if (audioRef.current) {
+    audioRef.current.volume = isMuted ? 0 : newVolume;
+  }
+};
 
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch((error) => {
-          console.error("Error playing audio:", error);
-          setIsPlaying(false);
-        });
-    }
-  };
+const toggleMute = () => {
+  if (!audioRef.current) return;
 
-  const handleTimeChange = (value: number | number[]) => {
-    const newTime = Array.isArray(value) ? value[0] : value;
-    if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
-  const handleVolumeChange = (value: number | number[]) => {
-    const newVolume = Array.isArray(value) ? value[0] : value;
-    setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : newVolume;
-    }
-  };
-
-  const toggleMute = () => {
-    if (!audioRef.current) return;
-
-    const newMuteState = !isMuted;
-    audioRef.current.volume = newMuteState ? 0 : volume;
-    setIsMuted(newMuteState);
-  };
+  const newMuteState = !isMuted;
+  audioRef.current.volume = newMuteState ? 0 : volume;
+  setIsMuted(newMuteState);
+};
 
   const toggleLike = () => {
     setIsLiked((prev) => !prev);
   };
 
-  const toggleRepeat = () => {
-    setIsRepeat((prev) => !prev);
-  };
+// Corrected toggleRepeat function
+const toggleRepeat = () => {
+  setIsRepeat((prev) => {
+    const newRepeat = !prev;
+    // When enabling repeat, disable shuffle and clear shuffle queue
+    if (newRepeat && isShuffle) {
+      setIsShuffle(false);
+      shuffleQueueRef.current = [];
+      currentShuffleIndexRef.current = 0;
+    }
+    return newRepeat;
+  });
+};
 
-  const toggleShuffle = () => {
-    setIsShuffle((prev) => !prev);
-  };
+// Corrected toggleShuffle function
+const toggleShuffle = () => {
+  setIsShuffle((prev) => {
+    const newShuffle = !prev;
+    
+    // When enabling shuffle, disable repeat
+    if (newShuffle && isRepeat) {
+      setIsRepeat(false);
+    }
+    
+    // Only enable shuffle if there are multiple songs (2+)
+    if (newShuffle && selectedGenre && selectedGenre.songs.length > 1) {
+      if (currentSong) {
+        const songs = selectedGenre.songs;
+        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+        if (currentIndex !== -1) {
+          const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+          shuffleQueueRef.current = shuffleArray(availableIndices);
+          currentShuffleIndexRef.current = 0;
+        }
+      }
+      return true; // Enable shuffle
+    } else if (!newShuffle) {
+      // Clear shuffle queue when disabling shuffle
+      shuffleQueueRef.current = [];
+      currentShuffleIndexRef.current = 0;
+      return false; // Disable shuffle
+    }
+    
+    // If trying to enable shuffle with only one song or no songs, keep shuffle disabled
+    return false;
+  });
+};
+
 
   const togglePlayerExpanded = () => {
     setIsPlayerExpanded((prev) => !prev);
@@ -763,13 +673,6 @@ const playPreviousSong = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-    if (audioRef.current && isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
 
   const getGridColumns = () => {
     if (windowWidth >= 1436) return "grid-cols-4";
@@ -778,8 +681,9 @@ const playPreviousSong = () => {
     if (windowWidth >= 768) return "grid-cols-2";
     return "grid-cols-1";
   };
+
 return (
-  <div className="p-3 sm:p-6 bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
+  <div className="p-10 sm:p-30 bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
     {/* Genre Banners */}
     <div className={`grid ${getGridColumns()} gap-3 sm:gap-6 transition-all duration-300`}>
       {genreData.map((genre) => (
@@ -798,8 +702,8 @@ return (
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
             <div className="absolute bottom-0 p-2 sm:p-4">
-              <h3 className="text-sm sm:text-lg font-semibold text-white drop-shadow-sm">{genre.name}</h3>
-              <p className="text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">{genre.description}</p>
+              <h3 className="text-xl sm:text-2xl font-semibold text-white drop-shadow-sm">{genre.name}</h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">{genre.description}</p>
             </div>
           </div>
         </motion.div>
@@ -858,158 +762,36 @@ return (
             <CardContent className="p-2 sm:p-4">
               {/* Expanded Player View */}
               {isPlayerExpanded ? (
-                <div className="space-y-4 sm:space-y-6">
-                  {/* Large Album Art and Info */}
-                  <div className="flex flex-col items-center gap-3 sm:gap-6">
-                    <div className="flex-shrink-0">
+                  <div className="space-y-4 sm:space-y-6">
+                    {/* Song Info */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                       <img
                         src={currentSong.image}
-                        className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-lg sm:rounded-xl object-cover shadow-lg"
+                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover flex-shrink-0"
                         alt={currentSong.title}
                       />
-                    </div>
-                    <div className="text-center flex-1">
-                      <div className="text-lg sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
-                        {currentSong.title}
-                      </div>
-                      <div className="text-sm sm:text-lg md:text-xl text-gray-300 mb-2 sm:mb-4">
-                        {currentSong.artist}
-                      </div>
-                      <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-400">
-                        <Clock size={14} className="sm:w-4 sm:h-4" />
-                        <span>{formatTime(duration)}</span>
+                      <div className="text-center sm:text-left flex-1">
+                        <div className="text-xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">{currentSong.title}</div>
+                        <div className="text-base sm:text-xl text-gray-300 mb-2 sm:mb-4">{currentSong.artist}</div>
+                        <div className="text-sm sm:text-base text-gray-400">{selectedGenre?.name}</div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Progress Bar */}
-                  <div className="space-y-2">
-                    <Slider
-                      value={[currentTime]}
-                      max={duration}
-                      step={1}
-                      onValueChange={handleTimeChange}
-                      className="w-full"
-                    />
-                    <div className="flex justify-between text-xs sm:text-sm text-gray-400">
-                      <span>{formatTime(currentTime)}</span>
-                      <span>{formatTime(duration)}</span>
-                    </div>
-                  </div>
-
-                  {/* Control Buttons - Responsive */}
-                  <div className="flex justify-center items-center gap-2 sm:gap-4">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={toggleShuffle}
-                            className={`${isShuffle ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
-                          >
-                            <Shuffle size={16} className="sm:w-5 sm:h-5" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {isShuffle ? 'Disable Shuffle' : 'Enable Shuffle'}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon" onClick={playPreviousSong} className="w-8 h-8 sm:w-10 sm:h-10">
-                            <SkipBack size={18} className="sm:w-6 sm:h-6" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Previous</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <Button
-                      variant="default"
-                      size="icon"
-                      onClick={togglePlayPause}
-                      className="bg-white text-black hover:bg-gray-200 w-10 h-10 sm:w-14 sm:h-14"
-                    >
-                      {isPlaying ? <Pause size={20} className="sm:w-7 sm:h-7" /> : <Play size={20} className="sm:w-7 sm:h-7" />}
-                    </Button>
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon" onClick={playNextSong} className="w-8 h-8 sm:w-10 sm:h-10">
-                            <SkipForward size={18} className="sm:w-6 sm:h-6" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Next</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={toggleRepeat}
-                            className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
-                          >
-                            <Repeat size={16} className="sm:w-5 sm:h-5" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {isRepeat ? 'Disable Repeat' : 'Enable Repeat'}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-
-                  {/* Secondary Controls */}
-                  <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={toggleLike}
-                        className={`${isLiked ? 'text-red-500' : 'text-gray-400'} hover:text-red-400 transition-colors w-8 h-8 sm:w-10 sm:h-10`}
-                      >
-                        <Heart size={16} className={`sm:w-5 sm:h-5 ${isLiked ? 'fill-current' : ''}`} />
-                      </Button>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8 sm:w-10 sm:h-10">
-                        {isMuted ? <VolumeX size={16} className="sm:w-5 sm:h-5" /> : <Volume2 size={16} className="sm:w-5 sm:h-5" />}
-                      </Button>
+                    {/* Progress Bar */}
+                    <div className="flex items-center gap-2 sm:gap-4 text-sm text-gray-400">
+                      <span className="w-12 text-right">{formatTime(currentTime)}</span>
                       <Slider
-                        value={[isMuted ? 0 : volume]}
-                        max={1}
-                        step={0.01}
-                        onValueChange={handleVolumeChange}
-                        className="w-16 sm:w-24 md:w-32"
+                        value={[currentTime]}
+                        max={duration}
+                        step={1}
+                        onValueChange={handleTimeChange}
+                        className="flex-1"
                       />
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // Compact Player View - Mobile Optimized
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <img
-                      src={currentSong.image}
-                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-md sm:rounded-lg object-cover flex-shrink-0"
-                      alt={currentSong.title}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm sm:text-lg font-bold text-white truncate">{currentSong.title}</div>
-                      <div className="text-xs sm:text-sm text-gray-300 truncate">{currentSong.artist}</div>
+                      <span className="w-12">{formatTime(duration)}</span>
                     </div>
 
-                    {/* Desktop Controls */}
-                    <div className="hidden sm:flex items-center gap-2">
+                    {/* Control Buttons - Responsive */}
+                    <div className="flex justify-center items-center gap-2 sm:gap-4">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -1017,20 +799,38 @@ return (
                               variant="ghost" 
                               size="icon" 
                               onClick={toggleShuffle}
-                              className={`${isShuffle ? 'text-green-400' : 'text-gray-400'} hover:text-white transition-colors`}
+                              disabled={!selectedGenre || selectedGenre.songs.length <= 1}
+                              className={`${
+                                (!selectedGenre || selectedGenre.songs.length <= 1) 
+                                  ? 'text-gray-600 cursor-not-allowed opacity-50' 
+                                  : isShuffle 
+                                    ? 'text-green-400 bg-green-400/20' 
+                                    : 'text-gray-400'
+                              } hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
                             >
-                              <Shuffle size={16} />
+                              <Shuffle size={16} className="sm:w-5 sm:h-5" />
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Shuffle</TooltipContent>
+                          <TooltipContent>
+                            {(!selectedGenre || selectedGenre.songs.length <= 1) 
+                              ? 'Shuffle disabled (need 2+ songs)' 
+                              : isShuffle 
+                                ? 'Disable Shuffle' 
+                                : 'Enable Shuffle'}
+                          </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
 
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={playPreviousSong}>
-                              <SkipBack size={18} />
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={playPreviousSong} 
+                              className="w-8 h-8 sm:w-10 sm:h-10"
+                            >
+                              <SkipBack size={18} className="sm:w-6 sm:h-6" />
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>Previous</TooltipContent>
@@ -1041,16 +841,21 @@ return (
                         variant="default"
                         size="icon"
                         onClick={togglePlayPause}
-                        className="bg-white text-black hover:bg-gray-200"
+                        className="bg-white text-black hover:bg-gray-200 w-10 h-10 sm:w-14 sm:h-14"
                       >
-                        {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                        {isPlaying ? <Pause size={20} className="sm:w-7 sm:h-7" /> : <Play size={20} className="sm:w-7 sm:h-7" />}
                       </Button>
 
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={playNextSong}>
-                              <SkipForward size={18} />
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              onClick={playNextSong} 
+                              className="w-8 h-8 sm:w-10 sm:h-10"
+                            >
+                              <SkipForward size={18} className="sm:w-6 sm:h-6" />
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>Next</TooltipContent>
@@ -1064,101 +869,230 @@ return (
                               variant="ghost" 
                               size="icon" 
                               onClick={toggleRepeat}
-                              className={`${isRepeat ? 'text-green-400' : 'text-gray-400'} hover:text-white transition-colors`}
+                              className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
                             >
-                              <Repeat size={16} />
+                              <Repeat size={16} className="sm:w-5 sm:h-5" />
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Repeat</TooltipContent>
+                          <TooltipContent>
+                            {isRepeat ? 'Disable Repeat' : 'Enable Repeat'}
+                          </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </div>
 
-                    {/* Mobile Play Button Only */}
-                    <div className="flex sm:hidden">
-                      <Button
-                        variant="default"
-                        size="icon"
-                        onClick={togglePlayPause}
-                        className="bg-white text-black hover:bg-gray-200 w-10 h-10"
-                      >
-                        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                      </Button>
+                    {/* Secondary Controls */}
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={toggleLike}
+                          className={`${isLiked ? 'text-red-500' : 'text-gray-400'} hover:text-red-400 transition-colors w-8 h-8 sm:w-10 sm:h-10`}
+                        >
+                          <Heart size={16} className={`sm:w-5 sm:h-5 ${isLiked ? 'fill-current' : ''}`} />
+                        </Button>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8 sm:w-10 sm:h-10">
+                          {isMuted ? <VolumeX size={16} className="sm:w-5 sm:h-5" /> : <Volume2 size={16} className="sm:w-5 sm:h-5" />}
+                        </Button>
+                        <Slider
+                          value={[isMuted ? 0 : volume]}
+                          max={1}
+                          step={0.01}
+                          onValueChange={handleVolumeChange}
+                          className="w-16 sm:w-24 md:w-32"
+                        />
+                      </div>
                     </div>
                   </div>
+                ) : (
+                  // Compact Player View - Mobile Optimized
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <img
+                        src={currentSong.image}
+                        className="w-12 h-12 sm:w-16 sm:h-16 rounded-md sm:rounded-lg object-cover flex-shrink-0"
+                        alt={currentSong.title}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm sm:text-lg font-bold text-white truncate">{currentSong.title}</div>
+                        <div className="text-xs sm:text-sm text-gray-300 truncate">{currentSong.artist}</div>
+                      </div>
 
-                  {/* Progress Bar */}
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                    <span className="text-xs w-8 sm:w-10 text-right">{formatTime(currentTime)}</span>
-                    <Slider
-                      value={[currentTime]}
-                      max={duration}
-                      step={1}
-                      onValueChange={handleTimeChange}
-                      className="flex-1"
-                    />
-                    <span className="text-xs w-8 sm:w-10">{formatTime(duration)}</span>
-                  </div>
+                      {/* Desktop Controls */}
+                      <div className="hidden sm:flex items-center gap-2">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={toggleShuffle}
+                                disabled={!selectedGenre || selectedGenre.songs.length <= 1}
+                                className={`${
+                                  (!selectedGenre || selectedGenre.songs.length <= 1)
+                                    ? 'text-gray-600 cursor-not-allowed opacity-50'
+                                    : isShuffle 
+                                      ? 'text-green-400 bg-green-400/20' 
+                                      : 'text-gray-400'
+                                } hover:text-white transition-colors`}
+                              >
+                                <Shuffle size={16} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {(!selectedGenre || selectedGenre.songs.length <= 1) 
+                                ? 'Shuffle disabled (need 2+ songs)' 
+                                : isShuffle ? 'Disable Shuffle' : 'Enable Shuffle'}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
 
-                  {/* Mobile Controls Row */}
-                  <div className="flex sm:hidden justify-center items-center gap-3">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={playPreviousSong}
-                      className="w-8 h-8"
-                    >
-                      <SkipBack size={16} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={toggleShuffle}
-                      className={`${isShuffle ? 'text-green-400' : 'text-gray-400'} w-8 h-8`}
-                    >
-                      <Shuffle size={14} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={toggleRepeat}
-                      className={`${isRepeat ? 'text-green-400' : 'text-gray-400'} w-8 h-8`}
-                    >
-                      <Repeat size={14} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={toggleLike}
-                      className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
-                    >
-                      <Heart size={14} className={isLiked ? 'fill-current' : ''} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={playNextSong}
-                      className="w-8 h-8"
-                    >
-                      <SkipForward size={16} />
-                    </Button>
-                  </div>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" size="icon" onClick={playPreviousSong}>
+                                <SkipBack size={18} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Previous</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
 
-                  {/* Volume Control */}
-                  <div className="flex justify-center sm:justify-end items-center gap-2">
-                    <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8">
-                      {isMuted ? <VolumeX size={14} className="sm:w-4 sm:h-4" /> : <Volume2 size={14} className="sm:w-4 sm:h-4" />}
-                    </Button>
-                    <Slider
-                      value={[isMuted ? 0 : volume]}
-                      max={1}
-                      step={0.01}
-                      onValueChange={handleVolumeChange}
-                      className="w-16 sm:w-24"
-                    />
+                        <Button
+                          variant="default"
+                          size="icon"
+                          onClick={togglePlayPause}
+                          className="bg-white text-black hover:bg-gray-200"
+                        >
+                          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                        </Button>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" size="icon" onClick={playNextSong}>
+                                <SkipForward size={18} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Next</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={toggleRepeat}
+                                className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors`}
+                              >
+                                <Repeat size={16} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {isRepeat ? 'Disable Repeat' : 'Enable Repeat'}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+
+                      {/* Mobile Play Button Only */}
+                      <div className="flex sm:hidden">
+                        <Button
+                          variant="default"
+                          size="icon"
+                          onClick={togglePlayPause}
+                          className="bg-white text-black hover:bg-gray-200 w-10 h-10"
+                        >
+                          {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
+                      <span className="text-xs w-8 sm:w-10 text-right">{formatTime(currentTime)}</span>
+                      <Slider
+                        value={[currentTime]}
+                        max={duration}
+                        step={1}
+                        onValueChange={handleTimeChange}
+                        className="flex-1"
+                      />
+                      <span className="text-xs w-8 sm:w-10">{formatTime(duration)}</span>
+                    </div>
+
+                    {/* Mobile Controls Row */}
+                    <div className="flex sm:hidden justify-center items-center gap-3">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={playPreviousSong}
+                        className="w-8 h-8"
+                      >
+                        <SkipBack size={16} />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={toggleShuffle}
+                        disabled={!selectedGenre || selectedGenre.songs.length <= 1}
+                        className={`${
+                          (!selectedGenre || selectedGenre.songs.length <= 1)
+                            ? 'text-gray-600 cursor-not-allowed opacity-50'
+                            : isShuffle 
+                              ? 'text-green-400 bg-green-400/20' 
+                              : 'text-gray-400'
+                        } w-8 h-8`}
+                      >
+                        <Shuffle size={14} />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={toggleRepeat}
+                        className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} w-8 h-8`}
+                      >
+                        <Repeat size={14} />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={toggleLike}
+                        className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
+                      >
+                        <Heart size={14} className={isLiked ? 'fill-current' : ''} />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={playNextSong}
+                        className="w-8 h-8"
+                      >
+                        <SkipForward size={16} />
+                      </Button>
+                    </div>
+
+                    {/* Volume Control */}
+                    <div className="flex justify-center sm:justify-end items-center gap-2">
+                      <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8">
+                        {isMuted ? <VolumeX size={14} className="sm:w-4 sm:h-4" /> : <Volume2 size={14} className="sm:w-4 sm:h-4" />}
+                      </Button>
+                      <Slider
+                        value={[isMuted ? 0 : volume]}
+                        max={1}
+                        step={0.01}
+                        onValueChange={handleVolumeChange}
+                        className="w-16 sm:w-24"
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </CardContent>
           </Card>
         )}
