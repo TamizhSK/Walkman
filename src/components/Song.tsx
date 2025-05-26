@@ -54,11 +54,14 @@ export default function MusicGenreHub() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
-  const shuffleQueueRef = useRef<number[]>([]);
-  const currentShuffleIndexRef = useRef<number>(0);
+const shuffleQueueRef = useRef<number[]>([]);
+const currentShuffleIndexRef = useRef<number>(0);
+const justRepeatedRef = useRef(false); // Flag to ensure only 1 repeat cycle before moving to shuffle
+
+
+  
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
 
   useEffect(() => {
     function handleResize() {
@@ -403,10 +406,10 @@ const setAudioDuration = () => {
 
 const handleSongEnd = () => {
   if (!currentSong || !selectedGenre) return;
-  
+
   const songs = selectedGenre.songs;
-  
-  // REPEAT LOGIC: If repeat is enabled, replay the same song
+
+  // REPEAT first
   if (isRepeat) {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -414,35 +417,41 @@ const handleSongEnd = () => {
         console.error("Error replaying audio:", error);
         setIsPlaying(false);
       });
+      return;
     }
-    return;
   }
-  
-  // SHUFFLE LOGIC: If shuffle is enabled and there are multiple songs
+
+  // SHUFFLE next
   if (isShuffle && songs.length > 1) {
-    playNextSong();
+    if (
+      shuffleQueueRef.current.length === 0 ||
+      currentShuffleIndexRef.current >= shuffleQueueRef.current.length
+    ) {
+      createShuffleQueue(currentSong.id); // Regenerate when queue is exhausted
+    }
+
+    const nextIndex = shuffleQueueRef.current[currentShuffleIndexRef.current];
+    currentShuffleIndexRef.current++;
+
+    const nextSong = songs[nextIndex];
+    handleSongSelect(nextSong);
     return;
   }
-  
-  // SEQUENTIAL LOGIC: If neither repeat nor shuffle, play sequentially
-  if (!isRepeat && !isShuffle) {
-    if (songs.length === 1) {
-      // Single song: just stop
-      setIsPlaying(false);
-      return;
-    } else {
-      // Multiple songs: play next in sequence
-      playNextSong();
-      return;
-    }
+
+  // SEQUENTIAL fallback
+  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+  const nextIndex = (currentIndex + 1) % songs.length;
+
+  if (nextIndex !== currentIndex) {
+    handleSongSelect(songs[nextIndex]);
+  } else {
+    setIsPlaying(false);
   }
-  
-  // Fallback: stop playing
-  setIsPlaying(false);
 };
 
 
 const handleSongSelect = (song: Song) => {
+  // Clean up previous audio
   if (audioRef.current) {
     audioRef.current.pause();
     audioRef.current.removeEventListener("timeupdate", updateTime);
@@ -451,6 +460,7 @@ const handleSongSelect = (song: Song) => {
     audioRef.current = null;
   }
 
+  // Create new audio instance
   const audio = new Audio(song.audio);
   audio.volume = isMuted ? 0 : volume;
   audio.addEventListener("timeupdate", updateTime);
@@ -461,29 +471,27 @@ const handleSongSelect = (song: Song) => {
   setCurrentSong(song);
   setIsPlaying(true);
   
-  // Initialize shuffle queue when manually selecting a song (only if shuffle is enabled)
+  // Initialize shuffle queue whenever a song is selected and shuffle is enabled
   if (isShuffle && selectedGenre && selectedGenre.songs.length > 1) {
-    initializeShuffleQueue(song.id);
+    createShuffleQueue(song.id);
   }
   
-  audio
-    .play()
-    .catch((error) => {
-      console.error("Error playing audio:", error);
-      setIsPlaying(false);
-    });
+  audio.play().catch((error) => {
+    console.error("Error playing audio:", error);
+    setIsPlaying(false);
+  });
 };
 
-// Helper function to initialize shuffle queue
-const initializeShuffleQueue = (currentSongId: string | number) => {
+//helper function
+const createShuffleQueue = (currentSongId: string | number) => {
   if (!selectedGenre) return;
-  
+
   const songs = selectedGenre.songs;
   const currentIndex = songs.findIndex(s => s.id === currentSongId);
-  
+
   if (currentIndex !== -1) {
-    const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-    shuffleQueueRef.current = shuffleArray(availableIndices);
+    const otherIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+    shuffleQueueRef.current = shuffleArray(otherIndices);
     currentShuffleIndexRef.current = 0;
   }
 };
@@ -496,47 +504,32 @@ const playNextSong = () => {
   const currentIndex = songs.findIndex(song => song.id === currentSong.id);
   
   if (currentIndex === -1) return;
-  
-  // If only one song, handle based on repeat mode
-  if (songs.length <= 1) {
-    if (isRepeat) {
-      // Restart the same song
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        audioRef.current.play().catch((error) => {
-          console.error("Error playing audio:", error);
-          setIsPlaying(false);
-        });
-      }
-    } else {
-      // Stop playing
-      setIsPlaying(false);
-    }
-    return;
-  }
 
   let nextIndex: number;
 
-  if (isShuffle) {
-    // Check if shuffle queue is empty or exhausted
-    if (shuffleQueueRef.current.length === 0 || currentShuffleIndexRef.current >= shuffleQueueRef.current.length) {
+  if (isShuffle && songs.length > 1) {
+    // SHUFFLE MODE
+    // Check if we need to create/recreate shuffle queue
+    if (shuffleQueueRef.current.length === 0 || 
+        currentShuffleIndexRef.current >= shuffleQueueRef.current.length) {
+      
       // Create new shuffle queue excluding current song
-      const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-      shuffleQueueRef.current = shuffleArray(availableIndices);
+      const otherIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+      shuffleQueueRef.current = shuffleArray(otherIndices);
       currentShuffleIndexRef.current = 0;
     }
     
+    // Get next song from shuffle queue
     nextIndex = shuffleQueueRef.current[currentShuffleIndexRef.current];
     currentShuffleIndexRef.current++;
   } else {
-    // Sequential play
+    // SEQUENTIAL MODE
     nextIndex = (currentIndex + 1) % songs.length;
   }
 
   const nextSong = songs[nextIndex];
   handleSongSelect(nextSong);
 };
-
 
 const playPreviousSong = () => {
   if (!selectedGenre || !currentSong) return;
@@ -546,7 +539,7 @@ const playPreviousSong = () => {
   
   if (currentIndex === -1) return;
   
-  // If only one song, restart current song
+  // Single song: restart current song
   if (songs.length <= 1) {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -564,15 +557,15 @@ const playPreviousSong = () => {
   let prevIndex: number;
 
   if (isShuffle) {
-    // For shuffle previous, pick a random song (not current)
-    const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-    const randomIndex = Math.floor(Math.random() * availableIndices.length);
-    prevIndex = availableIndices[randomIndex];
+    // SHUFFLE MODE: Pick a random previous song (not current)
+    const otherIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+    const randomIndex = Math.floor(Math.random() * otherIndices.length);
+    prevIndex = otherIndices[randomIndex];
     
-    // Reinitialize shuffle queue with new current song
-    initializeShuffleQueue(songs[prevIndex].id);
+    // Recreate shuffle queue for the new current song
+    createShuffleQueue(songs[prevIndex].id);
   } else {
-    // Sequential play backwards
+    // SEQUENTIAL MODE: Go to previous song in order
     prevIndex = (currentIndex - 1 + songs.length) % songs.length;
   }
 
@@ -606,6 +599,45 @@ const togglePlayPause = () => {
   }
 };
 
+const toggleRepeat = () => {
+  setIsRepeat((prev) => {
+    const newRepeat = !prev;
+
+    if (newRepeat) {
+      // Disable shuffle if repeat is enabled
+      setIsShuffle(false);
+      shuffleQueueRef.current = [];
+      currentShuffleIndexRef.current = 0;
+    }
+
+    return newRepeat;
+  });
+};
+
+const toggleShuffle = () => {
+  if (!selectedGenre || selectedGenre.songs.length <= 1) return;
+
+  setIsShuffle((prev) => {
+    const newShuffle = !prev;
+
+    if (newShuffle) {
+      setIsRepeat(false); // Disable repeat if shuffle is enabled
+      justRepeatedRef.current = false;
+
+      if (currentSong) {
+        createShuffleQueue(currentSong.id);
+      }
+    } else {
+      // Clear shuffle data when toggled off
+      shuffleQueueRef.current = [];
+      currentShuffleIndexRef.current = 0;
+    }
+
+    return newShuffle;
+  });
+};
+
+
 const handleTimeChange = (value: number | number[]) => {
   const newTime = Array.isArray(value) ? value[0] : value;
   if (audioRef.current) {
@@ -633,49 +665,6 @@ const toggleMute = () => {
   const toggleLike = () => {
     setIsLiked((prev) => !prev);
   };
-
-
-const toggleRepeat = () => {
-  setIsRepeat((prev) => {
-    const newRepeat = !prev;
-    
-    // When enabling repeat, disable shuffle and clear shuffle queue
-    if (newRepeat) {
-      setIsShuffle(false);
-      shuffleQueueRef.current = [];
-      currentShuffleIndexRef.current = 0;
-    }
-    
-    return newRepeat;
-  });
-};
-
-const toggleShuffle = () => {
-  if (!selectedGenre || selectedGenre.songs.length <= 1) {
-    // Cannot enable shuffle with only one or no songs
-    return;
-  }
-  
-  setIsShuffle((prev) => {
-    const newShuffle = !prev;
-    
-    if (newShuffle) {
-      // When enabling shuffle, disable repeat
-      setIsRepeat(false);
-      
-      // Initialize shuffle queue if there's a current song
-      if (currentSong) {
-        initializeShuffleQueue(currentSong.id);
-      }
-    } else {
-      // When disabling shuffle, clear shuffle queue
-      shuffleQueueRef.current = [];
-      currentShuffleIndexRef.current = 0;
-    }
-    
-    return newShuffle;
-  });
-};
 
 
   const togglePlayerExpanded = () => {
