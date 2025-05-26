@@ -56,10 +56,6 @@ export default function MusicGenreHub() {
   const [windowWidth, setWindowWidth] = useState(0);
 const shuffleQueueRef = useRef<number[]>([]);
 const currentShuffleIndexRef = useRef<number>(0);
-const justRepeatedRef = useRef(false); // Flag to ensure only 1 repeat cycle before moving to shuffle
-
-
-  
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -108,6 +104,34 @@ const justRepeatedRef = useRef(false); // Flag to ensure only 1 repeat cycle bef
       },
       {
         id: 103,
+        title: "Heartbeat",
+        artist: "Michael Stevens",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+      },
+            {
+        id: 104,
+        title: "Heartbeat",
+        artist: "Michael Stevens",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+      },
+            {
+        id: 105,
+        title: "Heartbeat",
+        artist: "Michael Stevens",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+      },
+            {
+        id: 106,
+        title: "Heartbeat",
+        artist: "Michael Stevens",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+      },
+            {
+        id: 107,
         title: "Heartbeat",
         artist: "Michael Stevens",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
@@ -409,7 +433,7 @@ const handleSongEnd = () => {
 
   const songs = selectedGenre.songs;
 
-  // REPEAT first
+  // REPEAT LOGIC - highest priority
   if (isRepeat) {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -421,13 +445,19 @@ const handleSongEnd = () => {
     }
   }
 
-  // SHUFFLE next
+  // If only one song and no repeat, stop playing
+  if (songs.length === 1) {
+    setIsPlaying(false);
+    return;
+  }
+
+  // SHUFFLE LOGIC - only if shuffle is enabled and more than 1 song
   if (isShuffle && songs.length > 1) {
     if (
       shuffleQueueRef.current.length === 0 ||
       currentShuffleIndexRef.current >= shuffleQueueRef.current.length
     ) {
-      createShuffleQueue(currentSong.id); // Regenerate when queue is exhausted
+      createShuffleQueue(currentSong.id);
     }
 
     const nextIndex = shuffleQueueRef.current[currentShuffleIndexRef.current];
@@ -438,11 +468,10 @@ const handleSongEnd = () => {
     return;
   }
 
-  // SEQUENTIAL fallback
-  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
-  const nextIndex = (currentIndex + 1) % songs.length;
-
-  if (nextIndex !== currentIndex) {
+  // SEQUENTIAL FALLBACK - only if more than 1 song
+  if (songs.length > 1) {
+    const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+    const nextIndex = (currentIndex + 1) % songs.length;
     handleSongSelect(songs[nextIndex]);
   } else {
     setIsPlaying(false);
@@ -471,7 +500,7 @@ const handleSongSelect = (song: Song) => {
   setCurrentSong(song);
   setIsPlaying(true);
   
-  // Initialize shuffle queue whenever a song is selected and shuffle is enabled
+  // Initialize shuffle queue only if shuffle is enabled and we have multiple songs
   if (isShuffle && selectedGenre && selectedGenre.songs.length > 1) {
     createShuffleQueue(song.id);
   }
@@ -501,22 +530,44 @@ const playNextSong = () => {
   if (!selectedGenre || !currentSong) return;
 
   const songs = selectedGenre.songs;
-  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
   
+  // If only one song, handle repeat or restart
+  if (songs.length === 1) {
+    if (isRepeat) {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
+      }
+    } else {
+      // Just restart the song without repeat
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        if (!isPlaying) {
+          audioRef.current.play().catch((error) => {
+            console.error("Error playing audio:", error);
+            setIsPlaying(false);
+          });
+          setIsPlaying(true);
+        }
+      }
+    }
+    return;
+  }
+
+  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
   if (currentIndex === -1) return;
 
   let nextIndex: number;
 
-  if (isShuffle && songs.length > 1) {
-    // SHUFFLE MODE
+  // SHUFFLE LOGIC - only if enabled
+  if (isShuffle) {
     // Check if we need to create/recreate shuffle queue
     if (shuffleQueueRef.current.length === 0 || 
         currentShuffleIndexRef.current >= shuffleQueueRef.current.length) {
-      
-      // Create new shuffle queue excluding current song
-      const otherIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-      shuffleQueueRef.current = shuffleArray(otherIndices);
-      currentShuffleIndexRef.current = 0;
+      createShuffleQueue(currentSong.id);
     }
     
     // Get next song from shuffle queue
@@ -535,12 +586,9 @@ const playPreviousSong = () => {
   if (!selectedGenre || !currentSong) return;
 
   const songs = selectedGenre.songs;
-  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
   
-  if (currentIndex === -1) return;
-  
-  // Single song: restart current song
-  if (songs.length <= 1) {
+  // If only one song, just restart it
+  if (songs.length === 1) {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
       if (!isPlaying) {
@@ -554,10 +602,14 @@ const playPreviousSong = () => {
     return;
   }
 
+  const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+  if (currentIndex === -1) return;
+
   let prevIndex: number;
 
+  // SHUFFLE LOGIC - only if enabled
   if (isShuffle) {
-    // SHUFFLE MODE: Pick a random previous song (not current)
+    // Pick a random previous song (not current)
     const otherIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
     const randomIndex = Math.floor(Math.random() * otherIndices.length);
     prevIndex = otherIndices[randomIndex];
@@ -565,7 +617,7 @@ const playPreviousSong = () => {
     // Recreate shuffle queue for the new current song
     createShuffleQueue(songs[prevIndex].id);
   } else {
-    // SEQUENTIAL MODE: Go to previous song in order
+    // SEQUENTIAL MODE
     prevIndex = (currentIndex - 1 + songs.length) % songs.length;
   }
 
@@ -602,37 +654,34 @@ const togglePlayPause = () => {
 const toggleRepeat = () => {
   setIsRepeat((prev) => {
     const newRepeat = !prev;
-
     if (newRepeat) {
-      // Disable shuffle if repeat is enabled
+      // When enabling repeat, disable shuffle and clear shuffle queue
       setIsShuffle(false);
       shuffleQueueRef.current = [];
       currentShuffleIndexRef.current = 0;
     }
-
     return newRepeat;
   });
 };
 
 const toggleShuffle = () => {
+  // Disable shuffle if there's only one song or no genre selected
   if (!selectedGenre || selectedGenre.songs.length <= 1) return;
 
   setIsShuffle((prev) => {
     const newShuffle = !prev;
-
     if (newShuffle) {
-      setIsRepeat(false); // Disable repeat if shuffle is enabled
-      justRepeatedRef.current = false;
-
+      // When enabling shuffle, disable repeat
+      setIsRepeat(false);
+      // Create shuffle queue for current song if one is playing
       if (currentSong) {
         createShuffleQueue(currentSong.id);
       }
     } else {
-      // Clear shuffle data when toggled off
+      // When disabling shuffle, clear the queue
       shuffleQueueRef.current = [];
       currentShuffleIndexRef.current = 0;
     }
-
     return newShuffle;
   });
 };
@@ -727,7 +776,7 @@ return (
       }}
     >
 
-      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto  overflow-x-hidden custom-scrollbar">
         <DialogHeader className="px-2 sm:px-0">
           <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
           <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
@@ -736,7 +785,7 @@ return (
         {/* Songs List - Mobile Optimized */}
         <div className="my-2 sm:my-4 px-2 sm:px-0">
           <h4 className="text-base sm:text-lg text-white font-semibold mb-2 px-1">Songs</h4>
-          <div className="border border-white/10 rounded-lg sm:rounded-xl overflow-hidden">
+            <div className="border border-white/10 rounded-lg sm:rounded-xl overflow-y-auto custom-scrollbar1 overflow-x-hidden h-[200px] sm:h-[300px] lg:h-[400px]">
             {selectedGenre?.songs.map((song, index) => (
               <div key={song.id}>
                 <motion.div
@@ -773,7 +822,7 @@ return (
                 <div className="flex flex-col items-center gap-4 sm:gap-6">
                   <img
                     src={currentSong.image}
-                    className="sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
+                    className="sm:w-38 sm:h-38 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
                     alt={currentSong.title}
                   />
                   <div>
@@ -820,7 +869,7 @@ return (
                                   : isShuffle 
                                     ? 'text-green-400 bg-green-400/20' 
                                     : 'text-gray-400'
-                              } hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
+                              } hover:text-black transition-colors w-8 h-8 sm:w-10 sm:h-10`}
                             >
                               <Shuffle size={16} className="sm:w-5 sm:h-5" />
                             </Button>
@@ -883,7 +932,7 @@ return (
                               variant="ghost" 
                               size="icon" 
                               onClick={toggleRepeat}
-                              className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors w-8 h-8 sm:w-10 sm:h-10`}
+                              className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-black transition-colors w-8 h-8 sm:w-10 sm:h-10`}
                             >
                               <Repeat size={16} className="sm:w-5 sm:h-5" />
                             </Button>
@@ -952,7 +1001,7 @@ return (
                                     : isShuffle 
                                       ? 'text-green-400 bg-green-400/20' 
                                       : 'text-gray-400'
-                                } hover:text-white transition-colors`}
+                                } hover:text-black transition-colors`}
                               >
                                 <Shuffle size={16} />
                               </Button>
@@ -1003,7 +1052,7 @@ return (
                                 variant="ghost" 
                                 size="icon" 
                                 onClick={toggleRepeat}
-                                className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-white transition-colors`}
+                                className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} hover:text-black transition-colors`}
                               >
                                 <Repeat size={16} />
                               </Button>
@@ -1077,6 +1126,13 @@ return (
                       <Button 
                         variant="ghost" 
                         size="icon" 
+                        onClick={toggleLike}
+                        className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
+                      >
+                        <Heart size={14} className={isLiked ? 'fill-current' : ''} />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
                         onClick={toggleLike}
                         className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
                       >

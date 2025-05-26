@@ -205,3 +205,22 @@ body {
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(156, 163, 175, 0.7);
   }
+
+
+  .custom-scrollbar1::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar1::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px; 
+}
+
+.custom-scrollbar1::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scrollbar1::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
