@@ -2,6 +2,7 @@
 
 @plugin "tailwindcss-animate";
 
+
 @custom-variant dark (&:is(.dark *));
 
 html {
@@ -185,3 +186,22 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 50px; 
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.7);
+  }

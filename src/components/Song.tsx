@@ -369,7 +369,7 @@ export default function MusicGenreHub() {
 ];
 
 
- const handleGenreClick = (genre: Genre) => {
+const handleGenreClick = (genre: Genre) => {
   setSelectedGenre(genre);
   setIsDialogOpen(true);
 
@@ -406,7 +406,7 @@ const handleSongEnd = () => {
   
   const songs = selectedGenre.songs;
   
-  // If repeat is enabled, replay the current song (works for single or multiple songs)
+  // REPEAT LOGIC: If repeat is enabled, replay the same song
   if (isRepeat) {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -418,22 +418,23 @@ const handleSongEnd = () => {
     return;
   }
   
-  // If shuffle is enabled and there are multiple songs (2+), play next shuffled song
+  // SHUFFLE LOGIC: If shuffle is enabled and there are multiple songs
   if (isShuffle && songs.length > 1) {
     playNextSong();
     return;
   }
   
-  // If neither repeat nor shuffle is enabled
+  // SEQUENTIAL LOGIC: If neither repeat nor shuffle, play sequentially
   if (!isRepeat && !isShuffle) {
-    // For single song, just stop
     if (songs.length === 1) {
+      // Single song: just stop
       setIsPlaying(false);
       return;
+    } else {
+      // Multiple songs: play next in sequence
+      playNextSong();
+      return;
     }
-    // For multiple songs, play next in sequence
-    playNextSong();
-    return;
   }
   
   // Fallback: stop playing
@@ -460,15 +461,9 @@ const handleSongSelect = (song: Song) => {
   setCurrentSong(song);
   setIsPlaying(true);
   
-  // Reset shuffle queue when manually selecting a song (only if shuffle is enabled and 2+ songs)
+  // Initialize shuffle queue when manually selecting a song (only if shuffle is enabled)
   if (isShuffle && selectedGenre && selectedGenre.songs.length > 1) {
-    const songs = selectedGenre.songs;
-    const currentIndex = songs.findIndex(s => s.id === song.id);
-    if (currentIndex !== -1) {
-      const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-      shuffleQueueRef.current = shuffleArray(availableIndices);
-      currentShuffleIndexRef.current = 0;
-    }
+    initializeShuffleQueue(song.id);
   }
   
   audio
@@ -479,6 +474,19 @@ const handleSongSelect = (song: Song) => {
     });
 };
 
+// Helper function to initialize shuffle queue
+const initializeShuffleQueue = (currentSongId: string | number) => {
+  if (!selectedGenre) return;
+  
+  const songs = selectedGenre.songs;
+  const currentIndex = songs.findIndex(s => s.id === currentSongId);
+  
+  if (currentIndex !== -1) {
+    const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
+    shuffleQueueRef.current = shuffleArray(availableIndices);
+    currentShuffleIndexRef.current = 0;
+  }
+};
 
 
 const playNextSong = () => {
@@ -489,15 +497,30 @@ const playNextSong = () => {
   
   if (currentIndex === -1) return;
   
-  // If only one song, can't play next (should only happen in sequential mode)
-  if (songs.length <= 1) return;
+  // If only one song, handle based on repeat mode
+  if (songs.length <= 1) {
+    if (isRepeat) {
+      // Restart the same song
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
+      }
+    } else {
+      // Stop playing
+      setIsPlaying(false);
+    }
+    return;
+  }
 
   let nextIndex: number;
 
   if (isShuffle) {
-    // Initialize shuffle queue if empty or exhausted
+    // Check if shuffle queue is empty or exhausted
     if (shuffleQueueRef.current.length === 0 || currentShuffleIndexRef.current >= shuffleQueueRef.current.length) {
-      // Create a new shuffle queue with all indices except current song
+      // Create new shuffle queue excluding current song
       const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
       shuffleQueueRef.current = shuffleArray(availableIndices);
       currentShuffleIndexRef.current = 0;
@@ -541,15 +564,13 @@ const playPreviousSong = () => {
   let prevIndex: number;
 
   if (isShuffle) {
-    // For shuffle, pick a random previous song (not current)
+    // For shuffle previous, pick a random song (not current)
     const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
     const randomIndex = Math.floor(Math.random() * availableIndices.length);
     prevIndex = availableIndices[randomIndex];
     
-    // Reset shuffle queue to exclude the new current song
-    const newAvailableIndices = songs.map((_, i) => i).filter(i => i !== prevIndex);
-    shuffleQueueRef.current = shuffleArray(newAvailableIndices);
-    currentShuffleIndexRef.current = 0;
+    // Reinitialize shuffle queue with new current song
+    initializeShuffleQueue(songs[prevIndex].id);
   } else {
     // Sequential play backwards
     prevIndex = (currentIndex - 1 + songs.length) % songs.length;
@@ -613,51 +634,46 @@ const toggleMute = () => {
     setIsLiked((prev) => !prev);
   };
 
-// Corrected toggleRepeat function
+
 const toggleRepeat = () => {
   setIsRepeat((prev) => {
     const newRepeat = !prev;
+    
     // When enabling repeat, disable shuffle and clear shuffle queue
-    if (newRepeat && isShuffle) {
+    if (newRepeat) {
       setIsShuffle(false);
       shuffleQueueRef.current = [];
       currentShuffleIndexRef.current = 0;
     }
+    
     return newRepeat;
   });
 };
 
-// Corrected toggleShuffle function
 const toggleShuffle = () => {
+  if (!selectedGenre || selectedGenre.songs.length <= 1) {
+    // Cannot enable shuffle with only one or no songs
+    return;
+  }
+  
   setIsShuffle((prev) => {
     const newShuffle = !prev;
     
-    // When enabling shuffle, disable repeat
-    if (newShuffle && isRepeat) {
+    if (newShuffle) {
+      // When enabling shuffle, disable repeat
       setIsRepeat(false);
-    }
-    
-    // Only enable shuffle if there are multiple songs (2+)
-    if (newShuffle && selectedGenre && selectedGenre.songs.length > 1) {
+      
+      // Initialize shuffle queue if there's a current song
       if (currentSong) {
-        const songs = selectedGenre.songs;
-        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
-        if (currentIndex !== -1) {
-          const availableIndices = songs.map((_, i) => i).filter(i => i !== currentIndex);
-          shuffleQueueRef.current = shuffleArray(availableIndices);
-          currentShuffleIndexRef.current = 0;
-        }
+        initializeShuffleQueue(currentSong.id);
       }
-      return true; // Enable shuffle
-    } else if (!newShuffle) {
-      // Clear shuffle queue when disabling shuffle
+    } else {
+      // When disabling shuffle, clear shuffle queue
       shuffleQueueRef.current = [];
       currentShuffleIndexRef.current = 0;
-      return false; // Disable shuffle
     }
     
-    // If trying to enable shuffle with only one song or no songs, keep shuffle disabled
-    return false;
+    return newShuffle;
   });
 };
 
@@ -721,7 +737,8 @@ return (
         }
       }}
     >
-      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto">
+
+      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto custom-scrollbar">
         <DialogHeader className="px-2 sm:px-0">
           <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
           <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
@@ -760,25 +777,32 @@ return (
         {currentSong && (
           <Card className="mt-3 sm:mt-6 mx-2 sm:mx-0 bg-white/10 backdrop-blur-md border border-white/20 shadow-inner">
             <CardContent className="p-2 sm:p-4">
-              {/* Expanded Player View */}
-              {isPlayerExpanded ? (
-                  <div className="space-y-4 sm:space-y-6">
-                    {/* Song Info */}
-                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                      <img
-                        src={currentSong.image}
-                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover flex-shrink-0"
-                        alt={currentSong.title}
-                      />
-                      <div className="text-center sm:text-left flex-1">
-                        <div className="text-xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">{currentSong.title}</div>
-                        <div className="text-base sm:text-xl text-gray-300 mb-2 sm:mb-4">{currentSong.artist}</div>
-                        <div className="text-sm sm:text-base text-gray-400">{selectedGenre?.name}</div>
-                      </div>
+            {/* Expanded Player View */}
+            {isPlayerExpanded ? (
+              <div className="space-y-4 sm:space-y-6 flex flex-col items-center text-center">
+                {/* Song Info */}
+                <div className="flex flex-col items-center gap-4 sm:gap-6">
+                  <img
+                    src={currentSong.image}
+                    className="sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
+                    alt={currentSong.title}
+                  />
+                  <div>
+                    <div className="text-xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">
+                      {currentSong.title}
                     </div>
+                    <div className="text-base sm:text-xl text-gray-300 mb-2 sm:mb-4">
+                      {currentSong.artist}
+                    </div>
+                    <div className="text-sm sm:text-base text-gray-400">
+                      {selectedGenre?.name}
+                    </div>
+                  </div>
+                </div>
 
-                    {/* Progress Bar */}
-                    <div className="flex items-center gap-2 sm:gap-4 text-sm text-gray-400">
+                  {/* Progress Bar */}
+                  <div className="w-full flex flex-col items-center">
+                    <div className="flex items-center w-full max-w-md gap-2 sm:gap-4 text-sm text-gray-400">
                       <span className="w-12 text-right">{formatTime(currentTime)}</span>
                       <Slider
                         value={[currentTime]}
@@ -789,6 +813,7 @@ return (
                       />
                       <span className="w-12">{formatTime(duration)}</span>
                     </div>
+                  </div>
 
                     {/* Control Buttons - Responsive */}
                     <div className="flex justify-center items-center gap-2 sm:gap-4">
