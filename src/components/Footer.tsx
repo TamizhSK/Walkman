@@ -4,9 +4,9 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-black text-white py-12">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 lg:px-30">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left lg:text-left">
           {/* Brand Section */}
           <div className="flex flex-col items-center md:items-start">
             <h4 className="text-xl font-bold mb-4">

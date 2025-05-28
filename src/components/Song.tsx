@@ -17,8 +17,7 @@ import {
   Heart, 
   Repeat, 
   Shuffle,
-  ChevronUp,
-  Clock
+  ChevronUp
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -54,8 +53,9 @@ export default function MusicGenreHub() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
-const shuffleQueueRef = useRef<number[]>([]);
-const currentShuffleIndexRef = useRef<number>(0);
+  const shuffleQueueRef = useRef<number[]>([]);
+  const currentShuffleIndexRef = useRef<number>(0);
+  const playerRef = useRef<HTMLDivElement | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -432,46 +432,10 @@ const handleSongEnd = () => {
   if (!currentSong || !selectedGenre) return;
 
   const songs = selectedGenre.songs;
-
-  // REPEAT LOGIC - highest priority
-  if (isRepeat) {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((error) => {
-        console.error("Error replaying audio:", error);
-        setIsPlaying(false);
-      });
-      return;
-    }
-  }
-
-  // If only one song and no repeat, stop playing
-  if (songs.length === 1) {
-    setIsPlaying(false);
-    return;
-  }
-
-  // SHUFFLE LOGIC - only if shuffle is enabled and more than 1 song
-  if (isShuffle && songs.length > 1) {
-    if (
-      shuffleQueueRef.current.length === 0 ||
-      currentShuffleIndexRef.current >= shuffleQueueRef.current.length
-    ) {
-      createShuffleQueue(currentSong.id);
-    }
-
-    const nextIndex = shuffleQueueRef.current[currentShuffleIndexRef.current];
-    currentShuffleIndexRef.current++;
-
-    const nextSong = songs[nextIndex];
-    handleSongSelect(nextSong);
-    return;
-  }
-
-  // SEQUENTIAL FALLBACK - only if more than 1 song
   if (songs.length > 1) {
     const currentIndex = songs.findIndex(song => song.id === currentSong.id);
     const nextIndex = (currentIndex + 1) % songs.length;
+    setIsPlaying(true);
     handleSongSelect(songs[nextIndex]);
   } else {
     setIsPlaying(false);
@@ -499,17 +463,23 @@ const handleSongSelect = (song: Song) => {
   audioRef.current = audio;
   setCurrentSong(song);
   setIsPlaying(true);
-  
-  // Initialize shuffle queue only if shuffle is enabled and we have multiple songs
+
+  // Initialize shuffle queue if applicable
   if (isShuffle && selectedGenre && selectedGenre.songs.length > 1) {
     createShuffleQueue(song.id);
   }
-  
+
+  // Scroll into view
+  setTimeout(() => {
+    playerRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, 100); // Slight delay to ensure player is rendered
+
   audio.play().catch((error) => {
     console.error("Error playing audio:", error);
     setIsPlaying(false);
   });
 };
+
 
 //helper function
 const createShuffleQueue = (currentSongId: string | number) => {
@@ -776,7 +746,7 @@ return (
       }}
     >
 
-      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto  overflow-x-hidden custom-scrollbar">
+      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] md:max-w-2xl md:max-h-[90vh]  overflow-y-auto  overflow-x-hidden custom-scrollbar">
         <DialogHeader className="px-2 sm:px-0">
           <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
           <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
@@ -785,7 +755,7 @@ return (
         {/* Songs List - Mobile Optimized */}
         <div className="my-2 sm:my-4 px-2 sm:px-0">
           <h4 className="text-base sm:text-lg text-white font-semibold mb-2 px-1">Songs</h4>
-            <div className="border border-white/10 rounded-lg sm:rounded-xl overflow-y-auto custom-scrollbar1 overflow-x-hidden h-[200px] sm:h-[300px] lg:h-[400px]">
+            <div className="border border-white/10 rounded-lg sm:rounded-xl overflow-y-auto custom-scrollbar1 overflow-x-hidden h-[200px] sm:h-[300px] lg:h-[400px] 2xl:h-[250px] ">
             {selectedGenre?.songs.map((song, index) => (
               <div key={song.id}>
                 <motion.div
@@ -813,16 +783,16 @@ return (
 
         {/* Enhanced Music Player */}
         {currentSong && (
-          <Card className="mt-3 sm:mt-6 mx-2 sm:mx-0 bg-white/10 backdrop-blur-md border border-white/20 shadow-inner">
+          <Card ref={playerRef} className="mt-3 sm:mt-6 mx-2 sm:mx-0 bg-white/10 backdrop-blur-md border border-white/20 shadow-inner">
             <CardContent className="p-2 sm:p-4">
             {/* Expanded Player View */}
             {isPlayerExpanded ? (
-              <div className="space-y-4 sm:space-y-6 flex flex-col items-center text-center">
+              <div className=" space-y-4 sm:space-y-6 flex flex-col items-center text-center">
                 {/* Song Info */}
                 <div className="flex flex-col items-center gap-4 sm:gap-6">
                   <img
                     src={currentSong.image}
-                    className="sm:w-38 sm:h-38 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
+                    className="w-30 w-30 sm:w-38 sm:h-38 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
                     alt={currentSong.title}
                   />
                   <div>
