@@ -16,15 +16,15 @@ export default function Library() {
         }}
       >
         {/* Dark gradient from bottom only */}
-        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black/100 via-black/60 to-transparent z-0" />
+        <div className="absolute bottom-0 left-0 right-0 h-[10%] sm:h-[20%] md:h-[25%] lg:h-[30%] xl:h-[35%] bg-gradient-to-t from-black/100 via-black/60 to-transparent z-0" />
 
         {/* Centered content */}
-        <div className="relative z-10 flex items-center justify-center h-full px-6">
-          <div className="max-w-6xl w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-2 sm:p-4 md:p-10 flex flex-col md:flex-row items-center gap-6">
+        <div className="relative z-10 flex items-center justify-center h-full px-5 sm:px-5 md:px-10 lg:px-8">
+          <div className="max-w-6xl w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-2 text-center sm:p-4 md:p-4 lg:p-8 flex flex-col md:flex-row items-center">
             {/* Text Column */}
             <div className="md:w-1/2">
-              <h1 className="text-4xl font-bold mb-4">Genres</h1>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+              <h1 className="text-4xl font-bold">Genres</h1>
+              <p className="text-gray-300 text-justify p-4 md:p-2 md:text-lg  leading-relaxed">
                 The evolution of music genres throughout history reflects the changes in
                 society, culture, and technology, showcasing the dynamic nature of art.
                 The fusion of different genres has created exciting new sounds and
