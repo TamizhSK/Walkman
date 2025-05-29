@@ -18,11 +18,10 @@ export default function MusicGenreHub() {
     selectedGenre, isDialogOpen, currentSong, isPlaying,
     currentTime, duration, volume, isMuted,
     isLiked, isRepeat, isShuffle, isPlayerExpanded,
-    handleGenreClick, handleSongSelect, togglePlayPause, playNextSong,
-    playPreviousSong, toggleShuffle, toggleRepeat, toggleLike,
+    handleGenreClick, handleSongSelect, togglePlayPause, goToNextSong, // CHANGED
+    goToPreviousSong, toggleShuffle, toggleRepeat, toggleLike, // CHANGED
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
     getGridColumns, audioRef, playerRef, formatTime,
-    
   } = player;
 
 return (
@@ -53,21 +52,17 @@ return (
       ))}
     </div>
 
-    {/* Dialog for Song List and Player */}
-    <Dialog
-      open={isDialogOpen}
-      onOpenChange={(isOpen) => {
-        if (typeof player.setIsDialogOpen === "function") {
-          player.setIsDialogOpen(isOpen);
-        }
-        if (!isOpen && audioRef.current && isPlaying) {
-          audioRef.current.pause();
-          if (typeof player.setIsPlaying === "function") {
-            player.setIsPlaying(false);
-          }
-        }
-      }}
-    >
+        <Dialog 
+          open={isDialogOpen} 
+          onOpenChange={(isOpen) => { 
+            if (typeof player.setIsDialogOpen === "function") { 
+              player.setIsDialogOpen(isOpen); 
+            } 
+            if (!isOpen && audioRef.current && isPlaying) { 
+              audioRef.current.pause(); 
+            } 
+          }} 
+        >
 
       <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] md:max-w-2xl md:max-h-[90vh]  overflow-y-auto  overflow-x-hidden custom-scrollbar">
         <DialogHeader className="px-2 sm:px-0">
@@ -183,7 +178,7 @@ return (
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              onClick={playPreviousSong} 
+                              onClick={goToPreviousSong} 
                               className="w-8 h-8 sm:w-10 sm:h-10"
                             >
                               <SkipBack size={18} className="sm:w-6 sm:h-6" />
@@ -208,7 +203,7 @@ return (
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              onClick={playNextSong} 
+                              onClick={goToNextSong} 
                               className="w-8 h-8 sm:w-10 sm:h-10"
                             >
                               <SkipForward size={18} className="sm:w-6 sm:h-6" />
@@ -310,7 +305,7 @@ return (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="icon" onClick={playPreviousSong}>
+                              <Button variant="ghost" size="icon" onClick={goToPreviousSong}>
                                 <SkipBack size={18} />
                               </Button>
                             </TooltipTrigger>
@@ -330,7 +325,7 @@ return (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="icon" onClick={playNextSong}>
+                              <Button variant="ghost" size="icon" onClick={goToNextSong}>
                                 <SkipForward size={18} />
                               </Button>
                             </TooltipTrigger>
@@ -388,7 +383,7 @@ return (
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        onClick={playPreviousSong}
+                        onClick={goToPreviousSong}
                         className="w-8 h-8"
                       >
                         <SkipBack size={16} />
@@ -434,7 +429,7 @@ return (
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        onClick={playNextSong}
+                        onClick={goToNextSong}
                         className="w-8 h-8"
                       >
                         <SkipForward size={16} />

@@ -5,7 +5,7 @@ export default function MusicPlayer() {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
-  const [currentSongIndex, setCurrentSongIndex] = useState(0); // Track current song index
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -16,11 +16,16 @@ export default function MusicPlayer() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
-  const [shuffleQueue, setShuffleQueue] = useState<number[]>([]); // Track shuffle queue
-  const [shuffleIndex, setShuffleIndex] = useState(0); // Track position in shuffle queue
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
-
+  
+  // Refs to store current state for event handlers (to avoid stale closures)
+  const stateRef = useRef({
+    isRepeat: false,
+    isShuffle: false,
+    currentSongIndex: 0,
+    selectedGenre: null as Genre | null
+  });
 
   useEffect(() => {
     function handleResize() {
@@ -32,269 +37,260 @@ export default function MusicPlayer() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Update refs whenever state changes
+  useEffect(() => {
+    stateRef.current = {
+      isRepeat,
+      isShuffle,
+      currentSongIndex,
+      selectedGenre
+    };
+  }, [isRepeat, isShuffle, currentSongIndex, selectedGenre]);
+
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      cleanupAudio();
     };
   }, []);
 
-  
-const handleGenreClick = (genre: Genre) => {
-  console.log("Genre selected:", genre.name);
-  setSelectedGenre(genre);
-  setIsDialogOpen(true);
-
-  // Stop current audio
-  if (audioRef.current) {
-    audioRef.current.pause();
-    audioRef.current = null;
-  }
-
-  // Reset all states
-  setCurrentSong(null);
-  setCurrentSongIndex(0);
-  setIsPlaying(false);
-  setCurrentTime(0);
-  setDuration(0);
-  setIsShuffle(false);
-  setIsRepeat(false);
-  setShuffleQueue([]);
-  setShuffleIndex(0);
-};
-
-const updateTime = () => {
-  if (audioRef.current) {
-    setCurrentTime(audioRef.current.currentTime);
-  }
-};
-
-const setAudioDuration = () => {
-  if (audioRef.current) {
-    setDuration(audioRef.current.duration);
-  }
-};
-
-const createShuffleQueue = (currentIndex: number, totalSongs: number) => {
-  const allIndices = Array.from({ length: totalSongs }, (_, i) => i);
-  const otherIndices = allIndices.filter(i => i !== currentIndex);
-  const shuffled = shuffleArray(otherIndices);
-  setShuffleQueue(shuffled);
-  setShuffleIndex(0);
-};
-
-const handleSongSelect = (song: Song) => {
-  if (!selectedGenre) return;
-
-  const songIndex = selectedGenre.songs.findIndex(s => s.id === song.id);
-  if (songIndex === -1) return;
-
-  // Clean up previous audio
-  if (audioRef.current) {
-    audioRef.current.pause();
-    audioRef.current.removeEventListener("timeupdate", updateTime);
-    audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
-    audioRef.current.removeEventListener("ended", handleSongEnd);
-    audioRef.current = null;
-  }
-
-  const audio = new Audio(song.audio);
-  audio.volume = isMuted ? 0 : volume;
-  audio.addEventListener("timeupdate", updateTime);
-  audio.addEventListener("loadedmetadata", setAudioDuration);
-  audio.addEventListener("ended", handleSongEnd);
-  audioRef.current = audio;
-
-  setCurrentSong(song);
-  setCurrentSongIndex(songIndex);
-  setIsPlaying(true);
-
-  if (isShuffle && selectedGenre.songs.length > 1) {
-    createShuffleQueue(songIndex, selectedGenre.songs.length);
-  }
-
-  setTimeout(() => {
-    playerRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, 100);
-
-  audio.play().catch((error) => {
-    console.error("Error playing audio:", error);
-    setIsPlaying(false);
-  });
-};
-
-const handleSongEnd = () => {
-  console.log("Song ended. Current:", currentSong?.title);
-
-  if (!selectedGenre?.songs?.length || !currentSong) {
-    setIsPlaying(false);
-    return;
-  }
-
-  if (isRepeat) {
-    console.log("Repeating song");
+  const cleanupAudio = () => {
     if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => setIsPlaying(false));
+      audioRef.current.pause();
+      audioRef.current.removeEventListener("timeupdate", updateTime);
+      audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
+      audioRef.current.removeEventListener("ended", handleSongEnd);
+      audioRef.current = null;
     }
-    return;
-  }
+  };
 
-  const nextIndex = getNextSongIndex();
-  if (nextIndex !== null) {
-    const nextSong = selectedGenre.songs[nextIndex];
-    handleSongSelect(nextSong);
-  } else {
-    console.log("No next song available");
+  const handleGenreClick = (genre: Genre) => {
+    console.log("Genre selected:", genre.name);
+    setSelectedGenre(genre);
+    setIsDialogOpen(true);
+    resetPlayerState();
+  };
+
+  const resetPlayerState = () => {
+    cleanupAudio();
+    setCurrentSong(null);
+    setCurrentSongIndex(0);
     setIsPlaying(false);
-  }
-};
+    setCurrentTime(0);
+    setDuration(0);
+    setIsShuffle(false);
+    setIsRepeat(false);
+  };
 
-// ONLY return next index. Song switching happens in handleSongEnd.
-const getNextSongIndex = (): number | null => {
-  if (!selectedGenre?.songs?.length) return null;
-
-  const songs = selectedGenre.songs;
-
-  if (isShuffle) {
-    if (shuffleQueue.length === 0 || shuffleIndex >= shuffleQueue.length) {
-      createShuffleQueue(currentSongIndex, songs.length);
-      if (shuffleQueue.length === 0) return null;
-      setShuffleIndex(1);
-      return shuffleQueue[0];
-    } else {
-      const nextIndex = shuffleQueue[shuffleIndex];
-      setShuffleIndex(shuffleIndex + 1);
-      return nextIndex;
+  const updateTime = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
     }
-  }
+  };
 
-  if (currentSongIndex < songs.length - 1) {
-    return currentSongIndex + 1;
-  }
-
-  return null; // End of playlist
-};
-
-const playNextSong = () => {
-  if (!selectedGenre?.songs?.length || currentSongIndex === null) return;
-
-  const nextIndex = currentSongIndex + 1;
-  if (nextIndex < selectedGenre.songs.length) {
-    const nextSong = selectedGenre.songs[nextIndex];
-    handleSongSelect(nextSong);
-  }
-};
-
-const playPreviousSong = () => {
-  if (!selectedGenre?.songs?.length || currentSongIndex === null) return;
-
-  const prevIndex = currentSongIndex - 1;
-  if (prevIndex >= 0) {
-    const prevSong = selectedGenre.songs[prevIndex];
-    handleSongSelect(prevSong);
-  }
-};
-
-
-const shuffleArray = (array: number[]): number[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
-const togglePlayPause = () => {
-  if (!audioRef.current) return;
-
-  if (isPlaying) {
-    audioRef.current.pause();
-    setIsPlaying(false);
-  } else {
-    audioRef.current.play()
-      .then(() => setIsPlaying(true))
-      .catch((error) => {
-        console.error("Error playing audio:", error);
-        setIsPlaying(false);
-      });
-  }
-};
-
-const toggleRepeat = () => {
-  setIsRepeat((prev) => {
-    const newRepeat = !prev;
-    if (newRepeat) {
-      setIsShuffle(false);
-      setShuffleQueue([]);
-      setShuffleIndex(0);
+  const setAudioDuration = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
     }
-    return newRepeat;
-  });
-};
+  };
 
-const toggleShuffle = () => {
-  if (!selectedGenre || selectedGenre.songs.length <= 1) return;
-
-  setIsShuffle((prev) => {
-    const newShuffle = !prev;
-    if (newShuffle) {
-      setIsRepeat(false);
-      if (currentSong) {
-        createShuffleQueue(currentSongIndex, selectedGenre.songs.length);
+  const handleSongEnd = () => {
+    // Get current state values from refs to avoid stale closures
+    const { isRepeat: currentRepeat, isShuffle: currentShuffle, currentSongIndex: currentIndex, selectedGenre: currentGenre } = stateRef.current;
+    
+    console.log("Song ended, repeat:", currentRepeat, "shuffle:", currentShuffle, "currentIndex:", currentIndex);
+    
+    if (currentRepeat) {
+      // Repeat current song - restart from beginning
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(console.error);
       }
-    } else {
-      setShuffleQueue([]);
-      setShuffleIndex(0);
+      return;
     }
-    return newShuffle;
-  });
-};
+    
+    // Move to next song or stop if at end
+    if (!currentGenre?.songs?.length) return;
+    
+    let nextIndex;
+    if (currentShuffle) {
+      nextIndex = getRandomSongIndex();
+    } else {
+      nextIndex = currentIndex + 1;
+      // Stop playing if we've reached the end
+      if (nextIndex >= currentGenre.songs.length) {
+        console.log("Playlist ended, stopping playback");
+        setIsPlaying(false);
+        return;
+      }
+    }
+    
+    // Use a slight delay to ensure state is consistent
+    setTimeout(() => {
+      playSongAtIndex(nextIndex);
+    }, 100);
+  };
 
+  const getRandomSongIndex = (): number => {
+    const { selectedGenre: currentGenre, currentSongIndex: currentIndex } = stateRef.current;
+    if (!currentGenre || currentGenre.songs.length <= 1) return 0;
+    
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * currentGenre.songs.length);
+    } while (newIndex === currentIndex && currentGenre.songs.length > 1);
+    
+    return newIndex;
+  };
 
-const handleTimeChange = (value: number | number[]) => {
-  const newTime = Array.isArray(value) ? value[0] : value;
-  if (audioRef.current) {
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
-  }
-};
+  const playSongAtIndex = (index: number) => {
+    if (!selectedGenre?.songs?.[index]) return;
+    
+    const song = selectedGenre.songs[index];
+    
+    // Clean up existing audio first
+    cleanupAudio();
 
-const handleVolumeChange = (value: number | number[]) => {
-  const newVolume = Array.isArray(value) ? value[0] : value;
-  setVolume(newVolume);
-  if (audioRef.current) {
-    audioRef.current.volume = isMuted ? 0 : newVolume;
-  }
-};
+    // Create new audio element
+    const audio = new Audio(song.audio);
+    audio.volume = isMuted ? 0 : volume;
+    
+    // Add event listeners
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", setAudioDuration);
+    audio.addEventListener("ended", handleSongEnd);
+    
+    audioRef.current = audio;
 
-const toggleMute = () => {
-  if (!audioRef.current) return;
+    // Update state
+    setCurrentSong(song);
+    setCurrentSongIndex(index);
+    setCurrentTime(0);
+    setIsPlaying(true);
 
-  const newMuteState = !isMuted;
-  audioRef.current.volume = newMuteState ? 0 : volume;
-  setIsMuted(newMuteState);
-};
+    // Scroll to player if first song
+    if (!currentSong) {
+      setTimeout(() => {
+        playerRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+
+    // Play audio
+    audio.play().catch((error) => {
+      console.error("Error playing audio:", error);
+      setIsPlaying(false);
+    });
+  };
+
+  const handleSongSelect = (song: Song) => {
+    if (!selectedGenre) return;
+
+    const songIndex = selectedGenre.songs.findIndex(s => s.id === song.id);
+    if (songIndex === -1) return;
+
+    playSongAtIndex(songIndex);
+  };
+
+  const goToNextSong = () => {
+    if (!selectedGenre?.songs?.length) return;
+    
+    let nextIndex;
+    if (isShuffle) {
+      nextIndex = getRandomSongIndex();
+    } else {
+      nextIndex = (currentSongIndex + 1) % selectedGenre.songs.length;
+    }
+    
+    playSongAtIndex(nextIndex);
+  };
+
+  const goToPreviousSong = () => {
+    if (!selectedGenre?.songs?.length) return;
+    
+    // If shuffle is on, get random song, otherwise go to previous
+    let prevIndex;
+    if (isShuffle) {
+      prevIndex = getRandomSongIndex();
+    } else {
+      prevIndex = currentSongIndex === 0
+        ? selectedGenre.songs.length - 1
+        : currentSongIndex - 1;
+    }
+    
+    playSongAtIndex(prevIndex);
+  };
+
+  const togglePlayPause = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
+    }
+  };
+
+  const toggleRepeat = () => {
+    setIsRepeat(prev => {
+      const newRepeat = !prev;
+      console.log("Repeat toggled:", newRepeat);
+      return newRepeat;
+    });
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffle(prev => {
+      const newShuffle = !prev;
+      console.log("Shuffle toggled:", newShuffle);
+      return newShuffle;
+    });
+  };
+
+  const handleTimeChange = (value: number | number[]) => {
+    const newTime = Array.isArray(value) ? value[0] : value;
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  const handleVolumeChange = (value: number | number[]) => {
+    const newVolume = Array.isArray(value) ? value[0] : value;
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : newVolume;
+    }
+  };
+
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+    
+    setIsMuted(prev => {
+      const newMuted = !prev;
+      audioRef.current!.volume = newMuted ? 0 : volume;
+      return newMuted;
+    });
+  };
 
   const toggleLike = () => {
-    setIsLiked((prev) => !prev);
-  }
-
+    setIsLiked(prev => !prev);
+  };
 
   const togglePlayerExpanded = () => {
-    setIsPlayerExpanded((prev) => !prev);
-  }
+    setIsPlayerExpanded(prev => !prev);
+  };
 
   const formatTime = (timeInSeconds: number) => {
-    if (isNaN(timeInSeconds) || timeInSeconds === Infinity) return "0:00";
+    if (isNaN(timeInSeconds)) return "0:00";
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  }
-
+  };
 
   const getGridColumns = () => {
     if (windowWidth >= 1436) return "grid-cols-4";
@@ -304,36 +300,29 @@ const toggleMute = () => {
     return "grid-cols-1";
   };
 
-
-   return {
-    selectedGenre, setSelectedGenre,
-    isDialogOpen, setIsDialogOpen,
-    currentSong, setCurrentSong,
-    currentSongIndex, setCurrentSongIndex,
-    isPlaying, setIsPlaying,
-    currentTime, setCurrentTime,
-    duration, setDuration,
-    volume, setVolume,
-    isMuted, setIsMuted,
-    isLiked, setIsLiked,
-    isRepeat, setIsRepeat,
-    isShuffle, setIsShuffle,
-    isPlayerExpanded, setIsPlayerExpanded,
-    windowWidth, setWindowWidth,
-    shuffleQueue, setShuffleQueue,
-    shuffleIndex, setShuffleIndex,
-    audioRef, playerRef,
+  return {
+    selectedGenre,
+    setSelectedGenre,
+    isDialogOpen,
+    setIsDialogOpen,
+    currentSong,
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    isMuted,
+    isLiked,
+    isRepeat,
+    isShuffle,
+    isPlayerExpanded,
+    windowWidth,
+    audioRef,
+    playerRef,
     handleGenreClick,
-    updateTime,
-    setAudioDuration,
-    createShuffleQueue,
     handleSongSelect,
-    handleSongEnd,
-    getNextSongIndex,
-    playNextSong,
-    playPreviousSong,
-    shuffleArray,
     togglePlayPause,
+    goToNextSong,
+    goToPreviousSong,
     toggleRepeat,
     toggleShuffle,
     handleTimeChange,
