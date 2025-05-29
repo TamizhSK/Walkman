@@ -64,7 +64,7 @@ return (
           }} 
         >
 
-      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[90vh] md:max-w-2xl md:max-h-[90vh]  overflow-y-auto  overflow-x-hidden custom-scrollbar">
+      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[70vh] md:max-w-2xl md:max-h-[85vh]  overflow-y-auto  overflow-x-hidden custom-scrollbar">
         <DialogHeader className="px-2 sm:px-0">
           <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
           <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
@@ -128,7 +128,7 @@ return (
 
                   {/* Progress Bar */}
                   <div className="w-full flex flex-col items-center">
-                    <div className="flex items-center w-full max-w-md gap-2 sm:gap-4 text-sm text-gray-400">
+                    <div className="flex items-center w-full max-w-md gap-2 sm:gap-4 text-sm text-gray-200">
                       <span className="w-12 text-right">{formatTime(currentTime)}</span>
                       <Slider
                         value={[currentTime]}
@@ -410,14 +410,6 @@ return (
                         className={`${isRepeat ? 'text-green-400 bg-green-400/20' : 'text-gray-400'} w-8 h-8`}
                       >
                         <Repeat size={14} />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={toggleLike}
-                        className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
-                      >
-                        <Heart size={14} className={isLiked ? 'fill-current' : ''} />
                       </Button>
                       <Button 
                         variant="ghost" 
