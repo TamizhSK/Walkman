@@ -1,12 +1,14 @@
 export default function Hero() {
   return (
-    <header
-      id="hero"
-      className="relative text-white py-34 md:py-54 bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025585/img1_dximlk.jpg')`,
-      }}
-    >
+<header
+  id="hero"
+  className="relative text-white bg-no-repeat bg-center py-80 md:py-84 lg:py-94 bg-cover sm:bg-[length:100%_auto] md:bg-[length:150%_auto] md:"
+  style={{
+    backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025585/img1_dximlk.jpg')`,
+    backgroundPosition: 'center left',
+    }}
+>
+
       {/* Gradient overlay at bottom only */}
       <div className="absolute bottom-0 left-0 right-0 h-35 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
