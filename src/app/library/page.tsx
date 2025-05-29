@@ -16,7 +16,7 @@ export default function Library() {
         }}
       >
         {/* Dark gradient from bottom only */}
-        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black/90 via-black/60 to-transparent z-0" />
+        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black/100 via-black/60 to-transparent z-0" />
 
         {/* Centered content */}
         <div className="relative z-10 flex items-center justify-center h-full px-6">

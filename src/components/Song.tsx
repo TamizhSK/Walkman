@@ -25,7 +25,7 @@ export default function MusicGenreHub() {
   } = player;
 
 return (
-  <div className="p-10 sm:p-30 bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
+  <div className="p-10 sm:p-30 bg-gradient-to-br from-black to-black min-h-screen text-white">
     {/* Genre Banners */}
     <div className={`grid ${getGridColumns()} gap-3 sm:gap-6 transition-all duration-300`}>
       {genreData.map((genre) => (
