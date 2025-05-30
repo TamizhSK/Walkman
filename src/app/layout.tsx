@@ -3,6 +3,7 @@ import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import Script from 'next/script'
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: 'Walkman',
@@ -15,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+    
     <html lang="en">
       <head>
         <link 
@@ -26,6 +28,7 @@ export default function RootLayout({
         <Nav/>
         <main className="flex-grow w-full">
           {children}
+          <Analytics/>
         </main>
         <Footer/>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"/>
