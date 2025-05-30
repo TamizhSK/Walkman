@@ -2,7 +2,7 @@ export default function Hero() {
   return (
 <header
   id="hero"
-  className="relative text-white bg-no-repeat bg-center py-80 md:py-84 lg:py-94 bg-cover sm:bg-[length:100%_auto] md:bg-[length:150%_auto] md:"
+  className="relative text-white bg-no-repeat bg-center py-70 md:py-84 lg:py-94 bg-cover sm:bg-[length:100%_auto] md:bg-[length:150%_auto] md:"
   style={{
     backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025585/img1_dximlk.jpg')`,
     backgroundPosition: 'center left',
