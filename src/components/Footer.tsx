@@ -4,15 +4,15 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-black text-white py-12">
-      <div className="container mx-auto px-4 lg:px-30">
+      <div className="container mx-auto px-4 md:px-15 lg:px-30">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left lg:text-left">
           {/* Brand Section */}
           <div className="flex flex-col items-center md:items-start">
-            <h4 className="text-xl font-bold mb-4">
+            <h4 className="text-3xl md:text-2xl font-bold mb-1">
               Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full"></span>
             </h4>
-            <p className="mt-2 text-gray-300">Your gateway to high-quality music and podcasts.</p>
+            <p className="mt-2 text-gray-300">Feel the Rhythm.</p>
             <div className="mt-4 flex space-x-4">
               <a 
                 href="https://www.facebook.com/Spotify/" 
