@@ -159,7 +159,7 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="mt-8 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-            <p className="text-gray-400 mb-4 md:mb-0">&copy; 2023 Walkman. All rights reserved.</p>
+            <p className="text-gray-400 mb-4 md:mb-0">&copy; 2025 Walkman. All rights reserved.</p>
             <div className="flex space-x-6">
               <Link 
                 href="#hero" 
