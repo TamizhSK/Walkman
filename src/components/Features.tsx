@@ -24,7 +24,7 @@ export default function Features() {
 
             {/* Text Section */}
             <div className="md:w-1/2 w-full lg:h-full">
-              <p className="text-xl text-justify md:text-xl md:text-justify-center lg:text-2xl leading-relaxed">
+              <p className="text-md text-justify md:text-xl md:text-justify-center lg:text-2xl leading-relaxed">
                 The Sony Walkman revolutionized the way people enjoyed music on-the-go.
                 With its sleek design and compact size, music lovers could carry their entire
                 music library in their pocket!
