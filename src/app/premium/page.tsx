@@ -73,7 +73,7 @@ export default function Premium() {
       {/* Premium Plans Container */}
       <div className="relative bg-black">
         <section className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="bg-transparent grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {premiumPlans.map((plan) => (
               <div key={plan.id} className="relative">
                 <NeonGradientCard
