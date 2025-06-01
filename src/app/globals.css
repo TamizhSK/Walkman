@@ -2,7 +2,6 @@
 
 @plugin "tailwindcss-animate";
 
-
 @custom-variant dark (&:is(.dark *));
 
 html {
@@ -111,6 +110,15 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-background-position-spin:background-position-spin 3000ms infinite alternate;
+  @keyframes background-position-spin {
+  0% {
+    background-position:top center;
+    }
+  100% {
+    background-position:bottom center;
+    }
+  }
 }
 
 :root {
@@ -211,7 +219,6 @@ body {
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(156, 163, 175, 0.7);
   }
-
 
   .custom-scrollbar1::-webkit-scrollbar {
   width: 4px;

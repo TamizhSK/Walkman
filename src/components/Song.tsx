@@ -110,7 +110,7 @@ return (
                 <div className="flex flex-col items-center gap-4 sm:gap-6">
                   <img
                     src={currentSong.image}
-                    className="w-30 w-30 sm:w-38 sm:h-38 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
+                    className="w-30 sm:w-38 sm:h-38 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-lg object-cover"
                     alt={currentSong.title}
                   />
                   <div>
@@ -429,18 +429,18 @@ return (
                     </div>
 
                     {/* Volume Control */}
-                    <div className="flex justify-center sm:justify-end items-center gap-2">
-                      <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8">
-                        {isMuted ? <VolumeX size={14} className="sm:w-4 sm:h-4" /> : <Volume2 size={14} className="sm:w-4 sm:h-4" />}
-                      </Button>
-                      <Slider
-                        value={[isMuted ? 0 : volume]}
-                        max={1}
-                        step={0.01}
-                        onValueChange={handleVolumeChange}
-                        className="w-16 sm:w-24"
-                      />
-                    </div>
+                  <div className="flex sm:hidden justify-center items-center gap-2 mt-2">
+                    <Button variant="ghost" size="icon" onClick={toggleMute} className="w-8 h-8">
+                      {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                    </Button>
+                    <Slider
+                      value={[isMuted ? 0 : volume]}
+                      max={1}
+                      step={0.01}
+                      onValueChange={handleVolumeChange}
+                      className="w-24"
+                    />
+                  </div>
                   </div>
                 )}
             </CardContent>
