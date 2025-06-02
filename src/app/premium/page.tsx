@@ -47,18 +47,19 @@ export default function Premium() {
   ];
 
   return (
-    <div className="relative bg-gradient-to-b from-black to-gray-900 text-white min-h-screen overflow-hidden">
+    <div className="relative bg-gradient-to-b from-black to-zinc-950 text-white min-h-screen overflow-hidden">
       {/* Hero Section */}
-      <section className="relative w-full h-[90vh] lg:h-screen ">
+      <section className="relative w-full h-[90vh] lg:h-screen">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/f_auto,q_auto,w_1920/v1747025734/img7_mxog0b.jpg')`,
           }}
+          role="img"
+          aria-label="Music festival background"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-transparent h-2/3" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black via-black/90 to-transparent" />
 
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6">
@@ -71,16 +72,23 @@ export default function Premium() {
       </section>
 
       {/* Premium Plans Container */}
-      <div className="relative bg-transparent">
-        <section className="bg-transparent container mx-auto px-4 py-8">
-          <div className="bg-transparent grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+      <div className="relative bg-transparent -mt-20 sm:-mt-32 md:-mt-40">
+        <section className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {premiumPlans.map((plan) => (
-              <div key={plan.id} className="relative">
+              <div 
+                key={plan.id} 
+                className="relative isolate"
+                style={{
+                  background: 'transparent',
+                  backdropFilter: 'none'
+                }}
+              >
                 <NeonGradientCard
-                  className="w-full h-full"
+                  className="w-full h-full bg-transparent backdrop-blur-none"
                   neonColors={plan.neonColors}
                 >
-                  <div className="h-full flex flex-col justify-between p-4 sm:p-5 md:p-6">
+                  <div className="h-full flex flex-col justify-between p-4 sm:p-5 md:p-6 bg-transparent rounded-xl">
                     <div className="text-center">
                       <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 border border-white/20 mb-3">
                         <i className={`${plan.icon} text-xl`} />
@@ -119,7 +127,6 @@ export default function Premium() {
           </p>
         </div>
       </div>
-
 
       {/* Footer Section */}
       <footer className="relative z-20 bg-black border-t border-white/10">
