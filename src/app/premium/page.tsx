@@ -48,31 +48,33 @@ export default function Premium() {
 
   return (
     <div className="relative bg-gradient-to-b from-black to-zinc-950 text-white min-h-screen overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative w-full h-[90vh] lg:h-screen">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/f_auto,q_auto,w_1920/v1747025734/img7_mxog0b.jpg')`,
-          }}
-          role="img"
-          aria-label="Music festival background"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-transparent h-2/3" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black via-black/90 to-transparent" />
+    {/* Hero Section */}
+    <section className="relative w-full h-[105vh] lg:h-screen">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://res.cloudinary.com/dqcf0a6dk/image/upload/f_auto,q_auto,w_1920/v1747025734/img7_mxog0b.jpg')`,
+        }}
+        role="img"
+        aria-label="Music festival background"
+      />
 
-        <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6">
-            Experience the True Rhythm
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl">
-            Subscription plans made just for you
-          </p>
-        </div>
-      </section>
+
+      {/* Bottom gradient overlay - covers bottom 1/2 */}
+      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black via-black/100 to-transparent" />
+
+      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 sm:px-6 lg:px-8">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 drop-shadow-lg">
+          Experience the True Rhythm
+        </h1>
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl drop-shadow-lg">
+          Subscription plans made just for you
+        </p>
+      </div>
+    </section>
 
       {/* Premium Plans Container */}
-      <div className="relative bg-transparent -mt-20 sm:-mt-32 md:-mt-40">
+      <div className="relative bg-black -mt-20 sm:-mt-32 md:-mt-40">
         <section className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {premiumPlans.map((plan) => (

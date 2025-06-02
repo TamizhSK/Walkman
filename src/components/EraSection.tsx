@@ -1,3 +1,5 @@
+import { AuroraText } from "./magicui/aurora-text";
+
 export default function EraSection() {
   return (
     <section className="py-6 bg-black text-white">
@@ -6,9 +8,9 @@ export default function EraSection() {
           From 80's and 90's
         </h2>
         <div className="text-[6vw] sm:text-xl md:text-2xl lg:text-3xl my-2">to</div>
-        <h3 className="text-[8vw] sm:text-3xl md:text-5xl font-bold text-amber-400 leading-snug">
+        <AuroraText className="text-[8vw] sm:text-3xl md:text-5xl font-bold leading-snug">
           Billboard 100
-        </h3>
+        </AuroraText>
       </div>
     </section>
   );
