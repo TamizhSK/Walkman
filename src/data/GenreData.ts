@@ -20,7 +20,7 @@ export const genreData: Genre[] = [
     id: 1,
     name: "Pop",
     description: "Chart-topping hits and catchy melodies",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025638/1_ugmawr.png",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882240/1_xqlkdw.jpg",
     themeColor: "from-pink-400 via-pink-500 to-pink-600",
     songs: [
       {
@@ -77,10 +77,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 2,
-    name: "Electronic",
-    description: "Synthesized beats and digital soundscapes",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025638/2_jwf6qa.jpg",
-    themeColor: "from-cyan-400 via-blue-500 to-purple-600",
+    name: "R&B",
+    description: "Smooth vocals and groove-heavy rhythms",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/2_slekch.jpg",
+    themeColor: "from-brown-400 via-orange-500 to-red-600",
     songs: [
       {
         id: 201,
@@ -100,10 +100,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 3,
-    name: "Jazz",
-    description: "Smooth improvisation and soulful rhythms",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025639/3_ap0tfa.jpg",
-    themeColor: "from-yellow-200 via-amber-300 to-orange-400",
+    name: "Hip-Hop",
+    description: "Urban beats with powerful lyrics",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/3_q5aiu7.jpg",
+    themeColor: "from-zinc-400 via-slate-300 to-black-400",
     songs: [
       {
         id: 301,
@@ -123,10 +123,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 4,
-    name: "Hip-Hop",
-    description: "Urban beats and powerful lyrics",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025639/4_qp4f5s.jpg",
-    themeColor: "from-zinc-800 via-gray-700 to-black",
+    name: "Alternative R&B",
+    description: "Atmospheric R&B with experimental sounds",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882237/4_eixeod.jpg",
+    themeColor: "from-blue-800 via-pink-700 to-violet-900",
     songs: [
       {
         id: 401,
@@ -146,10 +146,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 5,
-    name: "Hard Rock",
-    description: "Heavy guitars and powerful drums",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025640/5_fo6vg1.jpg",
-    themeColor: "from-red-700 via-orange-800 to-yellow-600",
+    name: "Electronic",
+    description: "Synth beats and digital soundscapes",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882258/5_dkknwd.jpg",
+    themeColor: "from-green-800 via-cyan-700 to-blue-800",
     songs: [
       {
         id: 501,
@@ -169,10 +169,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 6,
-    name: "Lo-Fi",
-    description: "Chill vibes and relaxing atmospheres",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_800/v1747025641/6_gjaigz.jpg",
-    themeColor: "from-purple-200 via-indigo-300 to-indigo-400",
+    name: "Rock",
+    description: "Guitar-driven anthems with high energy",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/6_vz3wzd.jpg",
+    themeColor: "from-red-900 via-orange-700 to-orange-200",
     songs: [
       {
         id: 601,
@@ -192,10 +192,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 7,
-    name: "Classical",
-    description: "Timeless orchestral masterpieces",
-    bannerImage: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=400&fit=crop&crop=center",
-    themeColor: "from-amber-100 via-yellow-200 to-white",
+    name: "Indie",
+    description: "Quirky, artistic pop with uniqueness",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882237/7_pfmpe5.jpg",
+    themeColor: "from-emerald-400 via-blue-700 to-red-400",
     songs: [
       {
         id: 701,
@@ -215,10 +215,10 @@ export const genreData: Genre[] = [
   },
   {
     id: 8,
-    name: "R&B",
-    description: "Smooth vocals and groove-heavy rhythms",
-    bannerImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop&crop=center",
-    themeColor: "from-rose-500 via-fuchsia-500 to-pink-500",
+    name: "Country",
+    description: "Heartland storytelling with pop",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/8_hingqx.jpg",
+    themeColor: "from-amber-500 via-yellow-500 to-orange-900",
     songs: [
       {
         id: 801,
@@ -239,9 +239,10 @@ export const genreData: Genre[] = [
 
     {
     id: 9,
-    name: "R&B",
-    description: "Smooth vocals and groove-heavy rhythms",
-    bannerImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop&crop=center",
+    name: "Reggaeton",
+    description: "Latin beats blended with modernism",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882237/9_wucilq.jpg",
+    themeColor: "from-emerald-500 via-yellow-500 to-green-300",
     songs: [
       {
         id: 801,
@@ -262,9 +263,10 @@ export const genreData: Genre[] = [
 
     {
     id: 10,
-    name: "R&B",
-    description: "Smooth vocals and groove-heavy rhythms",
-    bannerImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop&crop=center",
+    name: "Jazz",
+    description: "Smooth improvisation with contemporary flair",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882236/10_vuicwt.jpg",
+    themeColor: "from-red-500 via-yellow-500 to-purple-600",
     songs: [
       {
         id: 801,
@@ -285,9 +287,10 @@ export const genreData: Genre[] = [
 
     {
     id: 11,
-    name: "R&B",
-    description: "Smooth vocals and groove-heavy rhythms",
-    bannerImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop&crop=center",
+    name: "Lo-Fi",
+    description: "Ambient, mellow tones for relaxation",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882247/11_rozhlt.png",
+    themeColor: "from-rose-500 via-indigo-500 to-pink-500",
     songs: [
       {
         id: 801,
@@ -308,9 +311,10 @@ export const genreData: Genre[] = [
 
     {
     id: 12,
-    name: "R&B",
-    description: "Smooth vocals and groove-heavy rhythms",
-    bannerImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop&crop=center",
+    name: "Funk",
+    description: "Groovy rhythms with retro throwbacks",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882237/12_fytawc.jpg",
+    themeColor: "from-red-500 via-pink-600 to-violet-500",
     songs: [
       {
         id: 801,
