@@ -29,7 +29,7 @@ export const genreData: Genre[] = [
         artist: "Dua Lipa Ft. DaBaby",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895332/Dua_Lipa_-_Levitating_Lyrics_ft._DaBaby_aafzei.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748882240/1_xqlkdw.jpg",
-      },  //q_auto,f_auto,w_300
+      },
       {
         id: 102,
         title: "Watermelon Sugar",
@@ -44,27 +44,27 @@ export const genreData: Genre[] = [
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748922788/Miley_Cyrus_-_Flowers_Official_Video_exobd2.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895344/2_cfjhjr.jpg",
       },
-            {
+      {
         id: 104,
         title: "As It Was",
         artist: "Harry Styles",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895333/Harry_Styles_-_As_It_Was_Lyrics_yjccfi.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895340/4_epcj4v.jpg",
       },
-            {
+      {
         id: 105,
         title: "Anti-Hero",
         artist: "Taylor Swift",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895344/Taylor_Swift_-_Anti-Hero_Official_Lyric_Video_advfnm.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895343/1_qktwnt.png",
       },
-            {
+      {
         id: 106,
         title: "What Makes You Beautiful",
         artist: "One Direction",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895343/One_Direction_-_What_Makes_You_Beautiful_Lyric_Video_t3d7uw.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895342/3_v73d38.jpg",
-      },      
+      },
     ],
   },
   {
@@ -87,6 +87,41 @@ export const genreData: Genre[] = [
         artist: "Bruno Mars & Lady Gaga",
         audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897840/Lady_Gaga_Bruno_Mars_-_Die_With_A_Smile_Lyrics_wverub.mp3",
         image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897844/1_xdofho.jpg",
+      },
+      {
+        id: 203,
+        title: "Smokin Out the Window",
+        artist: "Silk Sonic",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897828/Bruno_Mars_Anderson_.Paak_Silk_Sonic_-_Smokin_Out_The_Window_Lyrics_ildd4r.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897843/3_zrprjx.png",
+      },
+      {
+        id: 204,
+        title: "Earned It",
+        artist: "The Weeknd",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897845/The_Weeknd_-_Earned_It_from_Fifty_Shades_Of_Grey_Official_Lyric_Video_toy2ui.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897843/4_tk4t18.png",
+      },
+      {
+        id: 205,
+        title: "Stay With Me",
+        artist: "Sam Smith",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897830/Sam_Smith_-_Stay_With_Me_Lyrics_wgy28e.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897842/5_uhymws.jpg",
+      },
+      {
+        id: 206,
+        title: "Can't Feel My Face",
+        artist: "The Weeknd",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897845/CAN_T_FEEL_MY_FACE_-_THE_WEEKND_Lyrics_fo3ahr.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897842/7_g7j89k.png",
+      },
+      {
+        id: 207,
+        title: "Golden",
+        artist: "Jill Scott",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897837/Jill_Scott_-_Golden_yagqmo.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748897842/6_zeuinx.jpg",
       },
     ],
   },
