@@ -25,9 +25,9 @@ export default function MusicGenreHub() {
   } = player;
 
 return (
-  <div className="p-10 sm:p-20 md:p-16 lg:p-20 xl:p-24 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
+  <div className="p-18 sm:p-20 md:p-16 lg:p-20 xl:p-24 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
     {/* Genre Banners */}
-    <div className={`grid ${getGridColumns()} gap-3 sm:gap-6 transition-all duration-300`}>
+    <div className={`grid ${getGridColumns()} gap-4 sm:gap-6 transition-all duration-300`}>
       {genreData.map((genre) => (
         <motion.div
           key={genre.id}

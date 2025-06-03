@@ -25,54 +25,46 @@ export const genreData: Genre[] = [
     songs: [
       {
         id: 101,
-        title: "A",
-        artist: "Jessica Moore",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
-      },
+        title: "Levitating",
+        artist: "Dua Lipa Ft. DaBaby",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895332/Dua_Lipa_-_Levitating_Lyrics_ft._DaBaby_aafzei.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748882240/1_xqlkdw.jpg",
+      },  //q_auto,f_auto,w_300
       {
         id: 102,
-        title: "B",
-        artist: "The Popstars",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+        title: "Watermelon Sugar",
+        artist: "Harry Styles",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895338/Harry_Styles_-_Watermelon_Sugar_Lyrics_fjjpgl.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895339/5_tvrbed.jpg",
       },
       {
         id: 103,
-        title: "C",
-        artist: "Michael Stevens",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+        title: "Flowers",
+        artist: "Miley Cyrus",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895343/Miley_Cyrus_-_Flowers_Official_Video_kuctfi.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895344/2_cfjhjr.jpg",
       },
             {
         id: 104,
-        title: "D",
-        artist: "Michael Stevens",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+        title: "As It Was",
+        artist: "Harry Styles",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895333/Harry_Styles_-_As_It_Was_Lyrics_yjccfi.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895340/4_epcj4v.jpg",
       },
             {
         id: 105,
-        title: "E",
-        artist: "Michael Stevens",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
+        title: "Anti-Hero",
+        artist: "Taylor Swift",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895344/Taylor_Swift_-_Anti-Hero_Official_Lyric_Video_advfnm.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895343/1_qktwnt.png",
       },
             {
         id: 106,
-        title: "F",
-        artist: "Michael Stevens",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
-      },
-            {
-        id: 107,
-        title: "G",
-        artist: "Michael Stevens",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504747/audio1_npwjvo.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/1_ugmawr.png",
-      },
-      
+        title: "What Makes You Beautiful",
+        artist: "One Direction",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748895343/One_Direction_-_What_Makes_You_Beautiful_Lyric_Video_t3d7uw.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1748895342/3_v73d38.jpg",
+      },      
     ],
   },
   {
@@ -84,10 +76,10 @@ export const genreData: Genre[] = [
     songs: [
       {
         id: 201,
-        title: "Digital Dreams",
-        artist: "Synthwave",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1747025638/2_jwf6qa.jpg",
+        title: "Leave the Door Open",
+        artist: "Silk Sonic",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1748897832/Bruno_Mars_Anderson_.Paak_Silk_Sonic_-_Leave_the_Door_Open_Lyrics_hvh5sv.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload//q_auto,f_auto,w_300/v1748897844/2_oiulpk.jpg",
       },
       {
         id: 202,
@@ -102,7 +94,7 @@ export const genreData: Genre[] = [
     id: 3,
     name: "Hip-Hop",
     description: "Urban beats with powerful lyrics",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/3_q5aiu7.jpg",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748892810/14_oi8ene.jpg",
     themeColor: "from-zinc-400 via-slate-300 to-black-400",
     songs: [
       {
@@ -148,7 +140,7 @@ export const genreData: Genre[] = [
     id: 5,
     name: "Electronic",
     description: "Synth beats and digital soundscapes",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882258/5_dkknwd.jpg",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748892810/13_om2src.jpg",
     themeColor: "from-green-800 via-cyan-700 to-blue-800",
     songs: [
       {
@@ -217,7 +209,7 @@ export const genreData: Genre[] = [
     id: 8,
     name: "Country",
     description: "Heartland storytelling with pop",
-    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882238/8_hingqx.jpg",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748892811/15_bhzlya.png",
     themeColor: "from-amber-500 via-yellow-500 to-orange-900",
     songs: [
       {
@@ -266,7 +258,7 @@ export const genreData: Genre[] = [
     name: "Jazz",
     description: "Smooth improvisation with contemporary flair",
     bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882236/10_vuicwt.jpg",
-    themeColor: "from-red-500 via-yellow-500 to-purple-600",
+    themeColor: "from-rose-500 via-green-300 to-pink-700",
     songs: [
       {
         id: 801,
