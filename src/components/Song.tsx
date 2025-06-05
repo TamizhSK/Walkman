@@ -25,7 +25,7 @@ export default function MusicGenreHub() {
   } = player;
 
 return (
-  <div className="p-18 sm:p-20 md:p-16 lg:p-20 xl:p-24 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
+<div className="p-5 sm:p-8 md:p-10 lg:p-12 xl:p-20 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
     {/* Genre Banners */}
     <div className={`grid ${getGridColumns()} gap-4 sm:gap-6 transition-all duration-300`}>
       {genreData.map((genre) => (
@@ -36,7 +36,8 @@ return (
           onClick={() => handleGenreClick(genre)}
           className={`rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${genre.themeColor} cursor-pointer transition hover:shadow-2xl`}
         >
-          <div className="relative w-full h-32 sm:h-48">
+          {/* Square aspect ratio on mobile, rectangular on medium+ screens */}
+          <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-[3/2]">
             <img
               src={genre.bannerImage}
               alt={genre.name}
@@ -44,8 +45,13 @@ return (
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
             <div className="absolute bottom-0 p-2 sm:p-4">
-              <h3 className="text-xl sm:text-2xl font-semibold text-white drop-shadow-sm">{genre.name}</h3>
-              <p className="hidden md:block text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">{genre.description}</p>
+              <h3 className="text-lg sm:text-2xl font-semibold text-white drop-shadow-sm">
+                <span className="md:hidden">{genre.shortName || genre.name}</span>
+                <span className="hidden md:inline">{genre.name}</span>
+              </h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">
+                {genre.description}
+              </p>
             </div>
           </div>
         </motion.div>
@@ -64,11 +70,11 @@ return (
           }} 
         >
 
-      <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[70vh] md:max-w-2xl md:max-h-[85vh]  overflow-y-auto  overflow-x-hidden custom-scrollbar">
-        <DialogHeader className="px-2 sm:px-0">
-          <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
-          <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
-        </DialogHeader>
+        <DialogContent className="bg-white/10 backdrop-blur-md border border-white/20 shadow-xl rounded-xl sm:rounded-2xl max-w-xs sm:max-w-4xl mx-2 sm:mx-auto max-h-[70vh] md:max-w-2xl md:max-h-[85vh] overflow-y-auto overflow-x-hidden custom-scrollbar">
+          <DialogHeader className="px-2 sm:px-0">
+            <DialogTitle className="text-white text-lg sm:text-xl font-bold">{selectedGenre?.name}</DialogTitle>
+            <DialogDescription className="text-gray-300 text-sm">{selectedGenre?.description}</DialogDescription>
+          </DialogHeader>
         
         {/* Songs List - Mobile Optimized */}
         <div className="my-2 sm:my-4 px-2 sm:px-0">

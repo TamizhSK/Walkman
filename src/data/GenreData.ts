@@ -9,6 +9,7 @@ export type Song = {
 export type Genre = {
   id: string | number;
   name: string;
+  shortName?: string; 
   description?: string;
   themeColor?: string;
   bannerImage?: string;
@@ -208,6 +209,7 @@ export const genreData: Genre[] = [
   {
     id: 4,
     name: "Alternative R&B",
+    shortName: "Alt-R&B",
     description: "Atmospheric R&B with experimental sounds",
     bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882237/4_eixeod.jpg",
     themeColor: "from-blue-800 via-pink-700 to-violet-900",
@@ -603,52 +605,59 @@ export const genreData: Genre[] = [
     {
     id: 11,
     name: "Chill",
-    description: "Ambient, mellow tones for goodness",
+    description: "Ambient, mellow tones for goodness  ",
     bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1748882247/11_rozhlt.png",
     themeColor: "from-rose-500 via-indigo-500 to-pink-500",
     songs: [
       {
         id: 1101,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        title: "Sunday Best",
+        artist: "Surfaces",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061718/Surfaces_-_Sunday_Best_Lyrics_sxeimy.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061689/3_ek2w5v.png",
       },
       {
         id: 1102,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        title: "His & Hers",
+        artist: "Internet Money ft. Don Toliver, Lil Uzi Vert & Gunna",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061718/Internet_Money_-_His_Hers_Lyrics_ft._Don_Toliver_Lil_Uzi_Vert_Gunna_tj6ejm.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061689/4_tj7ksg.jpg",
       },
       {
         id: 1103,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        title: "AOK",
+        artist: "Tai Verdes",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061714/Tai_Verdes_-_AOK_Lyric_Video_ikqmkz.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061688/5_iylnmi.jpg",
       },
       {
         id: 1104,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        title: "Sheesh",
+        artist: "Surfaces",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061721/Surfaces_-_Sheesh_Official_Audio_yiipik.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061689/1_fc0l69.jpg",
       },
       {
         id: 1105,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        title: "Slow Motion",
+        artist: "Trey Songz",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749090956/Trey_Songz_-_Slow_Motion_Official_Lyric_Video_r72cxg.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749090958/7_ddscba.jpg",
       },
       {
         id: 1106,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
-      },                              
+        title: "Midnight River",
+        artist: "Pink Sweat$ ft. 6lack",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061711/Pink_Sweat_-_Midnight_River_feat._6lack_Official_Audio_evuujx.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061688/6_hl82vk.jpg",
+      },
+      {
+        id: 1107,
+        title: "Double Take",
+        artist: "Dhruv",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749061723/dhruv__double_take_Lyrics_yn7sxt.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749061689/2_usn8ty.jpg",
+      },                                           
     ],
   },
 
@@ -660,12 +669,41 @@ export const genreData: Genre[] = [
     themeColor: "from-red-500 via-pink-600 to-violet-500",
     songs: [
       {
-        id: 801,
-        title: "Smooth Love",
-        artist: "R&B Sensation",
-        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1747504754/audio2_dmbaxy.mp3",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center",
+        id: 1201,
+        title: "24K Magic",
+        artist: "Bruno Mars",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749093377/Bruno_Mars_-_24K_Magic_Lyrics_nefo6t.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749093355/1_ux9wns.png",
       },
+      {
+        id: 1202,
+        title: "Bang Bang",
+        artist: "K'naan Ft. Adam Levine",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749093387/K_naan_Ft._Adam_Levine-Bang_Bang_Lyrics_Video_sa3cga.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749093355/4_fu9ovh.jpg",
+      },
+      {
+        id: 1203,
+        title: "That’s What I Like",
+        artist: "Bruno Mars",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749093392/Bruno_Mars_-_That_s_What_I_Like_Lyrics_g1lj2k.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749093355/1_ux9wns.png",
+      },
+      {
+        id: 1204,
+        title: "Uptown Funk",
+        artist: "Mark Ronson ft. Bruno Mars",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749093400/Mark_Ronson_-_Uptown_Funk_Lyrics_ft._Bruno_Mars_f5qmsi.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749093355/3_zoik1h.jpg",
+      },
+      {
+        id: 1205,
+        title: "The Rubberband Man",
+        artist: "The Spinners",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749093384/The_Spinners_-_The_Rubberband_Man_ptqdnr.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749093356/5_cteeym.jpg",
+      },                        
+
     ],
   },
 ];

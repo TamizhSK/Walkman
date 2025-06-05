@@ -292,13 +292,13 @@ export default function MusicPlayer() {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  const getGridColumns = () => {
-    if (windowWidth >= 1436) return "grid-cols-4";
-    if (windowWidth >= 1280) return "grid-cols-3";
-    if (windowWidth >= 1024) return "grid-cols-3";
-    if (windowWidth >= 768) return "grid-cols-2";
-    return "grid-cols-1";
-  };
+const getGridColumns = () => {
+  if (windowWidth >= 1436) return "grid-cols-4";
+  if (windowWidth >= 1280) return "grid-cols-3";
+  if (windowWidth >= 1024) return "grid-cols-3";
+  if (windowWidth >= 768) return "grid-cols-2";
+  return "grid-cols-2"; 
+};
 
   return {
     selectedGenre,
