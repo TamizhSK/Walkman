@@ -259,23 +259,32 @@ export default function MusicPlayer() {
     }
   };
 
-  const handleVolumeChange = (value: number | number[]) => {
-    const newVolume = Array.isArray(value) ? value[0] : value;
-    setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : newVolume;
+const handleVolumeChange = (value: number | number[]) => {
+  const newVolume = Array.isArray(value) ? value[0] : value;
+  setVolume(newVolume);
+  if (audioRef.current) {
+    audioRef.current.volume = newVolume;
+    // Unmute if volume is set above 0
+    if (newVolume > 0) {
+      audioRef.current.muted = false;
+      setIsMuted(false);
+    } else {
+      audioRef.current.muted = true;
+      setIsMuted(true);
     }
-  };
+  }
+};
 
-  const toggleMute = () => {
-    if (!audioRef.current) return;
-    
-    setIsMuted(prev => {
-      const newMuted = !prev;
-      audioRef.current!.volume = newMuted ? 0 : volume;
-      return newMuted;
-    });
-  };
+const toggleMute = () => {
+  if (!audioRef.current) return;
+  setIsMuted(prev => {
+    const newMuted = !prev;
+    if (audioRef.current) {
+      audioRef.current.muted = newMuted;
+    }
+    return newMuted;
+  });
+};
 
   const toggleLike = () => {
     setIsLiked(prev => !prev);
