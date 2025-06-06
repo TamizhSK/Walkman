@@ -1,7 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import AppleProvider from "next-auth/providers/apple";
+// import FacebookProvider from "next-auth/providers/facebook";
+// import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
@@ -13,7 +14,11 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    // {/*AppleProvider({
+    // FacebookProvider({
+    //   clientId: process.env.FACEBOOK_CLIENT_ID!,
+    //   clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+    // }),
+    // AppleProvider({
     //   clientId: process.env.APPLE_ID!,
     //   clientSecret: {
     //     appleId: process.env.APPLE_ID!,
@@ -21,7 +26,7 @@ export const authOptions: NextAuthOptions = {
     //     privateKey: process.env.APPLE_PRIVATE_KEY!,
     //     keyId: process.env.APPLE_KEY_ID!,
     //   },
-    // }), */},
+    // }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -69,6 +74,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    // signUp: "/signup",
   },
   callbacks: {
     async jwt({ token, user }) {

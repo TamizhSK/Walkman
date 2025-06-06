@@ -150,13 +150,13 @@ export default function Signup() {
       <div
         className="absolute inset-0 lg:hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/signup-bg-mobile.jpg')",
+          backgroundImage: "url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg')",
         }}
       >
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-brown/50" />
       </div>
       {/* Form section */}
-      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 bg-black/50 lg:bg-transparent">
+      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 bg-brown/50 lg:bg-transparent">
         <div className="mx-auto w-full max-w-sm space-y-6">
           {/* Logo */}
           <div className="flex justify-center">
