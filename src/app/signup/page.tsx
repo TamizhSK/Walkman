@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,11 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
-export default function Login() {
+export default function Signup() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ username: "", password: "", general: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    general: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSocialLogin = async (provider: string) => {
@@ -37,22 +49,59 @@ export default function Login() {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof typeof errors]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     let isValid = true;
-    const newErrors = { username: "", password: "", general: "" };
+    const newErrors = {
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      general: "",
+    };
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required.";
+      isValid = false;
+    }
 
     // Username validation
-    if (!username.trim()) {
-      newErrors.username = "Username or email is required.";
+    const usernamePattern = /^[a-zA-Z0-9_]{4,20}$/;
+    if (!usernamePattern.test(formData.username)) {
+      newErrors.username = "Username must be 4-20 characters long and can only contain letters, numbers, and underscores.";
+      isValid = false;
+    }
+
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
       isValid = false;
     }
 
     // Password validation
-    if (!password.trim()) {
-      newErrors.password = "Password is required.";
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.?])[A-Za-z\d!@#$%^&*()_+\-=[\]{}|;:,.?]{8,}$/;
+    if (!passwordPattern.test(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters long and include letters, numbers, and special characters.";
+      isValid = false;
+    }
+
+    // Confirm password validation
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
       isValid = false;
     }
 
@@ -60,16 +109,37 @@ export default function Login() {
 
     if (isValid) {
       try {
-        const result = await signIn("credentials", {
-          username,
-          password,
-          redirect: false,
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }),
         });
 
-        if (result?.error) {
-          setErrors(prev => ({ ...prev, general: "Invalid username/email or password." }));
+        const data = await response.json();
+
+        if (!response.ok) {
+          setErrors(prev => ({ ...prev, general: data.error }));
         } else {
-          router.push("/");
+          // Auto-login after successful signup
+          const result = await signIn("credentials", {
+            username: formData.username,
+            password: formData.password,
+            redirect: false,
+          });
+
+          if (result?.error) {
+            // If auto-login fails, redirect to login page
+            router.push("/login");
+          } else {
+            router.push("/");
+          }
         }
       } catch (error) {
         setErrors(prev => ({ ...prev, general: "Something went wrong. Please try again." }));
@@ -89,7 +159,7 @@ export default function Login() {
             </span>
             <p className="text-gray-400 mt-1">Endless Music, Endless Fun!</p>
           </div>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
         </CardHeader>
 
         <div className="px-6">
@@ -147,21 +217,54 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
+              <Label htmlFor="name" className="block text-sm font-medium text-gray-300">
+                Full Name
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="mt-1 block w-full bg-gray-800 border-gray-700 text-white"
+                disabled={isLoading}
+              />
+              {errors.name && <p className="mt-2 text-sm text-red-400">{errors.name}</p>}
+            </div>
+
+            <div>
               <Label htmlFor="username" className="block text-sm font-medium text-gray-300">
-                Username or Email
+                Username
               </Label>
               <Input
                 id="username"
                 name="username"
                 type="text"
-                autoComplete="username"
                 required
-                value={username}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                value={formData.username}
+                onChange={handleChange}
                 className="mt-1 block w-full bg-gray-800 border-gray-700 text-white"
                 disabled={isLoading}
               />
               {errors.username && <p className="mt-2 text-sm text-red-400">{errors.username}</p>}
+            </div>
+
+            <div>
+              <Label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                Email
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="mt-1 block w-full bg-gray-800 border-gray-700 text-white"
+                disabled={isLoading}
+              />
+              {errors.email && <p className="mt-2 text-sm text-red-400">{errors.email}</p>}
             </div>
 
             <div>
@@ -172,14 +275,30 @@ export default function Login() {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
                 required
-                value={password}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 className="mt-1 block w-full bg-gray-800 border-gray-700 text-white"
                 disabled={isLoading}
               />
               {errors.password && <p className="mt-2 text-sm text-red-400">{errors.password}</p>}
+            </div>
+
+            <div>
+              <Label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                Confirm Password
+              </Label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="mt-1 block w-full bg-gray-800 border-gray-700 text-white"
+                disabled={isLoading}
+              />
+              {errors.confirmPassword && <p className="mt-2 text-sm text-red-400">{errors.confirmPassword}</p>}
             </div>
 
             <div>
@@ -188,16 +307,16 @@ export default function Login() {
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Login"}
+                {isLoading ? "Creating account..." : "Sign Up"}
               </Button>
             </div>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-400">
-              Don't have an account?{" "}
-              <Link href="/signup" className="text-orange-500 hover:text-orange-400">
-                Sign up
+              Already have an account?{" "}
+              <Link href="/login" className="text-orange-500 hover:text-orange-400">
+                Log in
               </Link>
             </p>
           </div>
