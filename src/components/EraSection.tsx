@@ -8,8 +8,8 @@ export default function EraSection() {
           From 80's and 90's
         </h2>
         <div className="text-[6vw] sm:text-xl md:text-2xl lg:text-3xl my-2">to</div>
-        <AuroraText className="text-[8vw] sm:text-3xl md:text-5xl font-bold leading-snug">
-          Billboard 100
+        <AuroraText className="text-[8vw] sm:text-3xl md:text-5xl lg:text-6xl font-black leading-snug ">
+          billboard 100
         </AuroraText>
       </div>
     </section>

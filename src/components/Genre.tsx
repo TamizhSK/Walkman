@@ -31,7 +31,7 @@ export default function GenreScroll() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.5 }}
-          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-t ${genres[currentIndex].gradient}`}
+          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-tr ${genres[currentIndex].gradient}`}
         >
           {genres[currentIndex].name}
         </motion.span>

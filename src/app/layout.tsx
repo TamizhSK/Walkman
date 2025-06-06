@@ -1,4 +1,8 @@
 // app/layout.tsx
+
+'use client';
+
+import { usePathname } from 'next/navigation';
 import './globals.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -6,16 +10,15 @@ import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next";
 import Providers from '@/components/providers/SessionProvider';
 
-export const metadata = {
-  title: 'Walkman',
-  description: 'Your gateway to high-quality music and podcasts',
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const hideLayout = pathname === '/login' || pathname === '/signup';
+
   return (
     <html lang="en">
       <head>
@@ -29,12 +32,12 @@ export default function RootLayout({
         style={{ fontFamily: 'SF Pro Display, sans-serif' }}
       >
         <Providers>
-          <Nav />
+          {!hideLayout && <Nav />}
           <main className="flex-grow w-full">
             {children}
             <Analytics />
           </main>
-          <Footer />
+          {!hideLayout && <Footer />}
         </Providers>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" />
       </body>
