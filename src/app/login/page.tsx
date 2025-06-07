@@ -88,19 +88,19 @@ export default function Login() {
       </div>
 
       {/* Form section */}
-      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 bg-brown/50 lg:bg-transparent">
-        <div className="mx-auto w-full max-w-sm space-y-6">
+      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 md:bg-neutral-950">
+        <div className="mx-auto w-full max-w-sm space-y-2">
           {/* Logo */}
           <div className="flex justify-center">
             <Link href="/" className="flex items-center gap-2 font-medium text-white">
-              <span className="text-2xl font-bold">
+              <span className="text-4xl font-extrabold">
                 Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full" />
               </span>
             </Link>
           </div>
 
           {/* Card */}
-          <Card className="bg-white/90 lg:bg-background shadow-xl border-0">
+          <Card className="md:bg-zinc-100 shadow-xl border-0">
             <CardHeader className="text-center space-y-1">
               <CardTitle className="text-2xl font-bold">Login to your account</CardTitle>
               <p className="text-muted-foreground text-sm">
@@ -166,7 +166,7 @@ export default function Login() {
                       href="/forgot-password"
                       className="text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot?
+                      Forgot password?
                     </Link>
                   </div>
                   <Input
@@ -182,7 +182,7 @@ export default function Login() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600"
+                  className="w-full bg-amber-500 hover:bg-amber-400"
                   disabled={isLoading}
                 >
                   {isLoading ? "Signing in..." : "Login"}
@@ -193,7 +193,7 @@ export default function Login() {
                 Don&apos;t have an account?{" "}
                 <Link
                   href="/signup"
-                  className="underline underline-offset-4 text-orange-500 hover:text-orange-400"
+                  className="underline underline-offset-4 text-amber-500 hover:text-orange-500"
                 >
                   Sign up
                 </Link>

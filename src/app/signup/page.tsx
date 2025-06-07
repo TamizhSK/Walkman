@@ -156,24 +156,24 @@ export default function Signup() {
         <div className="absolute inset-0 bg-brown/50" />
       </div>
       {/* Form section */}
-      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 bg-brown/50 lg:bg-transparent">
-        <div className="mx-auto w-full max-w-sm space-y-6">
+      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 md:bg-neutral-950">
+        <div className="mx-auto w-full max-w-sm space-y-2">
           {/* Logo */}
           <div className="flex justify-center">
             <Link href="/" className="flex items-center gap-2 font-medium text-white">
-              <span className="text-2xl font-bold">
-                Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full" />
+              <span className="text-4xl font-extrabold">
+                Walkman<span className="inline-block w-3 h-3 ml-1 bg-amber-400 rounded-full" />
               </span>
             </Link>
           </div>
 
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
-            <Card className="bg-white/95 lg:bg-background border-0 lg:border shadow-2xl lg:shadow-sm">
+            <Card className="md:bg-zinc-100  border-0 lg:border shadow-2xl lg:shadow-sm">
               <CardHeader className="text-center space-y-2">
                 <CardTitle className="text-2xl font-bold">Create your account</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Enter your details or continue with social
+                  Sign up to start using Walkman. It's quick and easy!
                 </p>
               </CardHeader>
 
@@ -220,7 +220,7 @@ export default function Signup() {
                       id="username"
                       name="username"
                       type="text"
-                      placeholder="johndoe"
+                      placeholder="Enter your username"
                       required
                       value={formData.username}
                       onChange={handleChange}
@@ -234,7 +234,7 @@ export default function Signup() {
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="email@example.com"
                       required
                       value={formData.email}
                       onChange={handleChange}
@@ -273,7 +273,7 @@ export default function Signup() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-orange-500 hover:bg-orange-600"
+                    className="w-full bg-amber-500 hover:bg-amber-400"
                     disabled={isLoading}
                   >
                     {isLoading ? "Creating account..." : "Sign Up"}
@@ -283,7 +283,7 @@ export default function Signup() {
                     Already have an account?{" "}
                     <Link
                       href="/login"
-                      className="underline underline-offset-4 text-orange-500 hover:text-orange-400"
+                      className="underline underline-offset-4 text-amber-500 hover:text-orange-500"
                     >
                       Log in
                     </Link>
