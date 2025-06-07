@@ -114,7 +114,7 @@ export default function ResetPassword() {
             <div className="flex justify-center">
               <Link href="/" className="flex items-center gap-2 font-medium text-white">
                 <span className="text-4xl font-extrabold">
-                  Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full" />
+                  Walkman<span className="inline-block w-3 h-3 ml-1 bg-amber-400 rounded-full" />
                 </span>
               </Link>
             </div>
@@ -142,15 +142,17 @@ export default function ResetPassword() {
           </div>
         </div>
 
-        {/* Background Image for Desktop */}
-        <div className="relative hidden lg:block">
-          <img
-            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-            alt="Reset password background"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
+      {/* Background Image for Desktop */}
+      <div className="relative hidden lg:block">
+        <img
+          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+          alt="Forgot password background"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        {/* Gradient blend overlay */}
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+      </div>
       </div>
     );
   }
@@ -174,7 +176,7 @@ export default function ResetPassword() {
             <div className="flex justify-center">
               <Link href="/" className="flex items-center gap-2 font-medium text-white">
                 <span className="text-4xl font-extrabold">
-                  Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full" />
+                  Walkman<span className="inline-block w-3 h-3 ml-1 bg-amber-400 rounded-full" />
                 </span>
               </Link>
             </div>
@@ -210,15 +212,17 @@ export default function ResetPassword() {
           </div>
         </div>
 
-        {/* Background Image for Desktop */}
-        <div className="relative hidden lg:block">
-          <img
-            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-            alt="Reset password background"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
+      {/* Background Image for Desktop */}
+      <div className="relative hidden lg:block">
+        <img
+          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+          alt="Forgot password background"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        {/* Gradient blend overlay */}
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+      </div>
       </div>
     );
   }
@@ -235,14 +239,17 @@ export default function ResetPassword() {
             </div>
           </div>
         </div>
-        <div className="relative hidden lg:block">
-          <img
-            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-            alt="Reset password background"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
+      {/* Background Image for Desktop */}
+      <div className="relative hidden lg:block">
+        <img
+          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+          alt="Forgot password background"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        {/* Gradient blend overlay */}
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+      </div>
       </div>
     );
   }
@@ -265,7 +272,7 @@ export default function ResetPassword() {
           <div className="flex justify-center">
             <Link href="/" className="flex items-center gap-2 font-medium text-white">
               <span className="text-4xl font-extrabold">
-                Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full" />
+                Walkman<span className="inline-block w-3 h-3 ml-1 bg-amber-400 rounded-full" />
               </span>
             </Link>
           </div>

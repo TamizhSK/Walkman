@@ -119,6 +119,3 @@ export function useTimezone() {
 
   return timezone;
 }
-
-// You'll need to add this import at the top of files using the hook:
-// import { useState, useEffect } from 'react';
