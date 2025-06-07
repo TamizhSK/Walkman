@@ -60,92 +60,293 @@ export async function POST(request: NextRequest) {
     // Send reset email
     const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${resetToken}`;
     
-  const mailOptions = {
+const mailOptions = {
   from: process.env.SMTP_FROM || "walkman1970s@gmail.com",
   to: email,
   subject: "Reset Your Walkman Password",
-  html: `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Reset Password</title>
-    <style>
-      @media (prefers-color-scheme: dark) {
-        body {
-          background-color: #111111 !important;
-          color: #e0e0e0 !important;
-        }
-        .card {
-          background-color: #1e1e1e !important;
-          color: #e0e0e0 !important;
-        }
-        .highlight {
-          background-color: #333 !important;
-        }
-        a.button {
-          background-color: #f59e0b !important;
-          color: #000000 !important;
-        }
+  html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walkman Password Reset</title>
+  <style>
+    /* Reset styles for consistent rendering */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f5f5f5;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    
+    /* Main container */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    
+    /* Logo section - keeping original alignment */
+    .logo-container {
+      background-color: #000;
+      padding: 24px 0;
+      text-align: center;
+    }
+    .logo {
+      font-size: 36px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .logo-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #f59e0b;
+      border-radius: 70%;
+      margin-left: 1px;
+    }
+    
+    /* Content area */
+    .content {
+      padding: 40px;
+      background-color: #ffffff;
+      color: #333333;
+    }
+    
+    /* Typography improvements */
+    .content h1 {
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333333;
+      line-height: 1.3;
+    }
+    
+    .content p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #555555;
+    }
+    
+    /* Button styling with better accessibility */
+    .button-container {
+      text-align: center;
+      margin: 32px 0;
+    }
+    
+    .reset-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background-color: #f59e0b;
+      color: #000000 !important;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      min-width: 160px;
+    }
+    
+    .reset-button:hover {
+      background-color: #d97706;
+    }
+    
+    /* URL styling */
+    .url-section {
+      margin: 24px 0;
+      padding: 16px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      border: 1px solid #e9ecef;
+    }
+    
+    .url-label {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #666666;
+      font-weight: 500;
+    }
+    
+    .url {
+      word-break: break-all;
+      font-size: 14px;
+      color: #f59e0b;
+      text-decoration: none;
+      font-family: Monaco, Consolas, 'Courier New', monospace;
+      display: block;
+      padding: 8px;
+      background-color: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+    }
+    
+    .disclaimer {
+      font-size: 14px;
+      color: #999999;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #999999;
+      background-color: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #121212;
       }
+      .container {
+        background-color: #1e1e1e;
+      }
+      .logo-container {
+        background-color: #000000;
+      }
+      .content {
+        background-color: #1e1e1e;
+        color: #ffffff;
+      }
+      .content h1 {
+        color: #ffffff;
+      }
+      .content p {
+        color: #cccccc;
+      }
+      .url-section {
+        background-color: #2a2a2a;
+        border-color: #404040;
+      }
+      .url {
+        background-color: #1a1a1a;
+        border-color: #404040;
+        color: #f59e0b;
+      }
+      .disclaimer {
+        border-top-color: #404040;
+      }
+      .footer {
+        background-color: #1a1a1a;
+        border-top-color: #404040;
+      }
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 600px) {
+      .container {
+        margin: 0;
+        width: 100%;
+      }
+      .content {
+        padding: 30px 20px;
+      }
+      .logo {
+        font-size: 32px;
+      }
+      .content h1 {
+        font-size: 22px;
+      }
+      .content p {
+        font-size: 15px;
+      }
+      .reset-button {
+        padding: 14px 24px;
+        font-size: 15px;
+        min-width: 140px;
+      }
+      .url {
+        font-size: 12px;
+        padding: 6px;
+      }
+    }
+    
+    /* Extra small screens */
+    @media (max-width: 400px) {
+      .content {
+        padding: 24px 16px;
+      }
+      .logo {
+        font-size: 28px;
+      }
+      .reset-button {
+        padding: 12px 20px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+    
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .logo-dot {
+        width: 6px;
+        height: 6px;
+      }
+    }
+    
+    /* Email client specific fixes */
+    @media screen and (max-width: 600px) {
+      .container {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo Header -->
+    <div class="logo-container">
+      <div class="logo">
+        Walkman<span class="logo-dot"></span>
+      </div>
+    </div>
 
-      @keyframes slide-in {
-        0% {
-          transform: translateY(-20px);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-    </style>
-  </head>
-  <body style="margin:0; font-family:Arial, sans-serif; background-color:#f4f4f4; color:#333;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
-      <tr>
-        <td align="center">
-          <table class="card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.1); animation: slide-in 0.6s ease-out;">
-            <tr>
-              <td style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 30px; text-align: center;">
-                <h1 style="color: #ffffff; font-size: 32px; font-weight: bold; margin: 0;">
-                  Walkman
-                  <span style="display:inline-block; width:12px; height:12px; background-color:#fbbf24; border-radius:50%; margin-left:6px; vertical-align:middle;"></span>
-                </h1>
-                <p style="color: #fff; font-size: 16px; margin-top: 8px;">Vintage Sound. Modern Reset.</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 32px;">
-                <h2 style="margin-top: 0; font-size: 22px;">Reset Your Password</h2>
-                <p>We received a request to reset your password for your Walkman account. If you didn't request this, you can safely ignore this email.</p>
-                <p>Click the button below to reset your password:</p>
-                <div style="text-align:center; margin: 28px 0;">
-                  <a href="${resetUrl}" class="button" style="background-color: #f59e0b; color: white; padding: 14px 32px; font-weight: bold; border-radius: 6px; text-decoration: none; display:inline-block;">
-                    Reset Password
-                  </a>
-                </div>
-                <p>If the button doesn't work, copy and paste this URL into your browser:</p>
-                <p class="highlight" style="background: #eee; padding: 12px; border-radius: 6px; font-size: 14px; word-break: break-all;">${resetUrl}</p>
-                <p style="margin-top: 24px;"><strong>This link will expire in 1 hour.</strong></p>
-                <p>Thank you,<br/>The Walkman Team</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align: center; font-size: 12px; color: #888; padding: 20px;">
-                <p>If you didn't request a password reset, no action is required.</p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-  </html>
-  `,
+    <!-- Content Area -->
+    <div class="content">
+      <h1>Password Reset</h1>
+      <p>
+        You requested to reset your Walkman password. Click the button below to set a new password. This link will expire in 1 hour.
+      </p>
+      
+      <div class="button-container">
+        <a href="${resetUrl}" class="reset-button">Reset Password</a>
+      </div>
+      
+      <div class="url-section">
+        <div class="url-label">Or copy and paste this URL:</div>
+        <a href="${resetUrl}" class="url">${resetUrl}</a>
+      </div>
+      
+      <p class="disclaimer">
+        If you didn't request this password reset, please ignore this email. Your account remains secure.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      © ${new Date().getFullYear()} Walkman. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>`
 };
-
 
 
     await transporter.sendMail(mailOptions);

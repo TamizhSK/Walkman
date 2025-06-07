@@ -90,15 +90,20 @@ export default function ForgotPassword() {
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center text-sm text-muted-foreground">
-                  <p>Didn't receive the email? Check your spam folder or</p>
+              <div className="text-center text-sm text-muted-foreground">
+                <p>Didn't receive the email?</p>
+                <p>
+                  Check your spam folder or{" "}
                   <button
                     onClick={() => setIsEmailSent(false)}
                     className="text-amber-500 hover:text-orange-500 underline underline-offset-4"
                   >
                     try again
                   </button>
-                </div>
+                </p>
+              </div>
+
+
                 <div className="text-center">
                   <Link
                     href="/login"
@@ -209,6 +214,8 @@ export default function ForgotPassword() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/20" />
+        {/* Gradient blend overlay */}
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
       </div>
     </div>
   );

@@ -340,10 +340,12 @@ export default function ResetPassword() {
       <div className="relative hidden lg:block">
         <img
           src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-          alt="Reset password background"
+          alt="Forgot password background"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/20" />
+        {/* Gradient blend overlay */}
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
       </div>
     </div>
   );

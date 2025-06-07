@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideLayout = pathname === '/login' || pathname === '/signup';
+  const hideLayout = pathname === '/login' || pathname === '/signup' || pathname === '/forgot-password' || pathname === '/reset-password';
 
   return (
     <html lang="en">
