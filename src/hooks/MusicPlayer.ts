@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Genre, Song } from "../data/GenreData";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export default function MusicPlayer() {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
@@ -16,6 +18,8 @@ export default function MusicPlayer() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
   
@@ -259,32 +263,32 @@ export default function MusicPlayer() {
     }
   };
 
-const handleVolumeChange = (value: number | number[]) => {
-  const newVolume = Array.isArray(value) ? value[0] : value;
-  setVolume(newVolume);
-  if (audioRef.current) {
-    audioRef.current.volume = newVolume;
-    // Unmute if volume is set above 0
-    if (newVolume > 0) {
-      audioRef.current.muted = false;
-      setIsMuted(false);
-    } else {
-      audioRef.current.muted = true;
-      setIsMuted(true);
-    }
-  }
-};
-
-const toggleMute = () => {
-  if (!audioRef.current) return;
-  setIsMuted(prev => {
-    const newMuted = !prev;
+  const handleVolumeChange = (value: number | number[]) => {
+    const newVolume = Array.isArray(value) ? value[0] : value;
+    setVolume(newVolume);
     if (audioRef.current) {
-      audioRef.current.muted = newMuted;
+      audioRef.current.volume = newVolume;
+      // Unmute if volume is set above 0
+      if (newVolume > 0) {
+        audioRef.current.muted = false;
+        setIsMuted(false);
+      } else {
+        audioRef.current.muted = true;
+        setIsMuted(true);
+      }
     }
-    return newMuted;
-  });
-};
+  };
+
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+    setIsMuted(prev => {
+      const newMuted = !prev;
+      if (audioRef.current) {
+        audioRef.current.muted = newMuted;
+      }
+      return newMuted;
+    });
+  };
 
   const toggleLike = () => {
     setIsLiked(prev => !prev);
@@ -301,13 +305,106 @@ const toggleMute = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-const getGridColumns = () => {
-  if (windowWidth >= 1436) return "grid-cols-4";
-  if (windowWidth >= 1280) return "grid-cols-3";
-  if (windowWidth >= 1024) return "grid-cols-3";
-  if (windowWidth >= 768) return "grid-cols-2";
-  return "grid-cols-2"; 
-};
+  const getGridColumns = () => {
+    if (windowWidth >= 1436) return "grid-cols-4";
+    if (windowWidth >= 1280) return "grid-cols-3";
+    if (windowWidth >= 1024) return "grid-cols-3";
+    if (windowWidth >= 768) return "grid-cols-2";
+    return "grid-cols-2"; 
+  };
+
+  // Helper function to get file extension from URL
+  const getFileExtension = (url: string): string => {
+    const urlParts = url.split('.');
+    const extension = urlParts[urlParts.length - 1].split('?')[0]; // Remove query parameters
+    return extension.toLowerCase();
+  };
+
+  // Helper function to sanitize filename
+  const sanitizeFilename = (filename: string): string => {
+    return filename.replace(/[^a-z0-9\s\-_]/gi, '').replace(/\s+/g, '_');
+  };
+
+  // Download individual song
+  const downloadSong = async (song: Song, genre: Genre) => {
+    try {
+      const response = await fetch(song.audio);
+      const blob = await response.blob();
+      const extension = getFileExtension(song.audio);
+      const filename = `${sanitizeFilename(song.title)}_${sanitizeFilename(song.artist)}.${extension}`;
+      saveAs(blob, filename);
+    } catch (error) {
+      console.error(`Error downloading song ${song.title}:`, error);
+      throw error;
+    }
+  };
+
+  // Download all songs from the genre as a ZIP file
+  const downloadGenreAsZip = async () => {
+    if (!selectedGenre || !selectedGenre.songs.length) {
+      console.error("No genre selected or no songs available");
+      return;
+    }
+
+    setIsDownloading(true);
+    setDownloadProgress(0);
+
+    try {
+      const zip = new JSZip();
+      const genreFolder = zip.folder(sanitizeFilename(selectedGenre.name));
+      
+      if (!genreFolder) {
+        throw new Error("Failed to create genre folder in ZIP");
+      }
+
+      const totalSongs = selectedGenre.songs.length;
+      let completedSongs = 0;
+
+      // Download each song and add to ZIP
+      for (const song of selectedGenre.songs) {
+        try {
+          const response = await fetch(song.audio);
+          
+          if (!response.ok) {
+            throw new Error(`Failed to fetch ${song.title}: ${response.statusText}`);
+          }
+
+          const blob = await response.blob();
+          const extension = getFileExtension(song.audio);
+          const filename = `${sanitizeFilename(song.title)}_${sanitizeFilename(song.artist)}.${extension}`;
+          
+          genreFolder.file(filename, blob);
+          
+          completedSongs++;
+          setDownloadProgress(Math.round((completedSongs / totalSongs) * 100));
+          
+        } catch (error) {
+          console.error(`Error downloading ${song.title}:`, error);
+          // Continue with other songs even if one fails
+        }
+      }
+
+      // Generate and download the ZIP file
+      const zipBlob = await zip.generateAsync({ 
+        type: "blob",
+        compression: "DEFLATE",
+        compressionOptions: {
+          level: 6
+        }
+      });
+      
+      const zipFilename = `${sanitizeFilename(selectedGenre.name)}_Songs.zip`;
+      saveAs(zipBlob, zipFilename);
+      
+      console.log(`Successfully downloaded ${completedSongs} songs from ${selectedGenre.name}`);
+      
+    } catch (error) {
+      console.error("Error creating ZIP file:", error);
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
+    }
+  };
 
   return {
     selectedGenre,
@@ -325,6 +422,8 @@ const getGridColumns = () => {
     isShuffle,
     isPlayerExpanded,
     windowWidth,
+    isDownloading,
+    downloadProgress,
     audioRef,
     playerRef,
     handleGenreClick,
@@ -341,5 +440,7 @@ const getGridColumns = () => {
     togglePlayerExpanded,
     formatTime,
     getGridColumns,
+    downloadSong,
+    downloadGenreAsZip,
   };
 }

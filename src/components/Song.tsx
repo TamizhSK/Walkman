@@ -8,9 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
-import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Heart, Repeat, Shuffle, ChevronUp } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Heart, Repeat, Shuffle, ChevronUp, Download, Loader2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { Progress } from "@/components/ui/progress";
 
 export default function MusicGenreHub() {
   const player = MusicPlayer();
@@ -18,10 +19,11 @@ export default function MusicGenreHub() {
     selectedGenre, isDialogOpen, currentSong, isPlaying,
     currentTime, duration, volume, isMuted,
     isLiked, isRepeat, isShuffle, isPlayerExpanded,
+    isDownloading, downloadProgress,
     handleGenreClick, handleSongSelect, togglePlayPause, goToNextSong,
     goToPreviousSong, toggleShuffle, toggleRepeat, toggleLike,
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
-    getGridColumns, audioRef, playerRef, formatTime,
+    getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip,
   } = player;
 
   // Helper function to truncate text
@@ -86,9 +88,60 @@ return (
     <DialogDescription className="text-gray-300 text-xs sm:text-sm">{selectedGenre?.description}</DialogDescription>
   </DialogHeader>
   
+  {/* Download Section */}
+  <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
+    <div className="flex items-center gap-2">
+      <h4 className="text-sm sm:text-base md:text-lg text-white font-semibold">Songs</h4>
+      <span className="text-xs sm:text-sm text-gray-400">
+        ({selectedGenre?.songs?.length || 0} tracks)
+      </span>
+    </div>
+    
+    {/* Download Button */}
+    <div className="flex flex-col items-center gap-2">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={downloadGenreAsZip}
+              disabled={isDownloading || !selectedGenre?.songs?.length}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isDownloading ? (
+                <>
+                  <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
+                  <span className="hidden sm:inline">Downloading...</span>
+                  <span className="sm:hidden">DL...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Download All</span>
+                  <span className="sm:hidden">DL All</span>
+                </>
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Download all songs from this genre as a ZIP file</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      
+      {/* Download Progress */}
+      {isDownloading && (
+        <div className="w-full sm:w-32 md:w-40">
+          <Progress value={downloadProgress} className="h-1.5 sm:h-2" />
+          <p className="text-xs text-gray-400 text-center mt-1">
+            {downloadProgress}%
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+  
   {/* Songs List - Mobile Optimized */}
   <div className="mb-3 sm:mb-4">
-    <h4 className="text-sm sm:text-base md:text-lg text-white font-semibold mb-2">Songs</h4>
     <div className="border border-white/10 rounded-lg sm:rounded-xl overflow-y-auto custom-scrollbar1 overflow-x-hidden h-[180px] sm:h-[250px] md:h-[300px] lg:h-[350px]">
       {selectedGenre?.songs.map((song, index) => (
         <div key={song.id}>
@@ -489,26 +542,31 @@ return (
         )}
 
         {/* Enhanced Expand/Collapse Toggle Button */}
-        <div className="flex justify-center mt-2 sm:mt-3 pb-2">
-          <Button
-            variant="ghost"
-            onClick={togglePlayerExpanded}
-            className="text-white hover:text-gray-900 flex items-center gap-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
-          >
-            <ChevronUp 
-              className={`transition-transform duration-200 ${isPlayerExpanded ? 'rotate-180' : ''}`} 
-              size={14} 
-            />
-            <span className="hidden sm:inline">
-              {isPlayerExpanded ? "Collapse Player" : "Expand Player"}
-            </span>
-            <span className="sm:hidden">
-              {isPlayerExpanded ? "Less" : "More"}
-            </span>
-          </Button>
-        </div>
+        {currentSong && (
+          <div className="flex justify-center mt-2 sm:mt-3 pb-2">
+            <Button
+              variant="ghost"
+              onClick={togglePlayerExpanded}
+              className="text-white hover:text-gray-900 flex items-center gap-2 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
+            >
+              <ChevronUp 
+                className={`transition-transform duration-200 ${isPlayerExpanded ? 'rotate-180' : ''}`} 
+                size={14} 
+              />
+              <span className="hidden sm:inline">
+                {isPlayerExpanded ? "Collapse Player" : "Expand Player"}
+              </span>
+              <span className="sm:hidden">
+                {isPlayerExpanded ? "Less" : "More"}
+              </span>
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
+
+    {/* Audio Element */}
+    <audio ref={audioRef} />
   </div>
 );
 }
