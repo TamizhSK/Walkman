@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +9,34 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
-export default function ResetPassword() {
+// Loading component for Suspense fallback
+function LoadingSpinner() {
+  return (
+    <div className="grid min-h-screen lg:grid-cols-2">
+      <div className="relative z-10 flex flex-col justify-center p-6 md:p-10 md:bg-neutral-950">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="text-center text-white">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400 mx-auto mb-4"></div>
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+      {/* Background Image for Desktop */}
+      <div className="relative hidden lg:block">
+        <img
+          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+          alt="Reset password background"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+      </div>
+    </div>
+  );
+}
+
+// Main component that uses useSearchParams - this needs to be wrapped in Suspense
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -142,17 +169,17 @@ export default function ResetPassword() {
           </div>
         </div>
 
-      {/* Background Image for Desktop */}
-      <div className="relative hidden lg:block">
-        <img
-          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-          alt="Forgot password background"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        {/* Gradient blend overlay */}
-        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
-      </div>
+        {/* Background Image for Desktop */}
+        <div className="relative hidden lg:block">
+          <img
+            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+            alt="Forgot password background"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+          {/* Gradient blend overlay */}
+          <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+        </div>
       </div>
     );
   }
@@ -212,17 +239,17 @@ export default function ResetPassword() {
           </div>
         </div>
 
-      {/* Background Image for Desktop */}
-      <div className="relative hidden lg:block">
-        <img
-          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-          alt="Forgot password background"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        {/* Gradient blend overlay */}
-        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
-      </div>
+        {/* Background Image for Desktop */}
+        <div className="relative hidden lg:block">
+          <img
+            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+            alt="Forgot password background"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+          {/* Gradient blend overlay */}
+          <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+        </div>
       </div>
     );
   }
@@ -239,17 +266,17 @@ export default function ResetPassword() {
             </div>
           </div>
         </div>
-      {/* Background Image for Desktop */}
-      <div className="relative hidden lg:block">
-        <img
-          src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-          alt="Forgot password background"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        {/* Gradient blend overlay */}
-        <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
-      </div>
+        {/* Background Image for Desktop */}
+        <div className="relative hidden lg:block">
+          <img
+            src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
+            alt="Forgot password background"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+          {/* Gradient blend overlay */}
+          <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
+        </div>
       </div>
     );
   }
@@ -355,5 +382,14 @@ export default function ResetPassword() {
         <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
       </div>
     </div>
+  );
+}
+
+// Main export component with Suspense wrapper
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
