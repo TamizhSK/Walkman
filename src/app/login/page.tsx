@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "", general: "" });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSocialLogin = async (provider: string) => {
     setIsLoading(true);
@@ -169,15 +171,29 @@ export default function Login() {
                       Forgot password?
                     </Link>
                   </div>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading}
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      disabled={isLoading}
+                      className="pr-10"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-gray-400" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-gray-400" />
+                      )}
+                    </button>
+                  </div>
                   {errors.password && <p className="text-sm text-red-600">{errors.password}</p>}
                 </div>
                 <Button
@@ -207,7 +223,7 @@ export default function Login() {
       <div className="relative hidden lg:block">
         <img
           src="https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg"
-          alt="Forgot password background"
+          alt="Login background"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/20" />
