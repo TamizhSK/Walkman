@@ -57,15 +57,18 @@ export default function MusicPlayer() {
     };
   }, []);
 
-  const cleanupAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.removeEventListener("timeupdate", updateTime);
-      audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
-      audioRef.current.removeEventListener("ended", handleSongEnd);
-      audioRef.current = null;
-    }
-  };
+const cleanupAudio = () => {
+  if (audioRef.current) {
+    audioRef.current.pause();
+    audioRef.current.removeEventListener("timeupdate", updateTime);
+    audioRef.current.removeEventListener("loadedmetadata", setAudioDuration);
+    audioRef.current.removeEventListener("ended", handleSongEnd);
+    audioRef.current.src = "";
+    audioRef.current = null;
+  }
+  setCurrentSong(null);
+  setIsPlaying(false);
+};
 
   const handleGenreClick = (genre: Genre) => {
     console.log("Genre selected:", genre.name);
@@ -442,5 +445,6 @@ export default function MusicPlayer() {
     getGridColumns,
     downloadSong,
     downloadGenreAsZip,
+    cleanupAudio,
   };
 }

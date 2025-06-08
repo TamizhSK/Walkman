@@ -1,5 +1,6 @@
 "use client";
 
+
 import MusicPlayer from "../hooks/MusicPlayer";
 import { genreData } from "../data/GenreData";
 import { motion } from "framer-motion";
@@ -12,6 +13,7 @@ import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Heart, Repeat, Sh
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Progress } from "@/components/ui/progress";
+import { useEffect } from "react";
 
 export default function MusicGenreHub() {
   const player = MusicPlayer();
@@ -23,7 +25,7 @@ export default function MusicGenreHub() {
     handleGenreClick, handleSongSelect, togglePlayPause, goToNextSong,
     goToPreviousSong, toggleShuffle, toggleRepeat, toggleLike,
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
-    getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip,
+    getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip, cleanupAudio,
   } = player;
 
   // Helper function to truncate text
@@ -35,6 +37,14 @@ export default function MusicGenreHub() {
     if (!text) return '';
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   };
+
+    useEffect(() => {
+    return () => {
+      cleanupAudio();
+    };
+  }, []);
+
+
 
 return (
 <div className="p-5 sm:p-8 md:p-10 lg:p-12 xl:p-20 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
