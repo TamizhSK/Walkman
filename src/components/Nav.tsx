@@ -66,7 +66,7 @@ export default function Nav() {
             Premium
           </Link>
           <Link href="/login">
-            <Button className="bg-amber-400 hover:bg-amber-300 text-black text-lg px-4 rounded-full font-medium">
+            <Button className="bg-amber-400 hover:bg-amber-300 text-black text-lg px-4 rounded-full font-medium" >
               Log in
             </Button>
           </Link>

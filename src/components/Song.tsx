@@ -46,7 +46,7 @@ return (
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => handleGenreClick(genre)}
-          className={`rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${genre.themeColor} cursor-pointer transition hover:shadow-2xl`}
+          className={`rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${genre.themeColor} transition hover:shadow-2xl`}
         >
           {/* Square aspect ratio on mobile, rectangular on medium+ screens */}
           <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-[3/2]">

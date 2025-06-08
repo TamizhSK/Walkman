@@ -8,6 +8,13 @@ html {
   scroll-behavior:smooth;
 }
 
+
+* {
+  cursor: none !important;
+}
+
+
+
 @font-face {
   font-family: 'SF Pro Display';
   src: url('/fonts/SFPro/SF-Pro-Display-Regular.otf') format('opentype');
