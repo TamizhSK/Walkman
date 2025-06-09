@@ -76,26 +76,95 @@ export default function Nav() {
           <span className="inline-block w-3 h-3 ml-1 bg-amber-400 rounded-full" />
         </Link>
 
-        {/* Mobile menu toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="block lg:hidden text-white"
-          aria-label="Toggle Menu"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* Mobile controls - Avatar + Menu toggle */}
+        <div className="flex lg:hidden items-center space-x-3">
+          {/* Mobile Profile Avatar/Login Button */}
+          {status === "loading" ? (
+            <div className="w-8 h-8 rounded-full bg-gray-600 animate-pulse" />
+          ) : session?.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="relative h-8 w-8 rounded-full p-0 bg-transparent hover:bg-white/10"
+                >
+                  <Avatar className="h-8 w-8 border-2 border-amber-400">
+                    <AvatarImage 
+                      src={session.user.image || ""} 
+                      alt={getUserDisplayName()} 
+                    />
+                    <AvatarFallback className="bg-amber-400 text-black font-semibold text-xs">
+                      {getInitials(getUserDisplayName())}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-zinc-900 border-zinc-700" align="end" forceMount>
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage 
+                      src={session.user.image || ""} 
+                      alt={getUserDisplayName()} 
+                    />
+                    <AvatarFallback className="bg-amber-400 text-black font-semibold">
+                      {getInitials(getUserDisplayName())}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col space-y-1 leading-none">
+                    <p className="font-medium text-white">{getUserDisplayName()}</p>
+                    {session.user.email && (
+                      <p className="w-[200px] truncate text-sm text-gray-400">
+                        {session.user.email}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <DropdownMenuSeparator className="bg-zinc-700" />
+                <DropdownMenuItem asChild className="text-white hover:bg-zinc-800">
+                  <Link href="/profile" className="cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-zinc-700" />
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-400 hover:bg-zinc-800 hover:text-red-300"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Button className="bg-amber-400 hover:bg-amber-300 text-black text-sm px-3 py-1 rounded-full font-medium">
+                Log in
+              </Button>
+            </Link>
+          )}
+
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-white"
+            aria-label="Toggle Menu"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
-          </svg>
-        </button>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              />
+            </svg>
+          </button>
+        </div>
 
         {/* Desktop menu */}
         <div className="hidden lg:flex items-center space-x-6">
@@ -181,7 +250,7 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile dropdown menu - simplified to just navigation links */}
       <div
         className={`
           lg:hidden w-full overflow-hidden 
@@ -212,57 +281,6 @@ export default function Nav() {
           >
             Premium
           </Link>
-          
-          {/* Mobile auth section */}
-          {status === "loading" ? (
-            <div className="w-12 h-12 rounded-full bg-gray-600 animate-pulse" />
-          ) : session?.user ? (
-            <div className="flex flex-col items-center space-y-3 w-48 pt-2">
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-10 w-10 border-2 border-amber-400">
-                  <AvatarImage 
-                    src={session.user.image || ""} 
-                    alt={getUserDisplayName()} 
-                  />
-                  <AvatarFallback className="bg-amber-400 text-black font-semibold">
-                    {getInitials(getUserDisplayName())}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-white font-medium">{getUserDisplayName()}</span>
-                  {session.user.email && (
-                    <span className="text-gray-300 text-sm truncate max-w-[120px]">
-                      {session.user.email}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="w-full space-y-2">
-                <Link href="/profile" onClick={() => setIsOpen(false)} className="w-full">
-                  <Button className="w-full mb-2 rounded-4xl text-base bg-zinc-700 hover:bg-zinc-600 text-white">
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Button>
-                </Link>
-                <Button
-                  onClick={() => {
-                    handleLogout();
-                    setIsOpen(false);
-                  }}
-                  className="w-full rounded-4xl text-base bg-red-600 hover:bg-red-700 text-white"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Log out
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <Link href="/login" onClick={() => setIsOpen(false)} className="w-48">
-              <Button className="bg-amber-400 hover:bg-amber-300 text-black text-lg px-4 rounded-full font-medium w-full">
-                Log in
-              </Button>
-            </Link>
-          )}
         </div>
       </div>
     </nav>
