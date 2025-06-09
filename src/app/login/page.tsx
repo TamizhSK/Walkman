@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,27 +14,47 @@ import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { data: session, status } = useSession();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "", general: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      const callbackUrl = searchParams.get("callbackUrl") || "/";
+      router.push(callbackUrl);
+    }
+  }, [session, status, router, searchParams]);
+
   const handleSocialLogin = async (provider: string) => {
     setIsLoading(true);
+    setErrors({ username: "", password: "", general: "" });
+    
     try {
+      const callbackUrl = searchParams.get("callbackUrl") || "/";
       const result = await signIn(provider, {
-        callbackUrl: "/",
-        redirect: true,
+        callbackUrl,
+        redirect: false,
       });
 
       if (result?.error) {
-        setErrors(prev => ({ ...prev, general: "Authentication failed. Please try again." }));
-      } else {
-        router.push("/");
+        setErrors(prev => ({ 
+          ...prev, 
+          general: `${provider} authentication failed. Please try again.` 
+        }));
+      } else if (result?.url) {
+        router.push(result.url);
       }
-    } catch {
-      setErrors(prev => ({ ...prev, general: "Something went wrong. Please try again." }));
+    } catch (error) {
+      console.error("Social login error:", error);
+      setErrors(prev => ({ 
+        ...prev, 
+        general: "Something went wrong. Please try again." 
+      }));
     } finally {
       setIsLoading(false);
     }
@@ -43,6 +63,7 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrors({ username: "", password: "", general: "" });
 
     const newErrors = { username: "", password: "", general: "" };
     let isValid = true;
@@ -56,28 +77,52 @@ export default function Login() {
       isValid = false;
     }
 
-    setErrors(newErrors);
-
-    if (isValid) {
-      try {
-        const result = await signIn("credentials", {
-          username,
-          password,
-          redirect: false,
-        });
-
-        if (result?.error) {
-          setErrors(prev => ({ ...prev, general: "Invalid username/email or password." }));
-        } else {
-          router.push("/");
-        }
-      } catch {
-        setErrors(prev => ({ ...prev, general: "Something went wrong. Please try again." }));
-      }
+    if (!isValid) {
+      setErrors(newErrors);
+      setIsLoading(false);
+      return;
     }
 
-    setIsLoading(false);
+    try {
+      const callbackUrl = searchParams.get("callbackUrl") || "/";
+      const result = await signIn("credentials", {
+        username: username.trim(),
+        password: password.trim(),
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setErrors(prev => ({ 
+          ...prev, 
+          general: "Invalid username/email or password." 
+        }));
+      } else if (result?.ok) {
+        router.push(callbackUrl);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrors(prev => ({ 
+        ...prev, 
+        general: "Something went wrong. Please try again." 
+      }));
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // Show loading if checking session
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-400"></div>
+      </div>
+    );
+  }
+
+  // Don't render login form if already authenticated
+  if (status === "authenticated") {
+    return null;
+  }
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">

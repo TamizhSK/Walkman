@@ -6,7 +6,7 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next";
-import Providers from '@/components/providers/SessionProvider';
+import SessionProvider from '@/components/providers/SessionProvider';
 import { Pointer } from '@/components/magicui/pointer';
 
 export default function RootLayout({
@@ -35,14 +35,14 @@ export default function RootLayout({
         {/* Custom pointer should be at the very top level */}
         <Pointer />
         
-        <Providers>
+        <SessionProvider>
           {!hideLayout && <Nav />}
           <main className="flex-grow w-full">
             {children}
             <Analytics />
           </main>
           {!hideLayout && <Footer />}
-        </Providers>
+        </SessionProvider>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" />
       </body>
     </html>

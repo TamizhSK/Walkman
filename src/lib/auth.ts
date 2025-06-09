@@ -13,8 +13,8 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        authorization: { params: { prompt: "select_account" } }
-}),
+      authorization: { params: { prompt: "select_account" } }
+    }),
     // FacebookProvider({
     //   clientId: process.env.FACEBOOK_CLIENT_ID!,
     //   clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
@@ -66,30 +66,45 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           username: user.username,
+          image: user.image,
         };
       },
     }),
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/login",
     // signUp: "/signup",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.username = user.username;
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub!;
+        session.user.id = token.id as string;
         session.user.username = token.username as string;
       }
       return session;
+    },
+    async signIn({ user, account, profile }) {
+      // Allow all sign-ins
+      return true;
+    },
+  },
+  events: {
+    async signIn({ user, account, profile, isNewUser }) {
+      console.log("User signed in:", user.email);
+    },
+    async signOut({ token }) {
+      console.log("User signed out");
     },
   },
 };
