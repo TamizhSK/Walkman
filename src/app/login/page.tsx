@@ -86,7 +86,7 @@ export default function Login() {
         className="absolute inset-0 lg:hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('https://res.cloudinary.com/dqcf0a6dk/image/upload/v1747025733/img4_pczl7x.jpg')" }}
       >
-        <div className="absolute inset-0 bg-brown/50" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Form section */}
