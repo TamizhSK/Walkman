@@ -9,7 +9,7 @@ export default function Premium() {
       title: 'Premium Individual',
       icon: 'fas fa-headphones-alt',
       features: ['Automatic Playlists', 'Ad-free music listening', 'Download to listen offline'],
-      price: '$9.99',
+      price: '$4.99',
       billing: 'Billed monthly',
       description: 'For one person',
       neonColors: { firstColor: "#8b5cf6", secondColor: "#3b82f6" }
@@ -19,7 +19,7 @@ export default function Premium() {
       title: 'Premium Duo',
       icon: 'fas fa-user-group',
       features: ['2 Premium accounts', 'Ad-free music listening', 'Download to listen offline'],
-      price: '$12.99',
+      price: '$8.99',
       billing: 'Billed monthly',
       description: 'For two people',
       neonColors: { firstColor: "#ec4899", secondColor: "#8b5cf6" }
@@ -29,7 +29,7 @@ export default function Premium() {
       title: 'Premium Student',
       icon: 'fas fa-graduation-cap',
       features: ['Student Discount', 'Ad-free music listening', 'Download to listen offline'],
-      price: '$4.99',
+      price: '$2.99',
       billing: 'Billed monthly',
       description: 'For eligible students',
       neonColors: { firstColor: "#10b981", secondColor: "#06b6d4" }
@@ -39,7 +39,7 @@ export default function Premium() {
       title: 'Premium Family',
       icon: 'fas fa-users',
       features: ['Up to 6 Premium accounts', 'Ad-free music listening', 'Download to listen offline'],
-      price: '$15.99',
+      price: '$14.99',
       billing: 'Billed monthly',
       description: 'For families',
       neonColors: { firstColor: "#f59e0b", secondColor: "#ef4444" }
