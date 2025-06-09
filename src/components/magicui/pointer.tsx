@@ -19,13 +19,6 @@ interface PointerProps extends Omit<HTMLMotionProps<"div">, "ref"> {
   hideOnTouch?: boolean;
 }
 
-/**
- * Ultra-fast custom pointer component with minimal overhead.
- * Optimized for maximum speed and responsiveness.
- *
- * @component
- * @param {PointerProps} props - The component props
- */
 export function Pointer({
   className,
   style,
@@ -36,41 +29,30 @@ export function Pointer({
 }: PointerProps): React.ReactElement {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
-  // Ultra-fast springs with minimal mass
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
-  
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [isPressed, setIsPressed] = useState<boolean>(false);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
-  
+
+  const [isActive, setIsActive] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
   const lastUpdateTime = useRef<number>(0);
 
-  // Detect touch device (memoized)
   useEffect(() => {
-    const isTouchSupported = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    setIsTouchDevice(isTouchSupported);
+    const isTouch =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(isTouch);
   }, []);
 
-  // Ultra-optimized mouse position update with throttling
   const updateMousePosition = useCallback((clientX: number, clientY: number) => {
     const now = performance.now();
-    
-    // Throttle updates to ~120fps for optimal performance
-    if (now - lastUpdateTime.current < 8.33) {
-      return;
-    }
-    
+    if (now - lastUpdateTime.current < 8.33) return;
     lastUpdateTime.current = now;
-    
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-    }
-    
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
       x.set(clientX);
       y.set(clientY);
@@ -78,78 +60,57 @@ export function Pointer({
   }, [x, y]);
 
   useEffect(() => {
-    // Early return for touch devices
-    if (hideOnTouch && isTouchDevice) {
-      return;
-    }
+    if (hideOnTouch && isTouchDevice) return;
+    if (typeof window === "undefined" || !containerRef.current) return;
 
-    if (typeof window === "undefined" || !containerRef.current) {
-      return;
-    }
+    const el = containerRef.current.parentElement;
+    if (!el) return;
 
-    const parentElement = containerRef.current.parentElement;
-    if (!parentElement) return;
+    el.style.cursor = "none";
 
-    // Set cursor to none for custom pointer
-    parentElement.style.cursor = "none";
-
-    // Optimized event handlers with minimal operations
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) =>
       updateMousePosition(e.clientX, e.clientY);
-    };
-
     const handleMouseEnter = () => setIsActive(true);
-    
     const handleMouseLeave = () => {
       setIsActive(false);
       setIsPressed(false);
       setIsDragging(false);
     };
-
     const handleMouseDown = (e: MouseEvent) => {
       setIsPressed(true);
       updateMousePosition(e.clientX, e.clientY);
     };
-
     const handleMouseUp = () => {
       setIsPressed(false);
       setIsDragging(false);
     };
-
     const handleDragStart = (e: DragEvent) => {
       setIsDragging(true);
       updateMousePosition(e.clientX, e.clientY);
     };
-
     const handleDrag = (e: DragEvent) => {
-      // Only update if coordinates are valid
-      if (e.clientX !== 0 || e.clientY !== 0) {
-        updateMousePosition(e.clientX, e.clientY);
-      }
+      if (e.clientX || e.clientY) updateMousePosition(e.clientX, e.clientY);
     };
-
     const handleDragEnd = () => {
       setIsDragging(false);
       setIsPressed(false);
     };
 
-    // Touch events for hybrid devices (minimal overhead)
+    // Optional touch fallback
     const handleTouchStart = (e: TouchEvent) => {
       if (!hideOnTouch && e.touches[0]) {
-        const touch = e.touches[0];
+        const t = e.touches[0];
         setIsPressed(true);
         setIsActive(true);
-        updateMousePosition(touch.clientX, touch.clientY);
+        updateMousePosition(t.clientX, t.clientY);
       }
     };
-
     const handleTouchMove = (e: TouchEvent) => {
       if (!hideOnTouch && e.touches[0]) {
-        const touch = e.touches[0];
-        updateMousePosition(touch.clientX, touch.clientY);
+        const t = e.touches[0];
+        updateMousePosition(t.clientX, t.clientY);
       }
     };
-
     const handleTouchEnd = () => {
       if (!hideOnTouch) {
         setIsPressed(false);
@@ -157,61 +118,55 @@ export function Pointer({
       }
     };
 
-    // Add event listeners with passive flag for better performance
-    const eventOptions = { passive: true };
-    
-    parentElement.addEventListener("mousemove", handleMouseMove, eventOptions);
-    parentElement.addEventListener("mouseenter", handleMouseEnter);
-    parentElement.addEventListener("mouseleave", handleMouseLeave);
-    parentElement.addEventListener("mousedown", handleMouseDown);
-    parentElement.addEventListener("mouseup", handleMouseUp);
-    parentElement.addEventListener("dragstart", handleDragStart);
-    parentElement.addEventListener("drag", handleDrag);
-    parentElement.addEventListener("dragend", handleDragEnd);
-    
+    const opts = { passive: true };
+
+    el.addEventListener("mousemove", handleMouseMove, opts);
+    el.addEventListener("mouseenter", handleMouseEnter);
+    el.addEventListener("mouseleave", handleMouseLeave);
+    el.addEventListener("mousedown", handleMouseDown);
+    el.addEventListener("mouseup", handleMouseUp);
+    el.addEventListener("dragstart", handleDragStart);
+    el.addEventListener("drag", handleDrag);
+    el.addEventListener("dragend", handleDragEnd);
+
     if (!hideOnTouch) {
-      parentElement.addEventListener("touchstart", handleTouchStart, eventOptions);
-      parentElement.addEventListener("touchmove", handleTouchMove, eventOptions);
-      parentElement.addEventListener("touchend", handleTouchEnd);
+      el.addEventListener("touchstart", handleTouchStart, opts);
+      el.addEventListener("touchmove", handleTouchMove, opts);
+      el.addEventListener("touchend", handleTouchEnd);
     }
 
-    // Global mouse up handler
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      // Cleanup with minimal operations
-      parentElement.style.cursor = "";
-      parentElement.removeEventListener("mousemove", handleMouseMove);
-      parentElement.removeEventListener("mouseenter", handleMouseEnter);
-      parentElement.removeEventListener("mouseleave", handleMouseLeave);
-      parentElement.removeEventListener("mousedown", handleMouseDown);
-      parentElement.removeEventListener("mouseup", handleMouseUp);
-      parentElement.removeEventListener("dragstart", handleDragStart);
-      parentElement.removeEventListener("drag", handleDrag);
-      parentElement.removeEventListener("dragend", handleDragEnd);
-      
+      el.style.cursor = "";
+      el.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseenter", handleMouseEnter);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+      el.removeEventListener("mousedown", handleMouseDown);
+      el.removeEventListener("mouseup", handleMouseUp);
+      el.removeEventListener("dragstart", handleDragStart);
+      el.removeEventListener("drag", handleDrag);
+      el.removeEventListener("dragend", handleDragEnd);
+
       if (!hideOnTouch) {
-        parentElement.removeEventListener("touchstart", handleTouchStart);
-        parentElement.removeEventListener("touchmove", handleTouchMove);
-        parentElement.removeEventListener("touchend", handleTouchEnd);
+        el.removeEventListener("touchstart", handleTouchStart);
+        el.removeEventListener("touchmove", handleTouchMove);
+        el.removeEventListener("touchend", handleTouchEnd);
       }
-      
+
       document.removeEventListener("mouseup", handleMouseUp);
-      
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
+
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [updateMousePosition, hideOnTouch, isTouchDevice]);
 
-  // Ultra-fast render with minimal DOM operations
   if (hideOnTouch && isTouchDevice) {
-    return <div ref={containerRef} style={{ display: 'none' }} />;
+    return <div ref={containerRef} style={{ display: "none" }} />;
   }
 
   return (
     <>
-      <div ref={containerRef} style={{ position: 'absolute', pointerEvents: 'none' }} />
+      <div ref={containerRef} style={{ position: "absolute", pointerEvents: "none" }} />
       <AnimatePresence mode="wait">
         {isActive && (
           <motion.div
@@ -219,25 +174,18 @@ export function Pointer({
             style={{
               top: springY,
               left: springX,
-              x: "-50%",
-              y: "-50%",
               willChange: "transform",
               backfaceVisibility: "hidden",
               transform: "translateZ(0)",
+              pointerEvents: "none",
               ...style,
             }}
-            initial={{
-              scale: 0,
-              opacity: 0,
-            }}
+            initial={{ scale: 0, opacity: 0 }}
             animate={{
               scale: isPressed || isDragging ? 0.8 : 1,
               opacity: 1,
             }}
-            exit={{
-              scale: 0,
-              opacity: 0,
-            }}
+            exit={{ scale: 0, opacity: 0 }}
             transition={{
               type: "spring",
               stiffness: 1200,
@@ -259,24 +207,19 @@ export function Pointer({
                   damping: 20,
                   mass: 0.01,
                 }}
-                style={{
-                  willChange: "transform",
-                  backfaceVisibility: "hidden",
-                }}
               >
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
                   strokeWidth="1"
                   viewBox="0 0 16 16"
-                  height="24"
-                  width="24"
+                  height="25"
+                  width="25"
                   xmlns="http://www.w3.org/2000/svg"
                   className={cn(
-                    "stroke-neutral-950 text-amber-400 drop-shadow-sm transition-colors duration-75",
+                    "text-amber-400 stroke-slate-900 transition-colors duration-75",
                     isPressed && "text-amber-300",
-                    isDragging && "text-blue-400",
-                    className,
+                    className
                   )}
                   style={{
                     filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1))",
