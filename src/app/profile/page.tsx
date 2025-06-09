@@ -66,26 +66,23 @@ export default function Profile() {
       .slice(0, 2);
   };
 
-  const getUserDisplayName = () => {
+  const getUserDisplayName = (): string => {
     if (session?.user?.name) return session.user.name;
     if (session?.user?.username) return session.user.username;
     if (session?.user?.email) return session.user.email.split("@")[0];
     return "User";
   };
 
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return "Not available";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  };
-
-  const getAccountType = () => {
+  const getAccountType = (): string => {
     // You can customize this logic based on your app's needs
     if (session?.user?.email?.includes("admin")) return "Admin";
     return "Standard";
+  };
+
+  const getJoinDate = (): string => {
+    // Since NextAuth doesn't provide createdAt by default, we'll show a generic message
+    // You can extend this by adding custom fields to your user model
+    return "Recently joined";
   };
 
   // Show loading if checking session
@@ -154,16 +151,31 @@ export default function Profile() {
                 </h3>
                 
                 <div className="grid gap-4">
-                  {/* Email */}
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
-                    <div className="flex items-center gap-3">
-                      <Mail className="h-4 w-4 text-gray-400" />
-                      <div>
-                        <p className="text-sm text-gray-400">Email Address</p>
-                        <p className="text-white">{session.user.email || "Not provided"}</p>
+                  {/* Name */}
+                  {session.user.name && (
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
+                      <div className="flex items-center gap-3">
+                        <User className="h-4 w-4 text-gray-400" />
+                        <div>
+                          <p className="text-sm text-gray-400">Full Name</p>
+                          <p className="text-white">{session.user.name}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+
+                  {/* Email */}
+                  {session.user.email && (
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
+                      <div className="flex items-center gap-3">
+                        <Mail className="h-4 w-4 text-gray-400" />
+                        <div>
+                          <p className="text-sm text-gray-400">Email Address</p>
+                          <p className="text-white">{session.user.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Username */}
                   {session.user.username && (
@@ -178,27 +190,43 @@ export default function Profile() {
                     </div>
                   )}
 
-                  {/* Account Created (if available) */}
+                  {/* User ID */}
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
+                    <div className="flex items-center gap-3">
+                      <Shield className="h-4 w-4 text-gray-400" />
+                      <div>
+                        <p className="text-sm text-gray-400">User ID</p>
+                        <p className="text-white font-mono text-sm">{session.user.id}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Member Since */}
                   <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
                     <div className="flex items-center gap-3">
                       <Calendar className="h-4 w-4 text-gray-400" />
                       <div>
                         <p className="text-sm text-gray-400">Member Since</p>
-                        <p className="text-white">{formatDate(session.user.createdAt)}</p>
+                        <p className="text-white">{getJoinDate()}</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Last Login (if available) */}
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50">
-                    <div className="flex items-center gap-3">
-                      <Clock className="h-4 w-4 text-gray-400" />
-                      <div>
-                        <p className="text-sm text-gray-400">Last Active</p>
-                        <p className="text-white">Just now</p>
-                      </div>
-                    </div>
-                  </div>
+              {/* Account Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
+                  <div className="text-2xl font-bold text-amber-400">{getAccountType()}</div>
+                  <div className="text-sm text-gray-400">Account Type</div>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
+                  <div className="text-2xl font-bold text-green-400">Active</div>
+                  <div className="text-sm text-gray-400">Status</div>
+                </div>
+                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
+                  <div className="text-2xl font-bold text-blue-400">0</div>
+                  <div className="text-sm text-gray-400">Playlists</div>
+                </div>
+              </div>
                 </div>
               </div>
 
