@@ -211,22 +211,6 @@ export default function Profile() {
                       </div>
                     </div>
                   </div>
-
-              {/* Account Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
-                  <div className="text-2xl font-bold text-amber-400">{getAccountType()}</div>
-                  <div className="text-sm text-gray-400">Account Type</div>
-                </div>
-                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
-                  <div className="text-2xl font-bold text-green-400">Active</div>
-                  <div className="text-sm text-gray-400">Status</div>
-                </div>
-                <div className="p-4 rounded-lg bg-zinc-800/30 text-center">
-                  <div className="text-2xl font-bold text-blue-400">0</div>
-                  <div className="text-sm text-gray-400">Playlists</div>
-                </div>
-              </div>
                 </div>
               </div>
 
@@ -243,7 +227,7 @@ export default function Profile() {
                   {/* Edit Profile Button */}
                   <Button
                     variant="outline"
-                    className="w-full justify-start border-zinc-600 hover:bg-zinc-800 text-white"
+                    className="w-full justify-start bg-slate-900 border-zinc-600 hover:bg-zinc-00 text-white"
                     onClick={() => {
                       // You can implement edit profile functionality here
                       alert("Edit profile functionality coming soon!");
@@ -256,7 +240,7 @@ export default function Profile() {
                   {/* Change Password Button (for credentials users) */}
                   <Button
                     variant="outline"
-                    className="w-full justify-start border-zinc-600 hover:bg-zinc-800 text-white"
+                    className="w-full justify-start bg-slate-900 border-zinc-600 hover:bg-zinc-00 text-white"
                     onClick={() => {
                       // You can implement change password functionality here
                       alert("Change password functionality coming soon!");
@@ -269,7 +253,7 @@ export default function Profile() {
                   {/* Logout Button */}
                   <Button
                     variant="destructive"
-                    className="w-full justify-start bg-red-600 hover:bg-red-700"
+                    className="w-half justify-start bg-red-600 hover:bg-red-700"
                     onClick={handleLogout}
                     disabled={isLoading}
                   >
