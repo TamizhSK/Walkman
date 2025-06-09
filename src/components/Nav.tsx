@@ -238,7 +238,12 @@ export default function Nav() {
                 </div>
               </div>
               <div className="w-full space-y-2">
-
+                <Link href="/profile" onClick={() => setIsOpen(false)} className="w-full">
+                  <Button className="w-full bg-zinc-700 hover:bg-zinc-600 text-white">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Button>
+                </Link>
                 <Button
                   onClick={() => {
                     handleLogout();
