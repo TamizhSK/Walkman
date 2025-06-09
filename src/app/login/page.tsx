@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -12,7 +12,17 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function Login() {
+// Loading component for Suspense fallback
+function LoginLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-400"></div>
+    </div>
+  );
+}
+
+// Separate component that uses useSearchParams
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -112,11 +122,7 @@ export default function Login() {
 
   // Show loading if checking session
   if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-400"></div>
-      </div>
-    );
+    return <LoginLoading />;
   }
 
   // Don't render login form if already authenticated
@@ -276,5 +282,14 @@ export default function Login() {
         <div className="absolute left-0 top-0 h-full w-92 bg-gradient-to-r from-neutral-950 to-transparent z-10" />
       </div>
     </div>
+  );
+}
+
+// Main component with Suspense wrapper
+export default function Login() {
+  return (
+    <Suspense fallback={<LoginLoading />}>
+      <LoginContent />
+    </Suspense>
   );
 }
