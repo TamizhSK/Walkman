@@ -239,8 +239,8 @@ export default function Nav() {
               </div>
               <div className="w-full space-y-2">
                 <Link href="/profile" onClick={() => setIsOpen(false)} className="w-full">
-                  <Button className="w-full rounded-4xl bg-zinc-700 hover:bg-zinc-600 text-white">
-                    <User className="mr-2 mt-2 h-4 w-4" />
+                  <Button className="w-full mb-2 rounded-4xl bg-zinc-700 hover:bg-zinc-600 text-white">
+                    <User className="mr-2 h-4 w-4" />
                     Profile
                   </Button>
                 </Link>
@@ -251,7 +251,7 @@ export default function Nav() {
                   }}
                   className="w-full rounded-4xl bg-red-600 hover:bg-red-700 text-white"
                 >
-                  <LogOut className="mr-2 mt-2 h-4 w-4" />
+                  <LogOut className="mr-2 h-4 w-4" />
                   Log out
                 </Button>
               </div>
