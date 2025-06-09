@@ -5,21 +5,35 @@
 @custom-variant dark (&:is(.dark *));
 
 html {
-  scroll-behavior:smooth;
+  scroll-behavior: smooth;
 }
 
-
+/* Optimized cursor hiding with better performance */
 * {
   cursor: none !important;
 }
 
+/* Enable hardware acceleration for better performance */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
 
+/* Performance optimizations for pointer animations */
+.pointer-optimized {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
 
+/* Font faces */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('/fonts/SFPro/SF-Pro-Display-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -27,6 +41,7 @@ html {
   src: url('/fonts/SFPro/SF-Pro-Display-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -34,6 +49,7 @@ html {
   src: url('/fonts/SFPro/SF-Pro-Display-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -41,12 +57,14 @@ html {
   src: url('/fonts/SFPro/SF-Pro-Display-Heavy.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
+  font-display: swap;
 }
 
 body {
   font-family: 'SF Pro Display', sans-serif;
 }
 
+/* Optimized marquee animations */
 @keyframes marquee-down {
   0% {
     transform: translateY(0);
@@ -67,10 +85,12 @@ body {
 
 .animate-marquee-down {
   animation: marquee-down 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-up {
   animation: marquee-up 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-down:hover,
@@ -78,7 +98,36 @@ body {
   animation-play-state: paused;
 }
 
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .pointer-hide-on-touch {
+    display: none !important;
+  }
+  
+  * {
+    cursor: auto !important;
+  }
+}
 
+/* High refresh rate display optimizations */
+@media (min-resolution: 120dpi) {
+  .pointer-optimized {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .pointer-optimized {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .animate-marquee-down,
+  .animate-marquee-up {
+    animation: none;
+  }
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -119,59 +168,56 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --animate-background-position-spin:background-position-spin 3000ms infinite alternate;
+  --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
+  
   @keyframes background-position-spin {
-  0% {
-    background-position:top center;
+    0% {
+      background-position: top center;
     }
-  100% {
-    background-position:bottom center;
+    100% {
+      background-position: bottom center;
     }
   }
-  @keyframes background-position-spin {
-  0% {
-    background-position:top center;
-    }
-  100% {
-    background-position:bottom center;
-    }
-  }
-  --animate-shine:shine var(--duration) infinite linear
-;
+  
+  --animate-shine: shine var(--duration) infinite linear;
+  
   @keyframes shine {
-  0% {
-    background-position:0% 0%;
+    0% {
+      background-position: 0% 0%;
     }
-  50% {
-    background-position:100% 100%;
+    50% {
+      background-position: 100% 100%;
     }
-  to {
-    background-position:0% 0%;
+    to {
+      background-position: 0% 0%;
     }
   }
-  --animate-aurora:aurora 8s ease-in-out infinite alternate;
+  
+  --animate-aurora: aurora 8s ease-in-out infinite alternate;
+  
   @keyframes aurora {
-  0% {
-    background-position:0% 50%;
-    transform:rotate(-5deg) scale(0.9);
+    0% {
+      background-position: 0% 50%;
+      transform: rotate(-5deg) scale(0.9);
     }
-  25% {
-    background-position:50% 100%;
-    transform:rotate(5deg) scale(1.1);
+    25% {
+      background-position: 50% 100%;
+      transform: rotate(5deg) scale(1.1);
     }
-  50% {
-    background-position:100% 50%;
-    transform:rotate(-3deg) scale(0.95);
+    50% {
+      background-position: 100% 50%;
+      transform: rotate(-3deg) scale(0.95);
     }
-  75% {
-    background-position:50% 0%;
-    transform:rotate(3deg) scale(1.05);
+    75% {
+      background-position: 50% 0%;
+      transform: rotate(3deg) scale(1.05);
     }
-  100% {
-    background-position:0% 50%;
-    transform:rotate(-5deg) scale(0.9);
+    100% {
+      background-position: 0% 50%;
+      transform: rotate(-5deg) scale(0.9);
     }
-  }}
+  }
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -253,32 +299,32 @@ body {
   }
 }
 
-  /* Webkit browsers (Chrome, Safari, Edge) */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-  }
+/* Custom scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 50px; 
-  }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 50px;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.5);
-    border-radius: 2px;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 2px;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 163, 175, 0.7);
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
 
-  .custom-scrollbar1::-webkit-scrollbar {
+.custom-scrollbar1::-webkit-scrollbar {
   width: 4px;
 }
 
 .custom-scrollbar1::-webkit-scrollbar-track {
   background: transparent;
-  margin: 4px; 
+  margin: 4px;
 }
 
 .custom-scrollbar1::-webkit-scrollbar-thumb {
