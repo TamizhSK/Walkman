@@ -44,10 +44,5 @@ To preview the production build locally:
 npm run start
 ```
 
----
-
 Built with ❤️ by TamizhSK
 
-```
-
-```
