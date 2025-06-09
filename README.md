@@ -1,4 +1,4 @@
-# Walkman 📼
+# Walkman📼
 
 Walkman is a responsive music genre hub built using Next.js. It allows users to explore various music genres, play songs, and interact with modern playback controls.
 
