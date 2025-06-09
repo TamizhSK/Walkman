@@ -46,7 +46,7 @@ npm run start
 
 ---
 
-Built with ❤️ using [Next.js](https://nextjs.org)
+Built with ❤️ by TamizhSK
 
 ```
 
