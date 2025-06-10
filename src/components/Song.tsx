@@ -13,7 +13,7 @@ import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Heart, Repeat, Sh
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Progress } from "@/components/ui/progress";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 export default function MusicGenreHub() {
   const player = MusicPlayer();
@@ -21,14 +21,12 @@ export default function MusicGenreHub() {
     selectedGenre, isDialogOpen, currentSong, isPlaying,
     currentTime, duration, volume, isMuted,
     isLiked, isRepeat, isShuffle, isPlayerExpanded,
-    isDownloading, downloadProgress,
+    isDownloading, downloadProgress, setIsDownloading,
     handleGenreClick, handleSongSelect, togglePlayPause, goToNextSong,
     goToPreviousSong, toggleShuffle, toggleRepeat, toggleLike,
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
     getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip, cleanupAudio, downloadSong,
   } = player;
-
-  const [isDownloadPressed, setIsDownloadPressed] = useState(false);
 
   // Helper function to truncate text
   interface TruncateText {
@@ -559,22 +557,32 @@ return (
                       >
                         <Heart size={14} className={isLiked ? 'fill-current' : ''} />
                       </Button>
+                      {/* Add Download Single Song Button for Mobile */}
                       <Button 
                         variant="ghost" 
                         size="icon"
-                        onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
-                        onTouchStart={() => setIsDownloadPressed(true)}
-                        onTouchEnd={() => setIsDownloadPressed(false)}
-                        onMouseDown={() => setIsDownloadPressed(true)}
-                        onMouseUp={() => setIsDownloadPressed(false)}
-                        onMouseLeave={() => setIsDownloadPressed(false)}
-                        className={`text-gray-400 hover:text-blue-400 w-8 h-8 transition-all duration-150 ${
-                          isDownloadPressed 
-                            ? 'bg-blue-500/20 text-blue-300 scale-95' 
-                            : ''
+                        onClick={async () => {
+                          if (currentSong && selectedGenre && !isDownloading) {
+                            setIsDownloading(true);
+                            try {
+                              await downloadSong(currentSong, selectedGenre);
+                            } finally {
+                              setIsDownloading(false);
+                            }
+                          }
+                        }}
+                        disabled={isDownloading}
+                        className={`w-8 h-8 transition-colors duration-200 ${
+                          isDownloading 
+                            ? 'text-blue-500 animate-pulse cursor-not-allowed' 
+                            : 'text-gray-400 hover:text-blue-400'
                         }`}
                       >
-                        <Download size={14} />
+                        {isDownloading ? (
+                          <div className="w-3.5 h-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <Download size={14} />
+                        )}
                       </Button>
                       <Button 
                         variant="ghost" 

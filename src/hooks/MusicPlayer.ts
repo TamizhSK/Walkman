@@ -414,6 +414,7 @@ const cleanupAudio = () => {
     setSelectedGenre,
     isDialogOpen,
     setIsDialogOpen,
+    setIsDownloading,
     currentSong,
     isPlaying,
     currentTime,
