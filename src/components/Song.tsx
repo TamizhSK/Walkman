@@ -476,13 +476,32 @@ return (
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
+                              {/* Add Download Single Song Button for Mobile */}
                               <Button 
                                 variant="ghost" 
-                                size="icon" 
-                                onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
-                                className="text-gray-400 hover:text-blue-400 transition-colors w-9 h-9"
+                                size="icon"
+                                onClick={async () => {
+                                  if (currentSong && selectedGenre && !isDownloading) {
+                                    setIsDownloading(true);
+                                    try {
+                                      await downloadSong(currentSong, selectedGenre);
+                                    } finally {
+                                      setIsDownloading(false);
+                                    }
+                                  }
+                                }}
+                                disabled={isDownloading}
+                                className={`w-8 h-8 transition-colors duration-200 ${
+                                  isDownloading 
+                                    ? 'text-blue-500 animate-pulse cursor-not-allowed' 
+                                    : 'text-gray-400 hover:text-blue-400'
+                                }`}
                               >
-                                <Download size={16} />
+                                {isDownloading ? (
+                                  <div className="w-3.5 h-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <Download size={16} />
+                                )}
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent>Download this song</TooltipContent>
