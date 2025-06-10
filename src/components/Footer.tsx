@@ -15,21 +15,21 @@ export default function Footer() {
             <p className="mt-2 text-gray-300">Feel the Rhythm.</p>
             <div className="mt-4 flex space-x-4">
               <a 
-                href="https://www.facebook.com/Spotify/" 
+                href="https://www.facebook.com" 
                 aria-label="Facebook" 
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
                 <i className="fa-brands fa-facebook-f"></i>
               </a>
               <a 
-                href="https://twitter.com/Spotify/" 
+                href="https://x.com" 
                 aria-label="Twitter" 
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
                 <i className="fa-brands fa-twitter"></i>
               </a>
               <a 
-                href="https://instagram.com/Spotify/" 
+                href="https://instagram.com" 
                 aria-label="Instagram" 
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
@@ -52,7 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#hero" 
+                  href="/profile" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   My Profile
@@ -91,7 +91,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="#hero" 
+                  href="/library" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Playlists
@@ -122,7 +122,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="#hero" 
+                  href="/profile" 
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   Account

@@ -1,12 +1,26 @@
+// Features.tsx
 "use client";
 import Image from 'next/image';
 
 export default function Features() {
+  const handleScrollToEras = () => {
+    const erasSection = document.getElementById('eras');
+    if (erasSection) {
+      erasSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
-    <section className="py-12 md:py-14 lg:py-16 bg-black text-white">
+    <section id="features" className="py-12 md:py-14 lg:py-16 bg-black text-white">
       <div className="px-8 md:px-8">
-        <div className="max-w-6xl mx-auto rounded-xl bg-white/5 border border-white/40 backdrop-blur-lg shadow-xl p-8 md:p-12 transition-all duration-300">
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 ">
+        <div 
+          onClick={handleScrollToEras}
+          className="max-w-6xl mx-auto rounded-xl bg-white/5 border border-white/40 backdrop-blur-lg shadow-xl p-8 md:p-12 transition-all duration-300 cursor-pointer hover:bg-white/10"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
             {/* Image Section */}
             <div className="md:w-1/2 w-full">
               <div className="w-full aspect-[3/2] relative overflow-hidden rounded-2xl">

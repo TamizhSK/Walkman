@@ -1,4 +1,17 @@
+"use client";
+import { TextAnimate } from '../components/magicui/text-animate';
+
 export default function Hero() {
+  const handleScrollToFeatures = () => {
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <header
       id="hero"
@@ -8,24 +21,35 @@ export default function Hero() {
         backgroundPosition: 'center left',
       }}
     >
-      {/* Responsive backgroundPosition override */}
-      <style>
-        {`
-          @media (min-width: 768px) {
-            #hero {
-              background-position: center right !important;
-            }
+      {/* Use CSS module or Tailwind instead of styled-jsx */}
+      <style jsx>{`
+        @media (min-width: 768px) {
+          #hero {
+            background-position: center right !important;
           }
-        `}
-      </style>
+        }
+      `}</style>
 
       {/* Gradient overlay at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-35 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 leading-tight">
-          One tap<br />for all your favourite music
-        </h1>
+        <div 
+          onClick={handleScrollToFeatures}
+          className="cursor-pointer"
+        >
+          <TextAnimate
+            as="h1"
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 leading-tight"
+            animation="blurInUp"
+            by="word"
+            delay={0.2}
+            duration={0.8}
+          >
+            One tap
+for all your favourite music
+          </TextAnimate>
+        </div>
       </div>
     </header>
   );
