@@ -13,7 +13,7 @@ import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward, Heart, Repeat, Sh
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Progress } from "@/components/ui/progress";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function MusicGenreHub() {
   const player = MusicPlayer();
@@ -27,6 +27,8 @@ export default function MusicGenreHub() {
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
     getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip, cleanupAudio, downloadSong,
   } = player;
+
+  const [isDownloadPressed, setIsDownloadPressed] = useState(false);
 
   // Helper function to truncate text
   interface TruncateText {
@@ -557,12 +559,20 @@ return (
                       >
                         <Heart size={14} className={isLiked ? 'fill-current' : ''} />
                       </Button>
-                    {/* Add Download Single Song Button for Mobile */}
                       <Button 
                         variant="ghost" 
                         size="icon"
                         onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
-                        className="text-gray-400 hover:text-blue-400 w-8 h-8"
+                        onTouchStart={() => setIsDownloadPressed(true)}
+                        onTouchEnd={() => setIsDownloadPressed(false)}
+                        onMouseDown={() => setIsDownloadPressed(true)}
+                        onMouseUp={() => setIsDownloadPressed(false)}
+                        onMouseLeave={() => setIsDownloadPressed(false)}
+                        className={`text-gray-400 hover:text-blue-400 w-8 h-8 transition-all duration-150 ${
+                          isDownloadPressed 
+                            ? 'bg-blue-500/20 text-blue-300 scale-95' 
+                            : ''
+                        }`}
                       >
                         <Download size={14} />
                       </Button>
