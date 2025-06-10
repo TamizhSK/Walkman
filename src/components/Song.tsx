@@ -25,7 +25,7 @@ export default function MusicGenreHub() {
     handleGenreClick, handleSongSelect, togglePlayPause, goToNextSong,
     goToPreviousSong, toggleShuffle, toggleRepeat, toggleLike,
     toggleMute, handleVolumeChange, handleTimeChange, togglePlayerExpanded,
-    getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip, cleanupAudio,
+    getGridColumns, audioRef, playerRef, formatTime, downloadGenreAsZip, cleanupAudio, downloadSong,
   } = player;
 
   // Helper function to truncate text
@@ -336,6 +336,24 @@ return (
                         >
                           <Heart size={14} className={`sm:w-4 sm:h-4 md:w-5 md:h-5 ${isLiked ? 'fill-current' : ''}`} />
                         </Button>
+                            {/* Add Download Single Song Button */}
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
+                                className="text-gray-400 hover:text-blue-400 transition-colors w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
+                              >
+                                <Download size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Download this song</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                       
                       <div className="flex items-center gap-2">
@@ -453,6 +471,23 @@ return (
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
+
+                         {/* Add Download Single Song Button for Desktop */}
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
+                                className="text-gray-400 hover:text-blue-400 transition-colors w-9 h-9"
+                              >
+                                <Download size={16} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Download this song</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
 
                       {/* Mobile Play Button Only */}
@@ -521,6 +556,15 @@ return (
                         className={`${isLiked ? 'text-red-500' : 'text-gray-400'} w-8 h-8`}
                       >
                         <Heart size={14} className={isLiked ? 'fill-current' : ''} />
+                      </Button>
+                    {/* Add Download Single Song Button for Mobile */}
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        onClick={() => currentSong && selectedGenre && downloadSong(currentSong, selectedGenre)}
+                        className="text-gray-400 hover:text-blue-400 w-8 h-8"
+                      >
+                        <Download size={14} />
                       </Button>
                       <Button 
                         variant="ghost" 
