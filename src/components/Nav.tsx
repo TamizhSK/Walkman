@@ -254,7 +254,7 @@ export default function Nav() {
       <div
         className={`
           lg:hidden w-full overflow-hidden 
-          bg-black/90 backdrop-blur-md border-t border-white/10
+          bg-transparent border-t border-white/10
           transition-all duration-300 ease-in-out
           ${isOpen ? "max-h-96 opacity-100 py-4" : "max-h-0 opacity-0 py-0"}
         `}
