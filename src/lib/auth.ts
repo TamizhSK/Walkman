@@ -73,14 +73,14 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 60 * 60, // 1 hour
   },
   pages: {
     signIn: "/login",
     // signUp: "/signup",
   },
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user,}) {
       if (user) {
         token.username = user.username;
         token.id = user.id;
@@ -94,16 +94,16 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({  }) {
       // Allow all sign-ins
       return true;
     },
   },
   events: {
-    async signIn({ user, account, profile, isNewUser }) {
+    async signIn({ user }) {
       console.log("User signed in:", user.email);
     },
-    async signOut({ token }) {
+    async signOut() {
       console.log("User signed out");
     },
   },
