@@ -179,7 +179,7 @@ export default function Footer() {
       </div>
       <div className="mt-4 text-[10px] text-gray-700 text-center">
         <p>
-          Disclaimer: All media and images displayed are for development purposes only. No copyright infringement is intended.
+          Disclaimer: All media and images displayed are for development purposes only.<br/>No copyright infringement is intended.
         </p>
       </div>
     </footer>
