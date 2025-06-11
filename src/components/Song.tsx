@@ -1,5 +1,3 @@
-"use client";
-
 
 import MusicPlayer from "../hooks/MusicPlayer";
 import { genreData } from "../data/GenreData";
