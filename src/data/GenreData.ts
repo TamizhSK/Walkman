@@ -706,4 +706,85 @@ export const genreData: Genre[] = [
 
     ],
   },
+
+    {
+    id: 13,
+    name: "Tamil Hits",
+    description: "Popular Tamil songs with vibing beats",
+    bannerImage: "https://res.cloudinary.com/dqcf0a6dk/image/upload/v1749627429/11_yb10q0.jpg",
+    themeColor: "from-violet-500 via-blue-600 to-emerald-400",
+    songs: [
+      {
+        id: 1301,
+        title: "Andha Kanna Paathaakaa",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626220/Master_-_Andha_Kanna_Paathaakaa_Lyric_Thalapathy_Vijay_Anirudh_Ravichander_Lokesh_Kanagaraj_jlpm86.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626068/1_hfwkha.jpg",
+      },
+      {
+        id: 1302,
+        title: "Arabic Kuthu - Halamithi Habibo",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626206/Arabic-Kuthu---Halamithi-Habibo-MassTamilan.so_tgds1u.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626069/6_yhwncq.jpg",
+      },
+      {
+        id: 1303,
+        title: "Whistle Podu",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626211/Whistle_Podu_u5hyrn.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626069/4_rssymg.jpg",
+      },
+      {
+        id: 1304,
+        title: "Neethane",
+        artist: "Yuvan Shankar Raja",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626190/Neethane_k6ery5.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626069/8_uk2sun.jpg",
+      },
+      {
+        id: 1305,
+        title: "Sudasuda Thooral",
+        artist: "Yuvan Shankar Raja",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626199/Sudasuda-Thooral_ez8wyf.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626068/9_abxwio.jpg",
+      },
+      {
+        id: 1306,
+        title: "Paththavaikkum",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626206/Paththavaikkum_Lyrics_Devara_NTR_Janhvi_Kapoor_Anirudh_Deepthi_Suresh_pvuyql.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626070/2_dxoa5b.jpg",
+      },  
+      {
+        id: 1307,
+        title: "Vazhithunaiye",
+        artist: "Leon James",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626177/Vazhithunaiye_dygd80.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626069/5_nfyovf.jpg",
+      },  
+      {
+        id: 1308,
+        title: "Hayyoda",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626183/Hayyoda-MassTamilan.dev_iqn9sk.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626068/7_esokyr.jpg",
+      },  
+      {
+        id: 1309,
+        title: "Sithira Puthiri",
+        artist: "Sai Abhyankkar",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626217/Sithira-Puthiri-MassTamilan.dev_ydcleq.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626069/3_cc0cbf.jpg",
+      },  
+      {
+        id: 1310,
+        title: "Dippam Dappam",
+        artist: "Anirudh Ravichander",
+        audio: "https://res.cloudinary.com/dqcf0a6dk/video/upload/v1749626185/Dippam-Dappam-MassTamilan.so_iopj6b.mp3",
+        image: "https://res.cloudinary.com/dqcf0a6dk/image/upload/q_auto,f_auto,w_300/v1749626068/10_fkqosf.jpg",
+      },                                                    
+    ],
+  },
+
 ];
