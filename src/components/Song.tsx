@@ -48,68 +48,70 @@ export default function MusicGenreHub() {
 
 return (
 <div className="p-5 sm:p-8 md:p-10 lg:p-12 xl:p-20 bg-gradient-to-t from-slate-900/30 to-black min-h-screen text-white">
-    {/* Genre Banners */}
-     {!isAuthenticated && !isLoading && (
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="bg-black/20 backdrop-blur-md border border-gray-700/50 rounded-xl p-8 max-w-sm w-full text-center"
-          >
-            <div className="mb-8">
-              <h4 className="text-2xl font-bold mb-4 text-white">
-                Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full"></span>
-              </h4>
-              <p className="text-gray-300 text-sm">
-                Please sign in to continue
-              </p>
-            </div>
-            
-            <Button 
-              className="w-full bg-white/10 hover:bg-white/20 text-white border border-gray-600/50 hover:border-gray-500 font-medium py-3 px-6 rounded-lg transition-all duration-200"
-              onClick={() => {location.href = '/login';}}
-            >
-              Sign In
-            </Button>
-          </motion.div>
+<div className="relative">
+  <div className={`grid ${getGridColumns()} gap-4 sm:gap-6 transition-all duration-300`}>
+    {genreData.map((genre) => (
+      <motion.div
+        key={genre.id}
+        whileHover={isAuthenticated ? { scale: 1.03 } : {}}
+        whileTap={isAuthenticated ? { scale: 0.98 } : {}}
+        onClick={() => isAuthenticated && handleGenreClick(genre)}
+        className={`rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${genre.themeColor} transition hover:shadow-2xl ${
+          isAuthenticated ? 'cursor-pointer' : 'cursor-not-allowed'
+        }`}
+      >
+        {/* Rest of your genre card content remains the same */}
+        <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-[3/2]">
+          <img
+            src={genre.bannerImage}
+            alt={genre.name}
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+          <div className="absolute bottom-0 p-2 sm:p-4">
+            <h3 className="text-lg sm:text-2xl font-semibold text-white drop-shadow-sm">
+              <span className="md:hidden">{genre.shortName || genre.name}</span>
+              <span className="hidden md:inline">{genre.name}</span>
+            </h3>
+            <p className="hidden md:block text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">
+              {genre.description}
+            </p>
+          </div>
         </div>
-      )}
+      </motion.div>
+    ))}
+  </div>
 
-       <div className={`grid ${getGridColumns()} gap-4 sm:gap-6 transition-all duration-300 ${!isAuthenticated && !isLoading ? 'pointer-events-none opacity-50' : ''}`}>
-        {genreData.map((genre) => (
-          <motion.div
-            key={genre.id}
-            whileHover={isAuthenticated ? { scale: 1.03 } : {}}
-            whileTap={isAuthenticated ? { scale: 0.98 } : {}}
-            onClick={() => isAuthenticated && handleGenreClick(genre)}
-            className={`rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br ${genre.themeColor} transition hover:shadow-2xl ${
-              isAuthenticated ? 'cursor-pointer' : 'cursor-not-allowed'
-            }`}
-          >
-            {/* Rest of your genre card content remains the same */}
-            <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-[3/2]">
-              <img
-                src={genre.bannerImage}
-                alt={genre.name}
-                className="w-full h-full object-cover opacity-60"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-              <div className="absolute bottom-0 p-2 sm:p-4">
-                <h3 className="text-lg sm:text-2xl font-semibold text-white drop-shadow-sm">
-                  <span className="md:hidden">{genre.shortName || genre.name}</span>
-                  <span className="hidden md:inline">{genre.name}</span>
-                </h3>
-                <p className="hidden md:block text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2 drop-shadow-sm">
-                  {genre.description}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+  {/* Auth overlay - now positioned relative to the wrapper div */}
+  {!isAuthenticated && !isLoading && (
+    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-lg z-10 flex items-center justify-center p-4 sm:p-8">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-black/20 backdrop-blur-md border border-neutral-500/50 rounded-xl p-6 sm:p-8 max-w-xs w-full text-center mx-4"
+      >
+        <div className="mb-6 sm:mb-8">
+          <h4 className="text-2xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white">
+            Walkman<span className="inline-block w-2 h-2 ml-1 bg-amber-400 rounded-full"></span>
+          </h4>
+          <p className="text-gray-500 text-sm">
+            Please sign in to continue listening to your favorite music genres.
+          </p>
+        </div>
+        
+        <Button 
+          className="w-half bg-white/20 hover:bg-white/20 text-white border border-neutral-400/50 hover:border-neutral-200 font-medium py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg transition-all duration-200 text-sm sm:text-base"
+          onClick={() => {location.href = '/login';}}
+        >
+          Sign In
+        </Button>
+      </motion.div>
+    </div>
+  )}
+</div>
 
-            {/* Loading Overlay */}
+    {/* Loading Overlay */}
       {isLoading && (
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="text-center">
